@@ -1,0 +1,71 @@
+site_name: REST API Mastery Path
+site_description: A structured, module-wise REST API design, development, and consumption training program from entry level to master level.
+site_url: https://sigilipelli.github.io/rest-api-mastery-path/
+repo_url: https://github.com/SIGILIPELLI/rest-api-mastery-path
+repo_name: rest-api-mastery-path
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+extra_css:
+  - stylesheets/extra.css
+
+# --- auto-pruned stub levels (see AdSense low-value-content fix) ---
+exclude_docs: |
+  level-2/*
+  level-3/*
+  level-4/*
+# --- end auto-pruned stub levels ---
+
+nav:
+  - Home: index.md
+  - Privacy Policy: privacy.md
+  - "Level 1 · Entry":
+      - Overview: level-1/index.md
+      - "01 · What Is REST? Constraints & Principles": level-1/01-what-is-rest.md
+      - "02 · HTTP Methods & Status Codes": level-1/02-http-methods-status-codes.md
+      - "03 · URL & Resource Design": level-1/03-url-resource-design.md
+      - "04 · Request/Response Anatomy": level-1/04-request-response-anatomy.md
+      - "05 · Query Params vs Path Params": level-1/05-query-vs-path-params.md
+      - "06 · Using curl, httpie & Postman": level-1/06-curl-httpie-postman.md
+      - "07 · Authentication Basics (API Keys & Bearer Tokens)": level-1/07-authentication-basics.md
+      - "08 · Error Handling Conventions": level-1/08-error-handling-conventions.md
+      - "09 · API Versioning Basics": level-1/09-versioning-basics.md
+      - "10 · Capstone — Bookshelf API Spec": level-1/10-capstone-bookshelf-api.md
