@@ -15,9 +15,9 @@ plus a hands-on project at the end of each level.
 | Level | Focus | Modules |
 |-------|-------|---------|
 | [Level 1 · Entry](level-1/index.md) | REST fundamentals, HTTP, resource design | 9 topics + 1 project |
-| Level 2 · Intermediate | Pagination, OpenAPI, caching, idempotency | 9 topics + 1 project |
-| Level 3 · Advanced | OAuth2, webhooks, gateways, GraphQL, testing | 9 topics + 1 project |
-| Level 4 · Master | Microservices, security hardening, scale | 9 topics + 1 capstone |
+| [Level 2 · Intermediate](level-2/index.md) | Pagination, OpenAPI, caching, idempotency | 9 topics + 1 project |
+| [Level 3 · Advanced](level-3/index.md) | OAuth2, webhooks, gateways, GraphQL, testing | 9 topics + 1 project |
+| [Level 4 · Master](level-4/index.md) | Microservices, security hardening, scale | 9 topics + 1 capstone |
 
 ## How to use this site
 
