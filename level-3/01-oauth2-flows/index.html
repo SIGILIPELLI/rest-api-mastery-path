@@ -1316,6 +1316,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · OAuth2 Flows
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1332,6 +1350,113 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-core-actors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The core actors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authorization-code-flow-the-standard-for-webmobile-apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authorization Code flow (the standard for web/mobile apps)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pkce-required-for-public-clients-mobile-spa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PKCE — required for public clients (mobile, SPA)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#client-credentials-flow-service-to-service-no-user-involved" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Client Credentials flow — service-to-service, no user involved
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#refresh-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refresh tokens
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flows-to-avoid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flows to avoid
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-a-cli-tool-authenticating-to-a-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: a CLI tool authenticating to a REST API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2116,102 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-core-actors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The core actors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authorization-code-flow-the-standard-for-webmobile-apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authorization Code flow (the standard for web/mobile apps)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pkce-required-for-public-clients-mobile-spa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PKCE — required for public clients (mobile, SPA)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#client-credentials-flow-service-to-service-no-user-involved" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Client Credentials flow — service-to-service, no user involved
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#refresh-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refresh tokens
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flows-to-avoid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flows to avoid
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-a-cli-tool-authenticating-to-a-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: a CLI tool authenticating to a REST API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2231,157 @@
 
 
 <h1 id="01-oauth2-flows">01 · OAuth2 Flows<a class="headerlink" href="#01-oauth2-flows" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Level 1's authentication module covered API keys and bearer tokens as
+opaque credentials. OAuth2 is the standard framework for how a <em>token gets
+issued in the first place</em> — especially when a third-party app needs
+limited access to a user's data on another service, without ever seeing
+that user's password.</p>
+<h2 id="the-core-actors">The core actors<a class="headerlink" href="#the-core-actors" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Resource owner</strong> — the user who owns the data (e.g. a GitHub user).</li>
+<li><strong>Client</strong> — the app requesting access (e.g. a CI tool wanting to read
+  the user's repos).</li>
+<li><strong>Authorization server</strong> — issues tokens after the user consents
+  (<code>github.com/login/oauth/authorize</code>).</li>
+<li><strong>Resource server</strong> — the API that accepts the token (<code>api.github.com</code>).</li>
+</ul>
+<p>The point of OAuth2: the client never sees the user's GitHub password. It
+gets a scoped, revocable <strong>access token</strong> instead.</p>
+<h2 id="authorization-code-flow-the-standard-for-webmobile-apps">Authorization Code flow (the standard for web/mobile apps)<a class="headerlink" href="#authorization-code-flow-the-standard-for-webmobile-apps" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>1. Client redirects the user's browser to the authorization server:
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   GET https://auth.example.com/authorize?
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>       response_type=code
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>       &amp;client_id=abc123
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>       &amp;redirect_uri=https://myapp.com/callback
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>       &amp;scope=read:profile
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>       &amp;state=xyz789
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>2. User logs in and approves the requested scopes.
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>3. Authorization server redirects back with a one-time code:
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>   GET https://myapp.com/callback?code=SPLXLOBEZQQY&amp;state=xyz789
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>4. Client exchanges the code for tokens (server-to-server, not visible to the browser):
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://auth.example.com/token<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"grant_type=authorization_code"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"code=SPLXLOBEZQQY"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"redirect_uri=https://myapp.com/callback"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"client_id=abc123"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"client_secret=</span><span class="nv">$CLIENT_SECRET</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJSUzI1NiIs..."</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer"</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">"refresh_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8xLOxBtZp8"</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>Two exchanges instead of one is deliberate: step 3's code is exposed to the
+browser (in the redirect URL, potentially logged) but is single-use and
+short-lived; step 4's exchange happens server-to-server with a secret the
+browser never sees, so a leaked authorization code alone is useless without
+the client secret.</p>
+<p>The <code>state</code> parameter is a CSRF defense: the client generates a random
+value before step 1, and verifies the same value comes back in step 3 —
+without it, an attacker could trick a victim's browser into completing an
+OAuth flow initiated by the attacker.</p>
+<h2 id="pkce-required-for-public-clients-mobile-spa">PKCE — required for public clients (mobile, SPA)<a class="headerlink" href="#pkce-required-for-public-clients-mobile-spa" title="Permanent link">&para;</a></h2>
+<p>A mobile app or single-page app can't safely hold a <code>client_secret</code> (it
+ships inside the app binary or JS bundle, so any user can extract it). PKCE
+(<strong>P</strong>roof <strong>K</strong>ey for <strong>C</strong>ode <strong>E</strong>xchange) replaces the secret with a
+per-request, dynamically generated proof:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>1. Client generates a random "code_verifier", derives a "code_challenge" = SHA256(code_verifier):
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>   GET https://auth.example.com/authorize?
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>       response_type=code&amp;client_id=abc123&amp;redirect_uri=...
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>       &amp;code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>       &amp;code_challenge_method=S256
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>2. Exchange the code, presenting the original verifier instead of a secret:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://auth.example.com/token<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"grant_type=authorization_code"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"code=SPLXLOBEZQQY"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"client_id=abc123"</span>
+</code></pre></div>
+<p>The authorization server recomputes <code>SHA256(code_verifier)</code> and checks it
+matches the <code>code_challenge</code> from step 1 — proving that whoever is
+redeeming the code is the same party that started the flow, without any
+shared secret. PKCE is now recommended for <strong>all</strong> clients, not just public
+ones (RFC 8252 / the current OAuth2 Security BCP).</p>
+<h2 id="client-credentials-flow-service-to-service-no-user-involved">Client Credentials flow — service-to-service, no user involved<a class="headerlink" href="#client-credentials-flow-service-to-service-no-user-involved" title="Permanent link">&para;</a></h2>
+<p>When there's no human user in the loop (a backend job calling another
+service's API on its own behalf):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://auth.example.com/token<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"grant_type=client_credentials"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"client_id=service-a"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"client_secret=</span><span class="nv">$CLIENT_SECRET</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"scope=orders:read"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJSUzI1NiIs..."</span><span class="p">,</span><span class="w"> </span><span class="nt">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer"</span><span class="p">,</span><span class="w"> </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>One request, no redirect, no user consent screen — appropriate for
+machine-to-machine access where the "client" <em>is</em> the resource owner of its
+own scoped access.</p>
+<h2 id="refresh-tokens">Refresh tokens<a class="headerlink" href="#refresh-tokens" title="Permanent link">&para;</a></h2>
+<p>Access tokens are deliberately short-lived (often an hour) to limit the
+blast radius of a leaked one. A long-lived <strong>refresh token</strong> lets the
+client get a new access token without re-prompting the user for
+credentials:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://auth.example.com/token<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"grant_type=refresh_token"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"refresh_token=8xLOxBtZp8"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"client_id=abc123"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"client_secret=</span><span class="nv">$CLIENT_SECRET</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJSUzI1NiIs...(new)"</span><span class="p">,</span><span class="w"> </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="nt">"refresh_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new-8xLOxBtZp9"</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Best practice is <strong>refresh token rotation</strong>: each use invalidates the old
+refresh token and issues a new one, so a stolen refresh token that gets
+used by an attacker is immediately detectable (the legitimate client's next
+refresh attempt fails, signaling compromise).</p>
+<h2 id="flows-to-avoid">Flows to avoid<a class="headerlink" href="#flows-to-avoid" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Resource Owner Password Credentials</strong> — the client collects the user's
+  actual username/password and trades them directly for a token. Deprecated
+  in the current OAuth2 spec; it defeats the entire point (the client sees
+  the password) and should only ever appear in legacy, fully first-party
+  migrations.</li>
+<li><strong>Implicit flow</strong> — returned the access token directly in the redirect
+  URL fragment, skipping the code-exchange step. Deprecated in favor of
+  Authorization Code + PKCE, since tokens in URL fragments are more exposed
+  (browser history, referrer leaks, logs).</li>
+</ul>
+<h2 id="worked-example-a-cli-tool-authenticating-to-a-rest-api">Worked example: a CLI tool authenticating to a REST API<a class="headerlink" href="#worked-example-a-cli-tool-authenticating-to-a-rest-api" title="Permanent link">&para;</a></h2>
+<p>A CLI tool (public client, can't hold a secret) needs delegated,
+revocable access to a user's account:</p>
+<ol>
+<li>CLI opens the user's browser to the authorize URL with PKCE parameters.</li>
+<li>User approves; browser redirects to a local <code>http://localhost:8912/callback</code>
+   the CLI is temporarily listening on.</li>
+<li>CLI exchanges the code + verifier for tokens, stores the refresh token
+   in the OS keychain (never plaintext on disk).</li>
+<li>CLI uses the access token as <code>Authorization: Bearer ...</code> on every API
+   call, transparently refreshing when it expires.</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Explain why the Authorization Code flow uses a two-step exchange
+   (code, then token) instead of returning the access token directly at
+   step 3.</li>
+<li>Why is PKCE mandatory for a mobile app but optional (though still
+   recommended) for a traditional server-side web app that can hold a
+   <code>client_secret</code>?</li>
+<li>A backend service needs to call a partner's API with no user involved.
+   Which flow fits, and why would Authorization Code be the wrong choice
+   here?</li>
+<li>What does refresh token rotation protect against that a static,
+   reusable refresh token does not?</li>
+</ol>
 
 
 

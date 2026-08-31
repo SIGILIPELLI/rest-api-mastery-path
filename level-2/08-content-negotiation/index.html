@@ -1138,6 +1138,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Content Negotiation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1154,6 +1172,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-accept-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Accept header
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#406-not-acceptable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        406 Not Acceptable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#content-negotiation-on-the-request-side-content-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Content negotiation on the request side: Content-Type
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#language-negotiation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Language negotiation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versioning-via-accept-media-type-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Versioning via Accept (media-type versioning)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-an-api-supporting-json-and-csv-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: an API supporting JSON and CSV export
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-accept-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Accept header
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#406-not-acceptable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        406 Not Acceptable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#content-negotiation-on-the-request-side-content-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Content negotiation on the request side: Content-Type
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#language-negotiation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Language negotiation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versioning-via-accept-media-type-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Versioning via Accept (media-type versioning)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-an-api-supporting-json-and-csv-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: an API supporting JSON and CSV export
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,143 @@
 
 
 <h1 id="08-content-negotiation">08 · Content Negotiation<a class="headerlink" href="#08-content-negotiation" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 2 · Intermediate.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Content negotiation lets a client and server agree on the <em>format</em> of a
+response (or request) — JSON vs XML vs CSV, English vs Spanish, gzip vs
+plain — using standard HTTP headers instead of separate URLs per format.</p>
+<h2 id="the-accept-header">The Accept header<a class="headerlink" href="#the-accept-header" title="Permanent link">&para;</a></h2>
+<p>The client states, in order of preference, what representations it can
+handle:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>https://api.example.com/books/42<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Accept: application/json"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dune"</span><span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>https://api.example.com/books/42<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Accept: application/xml"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/xml</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nt">&lt;book&gt;&lt;id&gt;</span>42<span class="nt">&lt;/id&gt;&lt;title&gt;</span>Dune<span class="nt">&lt;/title&gt;&lt;/book&gt;</span>
+</code></pre></div>
+<p>Quality values (<code>q</code>) express weighted preference when multiple types are
+acceptable:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="err">Accept: application/json;q=0.9, application/xml;q=0.5, */*;q=0.1</span>
+</code></pre></div>
+<p>Read as: "prefer JSON, XML is an acceptable fallback, and I'll take
+anything as a last resort." The server picks the highest-<code>q</code> type it can
+actually produce.</p>
+<h2 id="406-not-acceptable">406 Not Acceptable<a class="headerlink" href="#406-not-acceptable" title="Permanent link">&para;</a></h2>
+<p>If the server truly cannot produce any format the client will accept, it
+should say so explicitly rather than guessing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>https://api.example.com/books/42<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Accept: application/vnd.ms-excel"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">406</span> <span class="ne">Not Acceptable</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">{</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"not_acceptable"</span><span class="p">,</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Supported formats: application/json, application/xml"</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="p">}</span>
+</code></pre></div>
+<p>In practice, most JSON-only APIs skip strict 406 handling and just always
+return JSON regardless of <code>Accept</code> — a pragmatic simplification that's fine
+as long as it's documented, but a spec-following API (especially one also
+serving XML/CSV consumers) should honor <code>Accept</code> properly.</p>
+<h2 id="content-negotiation-on-the-request-side-content-type">Content negotiation on the request side: Content-Type<a class="headerlink" href="#content-negotiation-on-the-request-side-content-type" title="Permanent link">&para;</a></h2>
+<p>While <code>Accept</code> negotiates the <em>response</em> format, <code>Content-Type</code> on the
+request tells the server how to parse the <em>request body</em> the client is
+sending:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/books<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"title": "Dune"}'</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/books<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/x-www-form-urlencoded"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'title=Dune'</span>
+</code></pre></div>
+<p>A server receiving an unsupported <code>Content-Type</code> should respond <code>415
+Unsupported Media Type</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">415</span> <span class="ne">Unsupported Media Type</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">{</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsupported_media_type"</span><span class="p">,</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Expected application/json"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="language-negotiation">Language negotiation<a class="headerlink" href="#language-negotiation" title="Permanent link">&para;</a></h2>
+<p>The same mechanism extends to localization via <code>Accept-Language</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>curl<span class="w"> </span>https://api.example.com/books/42<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Accept-Language: es-ES, es;q=0.8, en;q=0.5"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="na">Content-Language</span><span class="o">:</span> <span class="l">es-ES</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>{"id": 42, "title": "Dune", "description": "Una novela de ciencia ficción..."}
+</code></pre></div>
+<p>Responses that vary by a negotiated header should include a <code>Vary</code> header
+so intermediate caches store separate copies per variant instead of
+serving a Spanish response to an English-requesting client:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="err">Vary: Accept-Language, Accept</span>
+</code></pre></div>
+<h2 id="versioning-via-accept-media-type-versioning">Versioning via Accept (media-type versioning)<a class="headerlink" href="#versioning-via-accept-media-type-versioning" title="Permanent link">&para;</a></h2>
+<p>An alternative to URL-path versioning (<code>/v1/books</code>, covered in Level 1) is
+encoding the version inside a custom media type:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>curl<span class="w"> </span>https://api.example.com/books/42<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Accept: application/vnd.example.v2+json"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/vnd.example.v2+json</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dune"</span><span class="p">,</span><span class="w"> </span><span class="nt">"authors"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Frank Herbert"</span><span class="p">}]}</span>
+</code></pre></div>
+<p>This is GitHub's approach for some of its API previews
+(<code>application/vnd.github.v3+json</code>). It keeps the URL itself
+version-agnostic, at the cost of being less discoverable than a version
+visible directly in the path — most developers find <code>/v2/books</code> easier to
+notice and reason about than a version buried in a header.</p>
+<h2 id="worked-example-an-api-supporting-json-and-csv-export">Worked example: an API supporting JSON and CSV export<a class="headerlink" href="#worked-example-an-api-supporting-json-and-csv-export" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>curl<span class="w"> </span><span class="s2">"https://api.example.com/reports/sales"</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">"Accept: application/json"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-08-01"</span><span class="p">,</span><span class="w"> </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mf">4200.50</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>curl<span class="w"> </span><span class="s2">"https://api.example.com/reports/sales"</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">"Accept: text/csv"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/csv</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="na">Content-Disposition</span><span class="o">:</span> <span class="l">attachment; filename="sales-report.csv"</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>date,total
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>2026-08-01,4200.50
+</code></pre></div>
+<p>Server-side dispatch:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_report</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">build_report</span><span class="p">()</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    <span class="n">accept</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Accept"</span><span class="p">,</span> <span class="s2">"application/json"</span><span class="p">)</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    <span class="k">if</span> <span class="s2">"text/csv"</span> <span class="ow">in</span> <span class="n">accept</span><span class="p">:</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>        <span class="k">return</span> <span class="n">to_csv</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="s2">"text/csv"</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>    <span class="k">if</span> <span class="s2">"application/json"</span> <span class="ow">in</span> <span class="n">accept</span> <span class="ow">or</span> <span class="s2">"*/*"</span> <span class="ow">in</span> <span class="n">accept</span><span class="p">:</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>        <span class="k">return</span> <span class="n">to_json</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="s2">"application/json"</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>    <span class="k">raise</span> <span class="n">NotAcceptable</span><span class="p">(</span><span class="n">supported</span><span class="o">=</span><span class="p">[</span><span class="s2">"application/json"</span><span class="p">,</span> <span class="s2">"text/csv"</span><span class="p">])</span>
+</code></pre></div>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>A client sends <code>Accept: application/xml;q=1.0, application/json;q=0.5</code>
+   to a server that only supports JSON. What should the response be:
+   <code>200</code> with JSON, or <code>406</code>? Justify both a strict and a pragmatic answer.</li>
+<li>Why does a response that varies by <code>Accept-Language</code> need a <code>Vary</code>
+   header for correctness under a shared CDN cache? Describe the bug that
+   happens without it.</li>
+<li>Compare header-based (<code>Accept: application/vnd.example.v2+json</code>) vs
+   URL-based (<code>/v2/books</code>) versioning on: discoverability, cache-key
+   simplicity, and ease of routing in a reverse proxy.</li>
+<li>Design the <code>Content-Type</code> handling for an endpoint that must accept both
+   JSON bodies and <code>multipart/form-data</code> (e.g. for a book cover image
+   upload alongside metadata).</li>
+</ol>
 
 
 

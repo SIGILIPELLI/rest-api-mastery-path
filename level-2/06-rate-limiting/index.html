@@ -1082,6 +1082,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · Rate Limiting
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1098,6 +1116,152 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed window
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sliding-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sliding window
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#token-bucket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Token bucket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leaky-bucket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leaky bucket
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-limits-to-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Communicating limits to clients
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-429-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The 429 response
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-key-vs-per-ip-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-key vs per-IP limiting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tiered-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tiered limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-implementing-token-bucket-with-redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: implementing token bucket with Redis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2155,141 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed window
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sliding-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sliding window
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#token-bucket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Token bucket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leaky-bucket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leaky bucket
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-limits-to-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Communicating limits to clients
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-429-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The 429 response
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-key-vs-per-ip-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-key vs per-IP limiting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tiered-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tiered limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-implementing-token-bucket-with-redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: implementing token bucket with Redis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2309,132 @@
 
 
 <h1 id="06-rate-limiting">06 · Rate Limiting<a class="headerlink" href="#06-rate-limiting" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 2 · Intermediate.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Rate limiting caps how many requests a client can make in a given time
+window, protecting the API from being overwhelmed — whether by a runaway
+client bug, an aggressive scraper, or a genuine traffic spike — and keeping
+usage fair across all consumers.</p>
+<h2 id="common-algorithms">Common algorithms<a class="headerlink" href="#common-algorithms" title="Permanent link">&para;</a></h2>
+<h3 id="fixed-window">Fixed window<a class="headerlink" href="#fixed-window" title="Permanent link">&para;</a></h3>
+<p>Count requests per client in a fixed time bucket (e.g. per minute), reset
+the counter at the boundary.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Window: 12:00:00–12:00:59 → limit 100
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Client makes 100 requests at 12:00:58 → all allowed
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Window resets at 12:01:00 → counter back to 0
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Client makes 100 more requests at 12:01:01 → all allowed
+</code></pre></div>
+<p><strong>Problem</strong>: a client can burst 200 requests in the 2 seconds straddling a
+window boundary (100 just before 12:01:00, 100 just after), well above the
+intended "100 per minute" rate.</p>
+<h3 id="sliding-window">Sliding window<a class="headerlink" href="#sliding-window" title="Permanent link">&para;</a></h3>
+<p>Instead of resetting at fixed boundaries, count requests in the trailing N
+seconds from <em>now</em>, recomputed continuously. This smooths out the
+boundary-burst problem at the cost of slightly more bookkeeping (usually a
+sorted set or a weighted combination of the current and previous fixed
+windows).</p>
+<h3 id="token-bucket">Token bucket<a class="headerlink" href="#token-bucket" title="Permanent link">&para;</a></h3>
+<p>A bucket holds tokens, refilled at a steady rate up to a cap; each request
+consumes one token, and a request is rejected if the bucket is empty. This
+naturally allows short bursts (up to the bucket size) while enforcing a
+long-run average rate — the algorithm behind most production rate limiters,
+including AWS API Gateway's.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Bucket capacity: 20 tokens, refill rate: 10 tokens/sec
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>t=0:  bucket full (20) → client bursts 20 requests instantly → all allowed, bucket now 0
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>t=1s: bucket refilled to 10 → 10 more requests allowed
+</code></pre></div>
+<h3 id="leaky-bucket">Leaky bucket<a class="headerlink" href="#leaky-bucket" title="Permanent link">&para;</a></h3>
+<p>Requests queue up and are processed (or discarded) at a constant rate —
+smooths bursts into a steady outflow rather than allowing them, trading
+burst tolerance for a perfectly steady processing rate. Common in network
+traffic shaping more than in typical HTTP API gateways.</p>
+<h2 id="communicating-limits-to-clients">Communicating limits to clients<a class="headerlink" href="#communicating-limits-to-clients" title="Permanent link">&para;</a></h2>
+<p>Standard-ish response headers (formalized by the IETF <code>RateLimit</code> header
+draft, and used in similar form by GitHub, Twitter/X, and Stripe):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">RateLimit-Limit</span><span class="o">:</span> <span class="l">100</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="na">RateLimit-Remaining</span><span class="o">:</span> <span class="l">42</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="na">RateLimit-Reset</span><span class="o">:</span> <span class="l">37</span>
+</code></pre></div>
+<p><code>RateLimit-Reset</code> here means "seconds until the window/bucket resets."
+GitHub's API uses slightly different names but the same idea:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="err">X-RateLimit-Limit: 5000</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="err">X-RateLimit-Remaining: 4987</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="err">X-RateLimit-Reset: 1699999999</span>
+</code></pre></div>
+<h2 id="the-429-response">The 429 response<a class="headerlink" href="#the-429-response" title="Permanent link">&para;</a></h2>
+<p>When a client exceeds its limit, return <code>429 Too Many Requests</code> with a
+<code>Retry-After</code> header telling it exactly when to try again:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>https://api.example.com/books
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">429</span> <span class="ne">Too Many Requests</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">Retry-After</span><span class="o">:</span> <span class="l">23</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">{</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate_limited"</span><span class="p">,</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rate limit exceeded. Retry after 23 seconds."</span><span class="p">,</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="nt">"retry_after"</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>Retry-After</code> can be seconds (<code>23</code>) or an HTTP date; sending it removes any
+guesswork for a well-behaved client, which should back off until that time
+rather than hammering the endpoint immediately.</p>
+<h2 id="per-key-vs-per-ip-limiting">Per-key vs per-IP limiting<a class="headerlink" href="#per-key-vs-per-ip-limiting" title="Permanent link">&para;</a></h2>
+<p>Limiting purely by IP breaks down behind shared NATs or corporate proxies
+(many legitimate users share one IP) and is trivially evaded with rotating
+IPs. Production APIs almost always key limits on the authenticated
+principal — API key, user ID, or OAuth client ID — falling back to IP only
+for unauthenticated endpoints.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">rate_limit_key</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">"key:</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">"ip:</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">remote_addr</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div>
+<h2 id="tiered-limits">Tiered limits<a class="headerlink" href="#tiered-limits" title="Permanent link">&para;</a></h2>
+<p>Different consumers often get different limits based on their plan:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"free_tier"</span><span class="p">:</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">   </span><span class="nt">"window_seconds"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">"pro_tier"</span><span class="p">:</span><span class="w">     </span><span class="p">{</span><span class="w"> </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span><span class="w">  </span><span class="nt">"window_seconds"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">"enterprise"</span><span class="p">:</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">100000</span><span class="p">,</span><span class="w"> </span><span class="nt">"window_seconds"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>Document per-tier limits clearly (Level 4 covers this further under public
+developer APIs) — a client silently throttled without knowing its tier's
+ceiling is a common source of support tickets.</p>
+<h2 id="worked-example-implementing-token-bucket-with-redis">Worked example: implementing token bucket with Redis<a class="headerlink" href="#worked-example-implementing-token-bucket-with-redis" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">allow_request</span><span class="p">(</span><span class="n">client_key</span><span class="p">,</span> <span class="n">capacity</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">refill_rate</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">bucket</span> <span class="o">=</span> <span class="n">redis</span><span class="o">.</span><span class="n">hgetall</span><span class="p">(</span><span class="n">client_key</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{</span><span class="s2">"tokens"</span><span class="p">:</span> <span class="n">capacity</span><span class="p">,</span> <span class="s2">"ts"</span><span class="p">:</span> <span class="n">now</span><span class="p">}</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">now</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">bucket</span><span class="p">[</span><span class="s2">"ts"</span><span class="p">])</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="n">tokens</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">bucket</span><span class="p">[</span><span class="s2">"tokens"</span><span class="p">])</span> <span class="o">+</span> <span class="n">elapsed</span> <span class="o">*</span> <span class="n">refill_rate</span><span class="p">)</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="k">if</span> <span class="n">tokens</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        <span class="n">redis</span><span class="o">.</span><span class="n">hset</span><span class="p">(</span><span class="n">client_key</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="p">{</span><span class="s2">"tokens"</span><span class="p">:</span> <span class="n">tokens</span><span class="p">,</span> <span class="s2">"ts"</span><span class="p">:</span> <span class="n">now</span><span class="p">})</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># reject -&gt; 429</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="n">redis</span><span class="o">.</span><span class="n">hset</span><span class="p">(</span><span class="n">client_key</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="p">{</span><span class="s2">"tokens"</span><span class="p">:</span> <span class="n">tokens</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"ts"</span><span class="p">:</span> <span class="n">now</span><span class="p">})</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># allow</span>
+</code></pre></div>
+<p>This is a simplified sketch (a production version needs this check to be
+atomic, typically via a Lua script executed inside Redis, to avoid a
+race between concurrent requests reading and writing the same bucket).</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Explain concretely why fixed-window counting allows a 2x burst at
+   window boundaries, using a timeline like the one above.</li>
+<li>Design the rate-limit response headers and body for a client that has
+   exhausted its daily quota (not a per-minute one) — what should
+   <code>Retry-After</code> be set to?</li>
+<li>Why is per-IP rate limiting insufficient for an API used heavily from
+   behind corporate NAT gateways or mobile carrier NAT? What's the
+   preferred alternative?</li>
+<li>A token bucket has capacity 20 and refill rate 5/sec. A client sends 20
+   requests instantly, then 5 more three seconds later. How many of the 25
+   total requests are allowed, and why?</li>
+</ol>
 
 
 

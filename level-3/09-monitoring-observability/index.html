@@ -1540,6 +1540,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Monitoring & Observability for APIs
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1556,6 +1574,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-four-golden-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four golden signals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structured-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structured logging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-the-numbers-a-dashboard-shows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics: the numbers a dashboard shows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distributed-tracing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distributed tracing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alerting-telling-a-human-before-a-customer-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alerting: telling a human before a customer does
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-diagnosing-a-production-incident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: diagnosing a production incident
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-four-golden-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four golden signals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structured-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structured logging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-the-numbers-a-dashboard-shows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics: the numbers a dashboard shows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distributed-tracing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distributed tracing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alerting-telling-a-human-before-a-customer-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alerting: telling a human before a customer does
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-diagnosing-a-production-incident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: diagnosing a production incident
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,102 @@
 
 
 <h1 id="09-monitoring-observability-for-apis">09 · Monitoring &amp; Observability for APIs<a class="headerlink" href="#09-monitoring-observability-for-apis" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>You can't fix what you can't see. This module covers the three pillars
+of observability — logs, metrics, traces — applied specifically to a
+REST API, plus the alerts that let a team find out about a problem
+before customers do.</p>
+<h2 id="the-four-golden-signals">The four golden signals<a class="headerlink" href="#the-four-golden-signals" title="Permanent link">&para;</a></h2>
+<p>For any API endpoint, track:</p>
+<ul>
+<li><strong>Latency</strong> — how long requests take (and split success vs. error
+  latency separately — errors are often suspiciously fast, e.g. an
+  early auth rejection).</li>
+<li><strong>Traffic</strong> — requests per second, per endpoint.</li>
+<li><strong>Errors</strong> — rate of 4xx and 5xx responses.</li>
+<li><strong>Saturation</strong> — how full the system is (CPU, memory, connection pool,
+  queue depth) — the leading indicator before latency/errors spike.</li>
+</ul>
+<h2 id="structured-logging">Structured logging<a class="headerlink" href="#structured-logging" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-08-31T14:22:01Z"</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"info"</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">"request_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7f3a-91c2-4b6d"</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"POST"</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/orders"</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">201</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="nt">"duration_ms"</span><span class="p">:</span><span class="w"> </span><span class="mi">84</span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="nt">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
+</code></pre></div>
+<p>Structured (JSON) logs, not free-text strings, so they're queryable:
+"show me every 5xx on <code>/v1/orders</code> in the last hour" is a query, not a
+grep-and-pray exercise. <code>request_id</code> is generated at the gateway
+(module 3) and threaded through every log line and downstream call for
+that request.</p>
+<h2 id="metrics-the-numbers-a-dashboard-shows">Metrics: the numbers a dashboard shows<a class="headerlink" href="#metrics-the-numbers-a-dashboard-shows" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>https://api.example.com/metrics
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>http_requests_total{method="POST",path="/v1/orders",status="201"} 18432
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>http_request_duration_seconds{path="/v1/orders",quantile="0.99"} 0.412
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>http_requests_total{method="POST",path="/v1/orders",status="500"} 12
+</code></pre></div>
+<p>Prometheus-style metrics like these feed dashboards and alerting rules.
+The key metric to alert on is usually <strong>error rate</strong>, not raw error
+count — 12 errors out of 18,432 requests (0.07%) is very different from
+12 errors out of 40 requests (30%).</p>
+<h2 id="distributed-tracing">Distributed tracing<a class="headerlink" href="#distributed-tracing" title="Permanent link">&para;</a></h2>
+<p>A single client request to <code>/v1/dashboard</code> (module 3's aggregation
+example) fans out to three internal services. A trace ties all of it
+together under one <code>trace_id</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>trace_id: 7f3a91c2
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├─ gateway            2ms
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├─ users-service      GET /users/42          18ms
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>├─ orders-service     GET /orders?user=42    45ms
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│   └─ postgres query                        38ms  ← the actual bottleneck
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>└─ notifications-svc  GET /unread?user=42    12ms
+</code></pre></div>
+<p>Without tracing, "the dashboard is slow" is a mystery. With it, the
+45ms in <code>orders-service</code>, mostly a slow Postgres query, is immediately
+visible — versus a network problem, a queue backup, or a slow client.</p>
+<h2 id="alerting-telling-a-human-before-a-customer-does">Alerting: telling a human before a customer does<a class="headerlink" href="#alerting-telling-a-human-before-a-customer-does" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">alert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HighErrorRate</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) &gt; 0.05</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nt">for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5m</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nt">annotations</span><span class="p">:</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="s">"5xx</span><span class="nv"> </span><span class="s">rate</span><span class="nv"> </span><span class="s">above</span><span class="nv"> </span><span class="s">5%</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">$labels.path</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">5</span><span class="nv"> </span><span class="s">minutes"</span>
+</code></pre></div>
+<p>Good alerts are: actionable (someone can do something about it),
+symptom-based ("customers are seeing errors") rather than cause-based
+("CPU is at 80%" — that alone might be fine), and rate-limited so a
+single incident doesn't page the same person 50 times.</p>
+<h2 id="worked-example-diagnosing-a-production-incident">Worked example: diagnosing a production incident<a class="headerlink" href="#worked-example-diagnosing-a-production-incident" title="Permanent link">&para;</a></h2>
+<p>Dashboard shows <code>p99 latency</code> on <code>POST /v1/orders</code> jumped from 100ms to
+4s starting at 14:20.</p>
+<ol>
+<li>Check traces from that window — nearly all show the time spent
+   inside a single downstream call: <code>payments-service</code>.</li>
+<li>Check <code>payments-service</code>'s own dashboard — its error rate is fine,
+   but its own p99 latency also jumped at 14:20, and its saturation
+   metric (DB connection pool usage) is pegged at 100%.</li>
+<li>Root cause: a slow query introduced in a <code>payments-service</code> deploy at
+   14:18 is holding connections longer, exhausting the pool, backing up
+   every caller.</li>
+<li>Fix: roll back the <code>payments-service</code> deploy; latency across the
+   whole chain recovers within a minute.</li>
+</ol>
+<p>The trace made it a two-minute diagnosis instead of an hour of guessing
+which of a dozen services was actually at fault.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Why alert on error <em>rate</em> rather than raw error <em>count</em>?</li>
+<li>A request takes 3 seconds end-to-end but each individual service's
+   logs show sub-100ms processing time. What would a distributed trace
+   likely reveal that logs alone wouldn't?</li>
+<li>Explain saturation as a "leading indicator" — why would you want to
+   alert on high queue depth before latency actually degrades?</li>
+<li>Design a structured log line for a failed login attempt, including
+   fields useful for both debugging and security auditing.</li>
+</ol>
 
 
 

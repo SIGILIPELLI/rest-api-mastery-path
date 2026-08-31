@@ -1718,6 +1718,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · API Security Hardening (CORS, Injection, OWASP API Top 10)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1734,6 +1752,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cors-controlling-which-browsers-can-call-your-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CORS: controlling which browsers can call your API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#injection-never-trust-request-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Injection: never trust request data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#owasp-api-security-top-10-selected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OWASP API Security Top 10 (selected)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rate-limiting-as-a-security-control-not-just-fairness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rate limiting as a security control, not just fairness
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-fixing-a-bola-vulnerability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: fixing a BOLA vulnerability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cors-controlling-which-browsers-can-call-your-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CORS: controlling which browsers can call your API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#injection-never-trust-request-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Injection: never trust request data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#owasp-api-security-top-10-selected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OWASP API Security Top 10 (selected)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rate-limiting-as-a-security-control-not-just-fairness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rate limiting as a security control, not just fairness
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-fixing-a-bola-vulnerability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: fixing a BOLA vulnerability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2187,119 @@
 
 
 <h1 id="02-api-security-hardening-cors-injection-owasp-api-top-10">02 · API Security Hardening (CORS, Injection, OWASP API Top 10)<a class="headerlink" href="#02-api-security-hardening-cors-injection-owasp-api-top-10" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Getting auth working (module 1, Level 3) is the start, not the finish.
+This module covers the specific ways APIs get exploited in production
+and how to close each one.</p>
+<h2 id="cors-controlling-which-browsers-can-call-your-api">CORS: controlling which browsers can call your API<a class="headerlink" href="#cors-controlling-which-browsers-can-call-your-api" title="Permanent link">&para;</a></h2>
+<p>Without CORS headers, a browser blocks JavaScript on <code>evil.com</code> from
+reading responses from <code>api.example.com</code> — but a misconfigured API can
+turn that protection off entirely.</p>
+<p><strong>Dangerous</strong> — reflects any origin, effectively disabling the
+protection:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="err">Access-Control-Allow-Origin: *</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="err">Access-Control-Allow-Credentials: true</span>
+</code></pre></div>
+<p>(Browsers actually reject this exact combination, but teams that
+dynamically reflect the request's <code>Origin</code> header back recreate the
+same hole.)</p>
+<p><strong>Correct</strong> — an explicit allowlist:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="err">Access-Control-Allow-Origin: https://app.example.com</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="err">Access-Control-Allow-Credentials: true</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="err">Vary: Origin</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>OPTIONS<span class="w"> </span>https://api.example.com/v1/orders<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Origin: https://evil.com"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Access-Control-Request-Method: POST"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">403</span> <span class="ne">Forbidden</span>
+</code></pre></div>
+<p>The preflight is rejected because <code>evil.com</code> isn't in the allowlist —
+the browser never even sends the real request.</p>
+<h2 id="injection-never-trust-request-data">Injection: never trust request data<a class="headerlink" href="#injection-never-trust-request-data" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span><span class="s2">"https://api.example.com/v1/orders?sort=id;DROP+TABLE+orders"</span>
+</code></pre></div>
+<p>If <code>sort</code> is interpolated directly into SQL, this is catastrophic.
+Always use parameterized queries and, per module 2 (Level 2), validate
+<code>sort</code> against an allowlist of known-safe column names — never pass
+user input into a query string directly, even through an ORM's raw
+escape hatches.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># vulnerable</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SELECT * FROM orders ORDER BY </span><span class="si">{</span><span class="n">sort_param</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># safe</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">ALLOWED_SORTS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"-id"</span><span class="p">,</span> <span class="s2">"created_at"</span><span class="p">,</span> <span class="s2">"-created_at"</span><span class="p">}</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="k">if</span> <span class="n">sort_param</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALLOWED_SORTS</span><span class="p">:</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">"invalid_sort_field"</span><span class="p">)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT * FROM orders ORDER BY "</span> <span class="o">+</span> <span class="n">SAFE_SORT_MAP</span><span class="p">[</span><span class="n">sort_param</span><span class="p">])</span>
+</code></pre></div>
+<h2 id="owasp-api-security-top-10-selected">OWASP API Security Top 10 (selected)<a class="headerlink" href="#owasp-api-security-top-10-selected" title="Permanent link">&para;</a></h2>
+<p><strong>Broken Object Level Authorization (BOLA)</strong> — the single most common
+real-world API vulnerability: checking that a token is valid, but not
+that <em>this</em> user owns <em>this specific</em> resource.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>https://api.example.com/v1/orders/999<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$USER_A_TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<p>If order <code>999</code> belongs to a different user and the API returns it
+anyway because it only checked "is this token valid," that's BOLA. The
+fix: every resource lookup must filter by the authenticated user's
+identity too, not just its own ID:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">order</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span> <span class="n">owner_id</span><span class="o">=</span><span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">if</span> <span class="n">order</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="k">return</span> <span class="mi">404</span>  <span class="c1"># not "belongs to someone else", just not found — don't leak existence</span>
+</code></pre></div>
+<p><strong>Excessive Data Exposure</strong> — returning a full internal object (with a
+password hash, internal notes, cost basis) and relying on the client to
+ignore fields it doesn't display. Fix: serialize an explicit response
+schema, never <code>return jsonify(user.__dict__)</code>.</p>
+<p><strong>Mass Assignment</strong> — accepting a full JSON body and applying it
+directly to a database model, letting a client set fields it shouldn't:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://api.example.com/v1/users/42<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"name": "Ada", "is_admin": true}'</span>
+</code></pre></div>
+<p>If the handler blindly does <code>user.update(**request.json)</code>, a client
+just made themselves an admin. Fix: an explicit allowlist of
+client-settable fields per endpoint.</p>
+<p><strong>Security misconfiguration</strong> — verbose stack traces in error
+responses, debug mode left on in production, default credentials left
+active. A <code>500</code> response should never include a stack trace to an
+external client.</p>
+<h2 id="rate-limiting-as-a-security-control-not-just-fairness">Rate limiting as a security control, not just fairness<a class="headerlink" href="#rate-limiting-as-a-security-control-not-just-fairness" title="Permanent link">&para;</a></h2>
+<p>Beyond the throughput fairness covered in Level 2 module 9, aggressive
+per-IP and per-account limits on auth endpoints specifically defend
+against credential stuffing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nf">POST</span> <span class="nn">/v1/login</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="err">...</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>HTTP/1.1 429 Too Many Requests
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>Retry-After: 60
+</code></pre></div>
+<h2 id="worked-example-fixing-a-bola-vulnerability">Worked example: fixing a BOLA vulnerability<a class="headerlink" href="#worked-example-fixing-a-bola-vulnerability" title="Permanent link">&para;</a></h2>
+<p>A security review finds <code>GET /v1/invoices/{id}</code> returns any invoice by
+ID to any authenticated user, not just their own.</p>
+<ol>
+<li>Confirm: <code>curl .../v1/invoices/17 -H "Authorization: Bearer $OTHER_USER_TOKEN"</code>
+   returns 200 with someone else's invoice.</li>
+<li>Fix the query to filter by <code>owner_id = current_user.id</code>.</li>
+<li>Return <code>404</code>, not <code>403</code>, for another user's invoice ID — <code>403</code> would
+   confirm the ID exists, leaking information.</li>
+<li>Add a regression test asserting this specifically, and an automated
+   BOLA scan (varying IDs across authenticated sessions) to CI.</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Why is reflecting any <code>Origin</code> back with <code>Access-Control-Allow-
+   Credentials: true</code> dangerous even though it looks similar to a valid
+   allowlist entry?</li>
+<li>Explain why a <code>404</code> is the correct response for another user's
+   resource, rather than a <code>403</code>.</li>
+<li>Design the fix for a mass-assignment vulnerability on <code>POST
+   /v1/orders</code> where a client can currently set <code>status: "shipped"</code>
+   directly on creation.</li>
+<li>What's the difference between validating that a token is valid and
+   validating that a token's owner is authorized for a <em>specific</em>
+   resource? Give an example of an endpoint vulnerable to only the
+   first check.</li>
+</ol>
 
 
 

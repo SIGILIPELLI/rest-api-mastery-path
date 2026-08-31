@@ -942,6 +942,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Pagination
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -958,6 +976,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#offsetlimit-pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offset/limit pagination
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cursor-based-keyset-pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursor-based (keyset) pagination
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#page-number-pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Page-number pagination
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-a-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing a strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-pagination-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Communicating pagination metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-designing-pagination-for-books" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: designing pagination for /books
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#offsetlimit-pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offset/limit pagination
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cursor-based-keyset-pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursor-based (keyset) pagination
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#page-number-pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Page-number pagination
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-a-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing a strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-pagination-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Communicating pagination metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-designing-pagination-for-books" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: designing pagination for /books
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,148 @@
 
 
 <h1 id="01-pagination">01 · Pagination<a class="headerlink" href="#01-pagination" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 2 · Intermediate.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Once a collection resource grows past a handful of items, returning "all of
+them" in one response stops being viable — slow queries, huge payloads, and
+a client that can't reasonably render 50,000 rows anyway. Pagination is how
+an API hands back a collection in manageable, navigable chunks.</p>
+<h2 id="offsetlimit-pagination">Offset/limit pagination<a class="headerlink" href="#offsetlimit-pagination" title="Permanent link">&para;</a></h2>
+<p>The simplest scheme: the client says how many items it wants and where to
+start.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span><span class="s2">"https://api.example.com/books?limit=20&amp;offset=40"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">41</span><span class="p">,</span><span class="w"> </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="s2">"... 19 more ..."</span><span class="w"> </span><span class="p">],</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"meta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="nt">"offset"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">187</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Pros</strong>: simple to implement (maps directly to SQL <code>LIMIT</code>/<code>OFFSET</code>), lets
+a client jump to an arbitrary page (<code>offset=100</code>).</p>
+<p><strong>Cons</strong>: two real problems at scale:</p>
+<ul>
+<li><strong>Performance</strong> — <code>OFFSET 100000</code> still requires the database to scan and
+  discard the first 100,000 rows before returning the next page; this gets
+  slower as offset grows.</li>
+<li><strong>Consistency</strong> — if a row is inserted or deleted between two page
+  requests, offsets shift and a client can see the same item twice or skip
+  one entirely ("page drift").</li>
+</ul>
+<h2 id="cursor-based-keyset-pagination">Cursor-based (keyset) pagination<a class="headerlink" href="#cursor-based-keyset-pagination" title="Permanent link">&para;</a></h2>
+<p>Instead of a numeric offset, the server returns an opaque <strong>cursor</strong>
+pointing at the last item the client saw; the next request asks for items
+after that cursor.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span><span class="s2">"https://api.example.com/books?limit=20"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"... 20 items ..."</span><span class="w"> </span><span class="p">],</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"meta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"next_cursor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJpZCI6NjB9"</span><span class="p">,</span><span class="w"> </span><span class="nt">"has_more"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span><span class="s2">"https://api.example.com/books?limit=20&amp;cursor=eyJpZCI6NjB9"</span>
+</code></pre></div>
+<p>The cursor is typically a base64-encoded pointer to the sort key of the last
+row returned (e.g. <code>{"id": 60}</code> in the example above) — the server decodes
+it and queries <code>WHERE id &gt; 60 ORDER BY id LIMIT 20</code>, which uses an index and
+stays fast regardless of how deep the client pages.</p>
+<p><strong>Pros</strong>: consistent under concurrent inserts/deletes (no drift), fast at
+any depth since it's an indexed range query, not a scan-and-discard.</p>
+<p><strong>Cons</strong>: no jumping to "page 5" directly — only forward/backward
+traversal from a cursor; slightly more complex to implement and to encode
+opaque, tamper-resistant cursors.</p>
+<h2 id="page-number-pagination">Page-number pagination<a class="headerlink" href="#page-number-pagination" title="Permanent link">&para;</a></h2>
+<p>A friendlier variant of offset/limit, common in UI-facing APIs:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span><span class="s2">"https://api.example.com/books?page=3&amp;per_page=20"</span>
+</code></pre></div>
+<p>This is offset/limit in disguise (<code>offset = (page - 1) * per_page</code>) and
+carries the same tradeoffs, just with a more human-readable query shape.</p>
+<h2 id="choosing-a-strategy">Choosing a strategy<a class="headerlink" href="#choosing-a-strategy" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Offset/limit</th>
+<th>Page number</th>
+<th>Cursor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jump to arbitrary page</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Stable under inserts/deletes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Fast at large depth</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Implementation complexity</td>
+<td>Low</td>
+<td>Low</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Good for</td>
+<td>Small/static datasets, admin UIs</td>
+<td>User-facing paged UIs</td>
+<td>Infinite scroll, feeds, large/live datasets</td>
+</tr>
+</tbody>
+</table>
+<p>Real-world example: GitHub's REST API uses page-number pagination for most
+list endpoints but has moved high-volume, frequently-mutated endpoints to
+cursor-based pagination. Twitter/X and Stripe both use cursor pagination
+(<code>since_id</code>/<code>starting_after</code>) for their main feeds and list endpoints,
+specifically because their data changes constantly under concurrent
+traffic.</p>
+<h2 id="communicating-pagination-metadata">Communicating pagination metadata<a class="headerlink" href="#communicating-pagination-metadata" title="Permanent link">&para;</a></h2>
+<p>Two common patterns for surfacing "is there more, and how do I get it":</p>
+<p><strong>1. Response body metadata</strong> (used above) — a <code>meta</code> object with <code>total</code>,
+<code>limit</code>/<code>offset</code> or <code>next_cursor</code>, <code>has_more</code>.</p>
+<p><strong>2. <code>Link</code> header</strong> (RFC 8288), used by GitHub's API:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="na">Link</span><span class="o">:</span> <span class="l">&lt;https://api.example.com/books?page=4&amp;per_page=20&gt;; rel="next",</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>      <span class="l">&lt;https://api.example.com/books?page=1&amp;per_page=20&gt;; rel="first",</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>      <span class="l">&lt;https://api.example.com/books?page=10&amp;per_page=20&gt;; rel="last"</span>
+</code></pre></div>
+<p>The <code>Link</code> header keeps the response body focused purely on data and lets a
+generic HTTP client (or curl <code>--next</code> style tooling) follow pagination
+without parsing a custom body shape.</p>
+<h2 id="worked-example-designing-pagination-for-books">Worked example: designing pagination for <code>/books</code><a class="headerlink" href="#worked-example-designing-pagination-for-books" title="Permanent link">&para;</a></h2>
+<p>Requirements: a public API, dataset grows continuously (new books added
+daily), and a mobile client mostly does infinite-scroll (never "jump to
+page 7"). Given those constraints, cursor pagination is the right call —
+the access pattern is purely sequential, and the dataset's ongoing growth
+means offset drift would be a real, user-visible bug (duplicate or skipped
+books while scrolling).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>GET /books?limit=25
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>→ { "data": [...], "meta": { "next_cursor": "...", "has_more": true } }
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>GET /books?limit=25&amp;cursor=&lt;next_cursor&gt;
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>→ { "data": [...], "meta": { "next_cursor": "...", "has_more": true } }
+</code></pre></div>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>An admin dashboard needs a "jump to page 12" control alongside "50 items
+   per page." Which pagination strategy fits, and why does cursor
+   pagination not support this well?</li>
+<li>A client pages through <code>/orders</code> using <code>offset</code>/<code>limit</code> while new orders
+   are being created concurrently. Walk through a concrete sequence of
+   events that causes the client to see the same order twice.</li>
+<li>Design the cursor payload (as JSON, before base64 encoding) for a
+   <code>/books</code> endpoint sorted by <code>created_at DESC, id DESC</code> (a compound sort
+   key, needed because <code>created_at</code> alone isn't unique).</li>
+<li>Why is a <code>Link</code> header response (GitHub-style) arguably a "more RESTful"
+   way to expose pagination than putting <code>next_page</code> inside the JSON body?</li>
+</ol>
 
 
 

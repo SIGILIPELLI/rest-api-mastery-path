@@ -1372,6 +1372,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · API Gateways Basics
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1388,6 +1406,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-a-gateway-actually-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What a gateway actually does
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-minimal-gateway-config-kong-style-conceptually" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A minimal gateway config (Kong-style, conceptually)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routing-in-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routing in action
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gateway-vs-load-balancer-vs-service-mesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway vs. load balancer vs. service mesh
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aggregation-one-client-call-many-backend-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aggregation: one client call, many backend calls
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-adding-a-new-service-behind-the-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: adding a new service behind the gateway
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-a-gateway-actually-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What a gateway actually does
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-minimal-gateway-config-kong-style-conceptually" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A minimal gateway config (Kong-style, conceptually)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routing-in-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routing in action
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gateway-vs-load-balancer-vs-service-mesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway vs. load balancer vs. service mesh
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aggregation-one-client-call-many-backend-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aggregation: one client call, many backend calls
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-adding-a-new-service-behind-the-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: adding a new service behind the gateway
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,135 @@
 
 
 <h1 id="03-api-gateways-basics">03 · API Gateways Basics<a class="headerlink" href="#03-api-gateways-basics" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>An <strong>API gateway</strong> sits in front of your services as the single entry
+point clients talk to. Instead of every client knowing the address of
+every backend service, they all hit the gateway, which routes, secures,
+and shapes traffic on their behalf.</p>
+<h2 id="what-a-gateway-actually-does">What a gateway actually does<a class="headerlink" href="#what-a-gateway-actually-does" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Routing</strong> — <code>/v1/orders/*</code> → orders-service, <code>/v1/users/*</code> →
+  users-service, based on path, host, or header.</li>
+<li><strong>Authentication</strong> — validates the token once, at the edge, so
+  individual services don't each re-implement JWT verification.</li>
+<li><strong>Rate limiting</strong> — enforces per-client quotas centrally (see module 9
+  of Level 2).</li>
+<li><strong>TLS termination</strong> — the gateway holds the certificate; internal
+  traffic can run plain HTTP inside a trusted network.</li>
+<li><strong>Request/response transformation</strong> — rewriting headers, aggregating
+  multiple backend calls into one client-facing response.</li>
+<li><strong>Observability</strong> — one place to log every request, emit metrics, and
+  trace latency across the whole surface.</li>
+</ul>
+<h2 id="a-minimal-gateway-config-kong-style-conceptually">A minimal gateway config (Kong-style, conceptually)<a class="headerlink" href="#a-minimal-gateway-config-kong-style-conceptually" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">services</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">orders-service</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://orders.internal:8080</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">routes</span><span class="p">:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">orders-route</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">        </span><span class="nt">paths</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"/v1/orders"</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">plugins</span><span class="p">:</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rate-limiting</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> minute</span><span class="p">:</span><span class="w"> </span><span class="nv">100</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jwt</span>
+</code></pre></div>
+<p>A request from a client never sees <code>orders.internal</code> — it only ever
+talks to <code>https://api.example.com/v1/orders</code>, and the gateway resolves
+where that actually goes.</p>
+<h2 id="routing-in-action">Routing in action<a class="headerlink" href="#routing-in-action" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>https://api.example.com/v1/orders/42<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<p>The gateway:</p>
+<ol>
+<li>Terminates TLS.</li>
+<li>Validates the JWT signature and expiry.</li>
+<li>Checks the rate-limit bucket for this client.</li>
+<li>Matches <code>/v1/orders/*</code> to the <code>orders-service</code> route.</li>
+<li>Proxies the request internally, adding a trace header:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nf">GET</span> <span class="nn">/orders/42</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">Host</span><span class="o">:</span> <span class="l">orders.internal:8080</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="na">X-Request-Id</span><span class="o">:</span> <span class="l">7f3a-91c2-...</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="na">X-Forwarded-For</span><span class="o">:</span> <span class="l">203.0.113.9</span>
+</code></pre></div>
+<ol>
+<li>Streams the backend's response back to the client unchanged (or
+   transformed, per config).</li>
+</ol>
+<h2 id="gateway-vs-load-balancer-vs-service-mesh">Gateway vs. load balancer vs. service mesh<a class="headerlink" href="#gateway-vs-load-balancer-vs-service-mesh" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Operates on</th>
+<th>Typical job</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Load balancer</td>
+<td>L4/L7, IPs and ports</td>
+<td>Spread traffic across replicas</td>
+</tr>
+<tr>
+<td>API gateway</td>
+<td>L7, HTTP semantics</td>
+<td>Auth, routing, rate limiting, per-API concerns, client-facing</td>
+</tr>
+<tr>
+<td>Service mesh (e.g. Istio, Linkerd)</td>
+<td>L7, service-to-service</td>
+<td>mTLS, retries, circuit breaking <em>between</em> internal services</td>
+</tr>
+</tbody>
+</table>
+<p>They're complementary, not competing: a gateway handles north-south
+traffic (client → cluster); a mesh handles east-west traffic (service →
+service) once the request is inside.</p>
+<h2 id="aggregation-one-client-call-many-backend-calls">Aggregation: one client call, many backend calls<a class="headerlink" href="#aggregation-one-client-call-many-backend-calls" title="Permanent link">&para;</a></h2>
+<p>A mobile app's dashboard screen needs data from three services. Instead
+of the client making three round-trips, the gateway (or a
+backend-for-frontend layer behind it) fans out internally:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>https://api.example.com/v1/dashboard<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">"profile"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ada"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">"orders"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"open_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">"notifications"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"unread"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>Internally this is three parallel calls to <code>users-service</code>,
+<code>orders-service</code>, and <code>notifications-service</code>, merged before responding
+— saving mobile clients three round-trips over a slow network.</p>
+<h2 id="worked-example-adding-a-new-service-behind-the-gateway">Worked example: adding a new service behind the gateway<a class="headerlink" href="#worked-example-adding-a-new-service-behind-the-gateway" title="Permanent link">&para;</a></h2>
+<p>Your team ships a new <code>reviews-service</code>. Rollout without breaking
+anything:</p>
+<ol>
+<li>Deploy <code>reviews-service</code> internally, unreachable from outside the
+   cluster.</li>
+<li>Add a gateway route: <code>/v1/reviews/*</code> → <code>reviews-service</code>, with the
+   same JWT and rate-limit plugins every other route uses.</li>
+<li>Deploy behind a feature flag or to a small percentage of traffic
+   first (gateway-level canary routing) if the platform supports it.</li>
+<li>Only after the gateway route is live does <code>reviews-service</code> become
+   reachable by clients at all — until then it's fully internal, so
+   there's zero external-facing risk during development.</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>A client complains that two different backend services return
+   inconsistent error formats for the same kind of failure (missing
+   auth). How would centralizing auth at the gateway fix this?</li>
+<li>Why does TLS termination usually happen at the gateway rather than at
+   every individual service?</li>
+<li>Explain the north-south vs. east-west distinction and give an example
+   of a concern that belongs at each layer.</li>
+<li>Your gateway aggregates three backend calls into one response. What
+   should happen if one of the three backend calls fails — return
+   partial data, or fail the whole request? Justify your answer for a
+   dashboard endpoint specifically.</li>
+</ol>
 
 
 

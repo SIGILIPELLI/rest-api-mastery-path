@@ -1428,6 +1428,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · API Testing Strategy
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1444,6 +1462,113 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-pyramid-for-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The pyramid, for APIs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unit-tests-pure-logic-no-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit tests: pure logic, no HTTP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-tests-hit-the-real-http-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration tests: hit the real HTTP layer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contract-tests-does-the-api-still-match-its-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contract tests: does the API still match its spec?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end-to-end-tests-the-whole-system-from-outside" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End-to-end tests: the whole system, from outside
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-failure-modes-not-just-happy-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing failure modes, not just happy paths
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-catching-a-breaking-change-before-it-ships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: catching a breaking change before it ships
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2116,102 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-pyramid-for-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The pyramid, for APIs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unit-tests-pure-logic-no-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit tests: pure logic, no HTTP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-tests-hit-the-real-http-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration tests: hit the real HTTP layer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contract-tests-does-the-api-still-match-its-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contract tests: does the API still match its spec?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end-to-end-tests-the-whole-system-from-outside" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End-to-end tests: the whole system, from outside
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-failure-modes-not-just-happy-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing failure modes, not just happy paths
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-catching-a-breaking-change-before-it-ships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: catching a breaking change before it ships
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2231,105 @@
 
 
 <h1 id="05-api-testing-strategy">05 · API Testing Strategy<a class="headerlink" href="#05-api-testing-strategy" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>APIs need a layered testing strategy, same as any other software — but
+the layers map onto HTTP boundaries in a specific way: unit tests below
+the wire, contract and integration tests at the wire, and end-to-end
+tests across the whole system.</p>
+<h2 id="the-pyramid-for-apis">The pyramid, for APIs<a class="headerlink" href="#the-pyramid-for-apis" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>        /\        end-to-end (few, slow, full stack + real DB)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>       /  \
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>      /----\      integration (moderate, real DB, HTTP layer, mocked externals)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>     /      \
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    /--------\    contract tests (schema/consumer-driven, fast)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   /          \
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  /------------\  unit tests (many, fast, no network/DB)
+</code></pre></div>
+<p>Most bugs should be caught at the bottom layers; the top layer exists to
+catch what only shows up when everything runs together.</p>
+<h2 id="unit-tests-pure-logic-no-http">Unit tests: pure logic, no HTTP<a class="headerlink" href="#unit-tests-pure-logic-no-http" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_calculate_discount</span><span class="p">():</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="k">assert</span> <span class="n">calculate_discount</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">coupon</span><span class="o">=</span><span class="s2">"SAVE10"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">90</span>
+</code></pre></div>
+<p>No server running, no database — just the function under test.</p>
+<h2 id="integration-tests-hit-the-real-http-layer">Integration tests: hit the real HTTP layer<a class="headerlink" href="#integration-tests-hit-the-real-http-layer" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_create_order_returns_201</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/orders"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">"item_id"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">"qty"</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">201</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"status"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"pending"</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="c1"># verify it actually landed in the DB, not just the response shape</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="k">assert</span> <span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"id"</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</code></pre></div>
+<p>This runs against a real (test) database and the real routing/
+serialization code, catching bugs unit tests can't — wrong status code,
+wrong JSON shape, a route that isn't wired up.</p>
+<h2 id="contract-tests-does-the-api-still-match-its-spec">Contract tests: does the API still match its spec?<a class="headerlink" href="#contract-tests-does-the-api-still-match-its-spec" title="Permanent link">&para;</a></h2>
+<p>Given an OpenAPI spec (Level 1, module 7), validate live responses
+against it automatically:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>https://staging.example.com/v1/orders/42<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>openapi-spec-validator<span class="w"> </span>--schema<span class="w"> </span>openapi.yaml<span class="w"> </span>--response<span class="w"> </span>-
+</code></pre></div>
+<p>Consumer-driven contract testing (e.g. Pact) goes further: the
+<strong>consumer</strong> (a frontend or downstream service) records what it expects
+from the API —</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w"> </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/orders/42"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
+</code></pre></div>
+<p>— and the <strong>provider</strong>'s CI replays that contract against the real API
+before every deploy, catching breaking changes before they ship, without
+either side needing the other's full codebase running.</p>
+<h2 id="end-to-end-tests-the-whole-system-from-outside">End-to-end tests: the whole system, from outside<a class="headerlink" href="#end-to-end-tests-the-whole-system-from-outside" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># a real client hitting a real staging deployment</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://staging.example.com/v1/orders<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$STAGING_TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"item_id": 5, "qty": 2}'</span>
+</code></pre></div>
+<p>Slow and few in number by design — they exercise auth, gateway routing,
+the real database, and any real downstream services together. Reserve
+them for critical user journeys (checkout, signup), not every endpoint.</p>
+<h2 id="testing-failure-modes-not-just-happy-paths">Testing failure modes, not just happy paths<a class="headerlink" href="#testing-failure-modes-not-just-happy-paths" title="Permanent link">&para;</a></h2>
+<p>A thorough suite for one endpoint covers:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_order_requires_auth</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">r</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/orders"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">"item_id"</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">assert</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_order_rejects_invalid_item</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">r</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/orders"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">"item_id"</span><span class="p">:</span> <span class="mi">99999</span><span class="p">},</span> <span class="n">headers</span><span class="o">=</span><span class="n">auth</span><span class="p">)</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="k">assert</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_order_rejects_malformed_body</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">r</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/orders"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">"not json"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">auth</span><span class="p">)</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="k">assert</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">400</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_order_is_idempotent</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="n">key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Idempotency-Key"</span><span class="p">:</span> <span class="s2">"abc-123"</span><span class="p">}</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    <span class="n">r1</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/orders"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">"item_id"</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">auth</span><span class="p">,</span> <span class="o">**</span><span class="n">key</span><span class="p">})</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="n">r2</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/orders"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">"item_id"</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">auth</span><span class="p">,</span> <span class="o">**</span><span class="n">key</span><span class="p">})</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="k">assert</span> <span class="n">r1</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">==</span> <span class="n">r2</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"id"</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="worked-example-catching-a-breaking-change-before-it-ships">Worked example: catching a breaking change before it ships<a class="headerlink" href="#worked-example-catching-a-breaking-change-before-it-ships" title="Permanent link">&para;</a></h2>
+<p>A backend engineer renames a response field from <code>total</code> to
+<code>total_amount</code> to be more explicit. Without contract tests, this passes
+unit and integration tests (they only check the new field name) but
+breaks every existing client silently in production.</p>
+<p>With consumer-driven contracts in CI: the provider pipeline replays the
+recorded consumer contract (<code>{"total": "number"}</code>) against the new code,
+the field is missing, the pipeline fails the build — the break never
+reaches production. The fix: add <code>total_amount</code> alongside <code>total</code>,
+deprecate <code>total</code> per module 6, remove it only after consumers migrate.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Where would you catch a bug where the discount calculation is wrong,
+   but the HTTP status code and JSON shape are correct — which layer of
+   the pyramid, and why not a layer above or below it?</li>
+<li>Explain the difference between an integration test and a contract
+   test for the same <code>GET /v1/orders/42</code> endpoint.</li>
+<li>Why should end-to-end tests be few and reserved for critical
+   journeys rather than covering every endpoint?</li>
+<li>Design three failure-mode tests (beyond auth/validation/idempotency
+   shown above) for a <code>DELETE /v1/orders/{id}</code> endpoint.</li>
+</ol>
 
 
 

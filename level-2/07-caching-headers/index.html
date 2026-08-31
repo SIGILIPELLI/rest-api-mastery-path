@@ -1110,6 +1110,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Caching Headers (ETag, Cache-Control)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1126,6 +1144,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cache-control-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache-Control directives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etags-and-conditional-get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ETags and conditional GET
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#last-modified-as-a-lighter-alternative" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Last-Modified as a lighter alternative
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etags-for-optimistic-concurrency-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ETags for optimistic concurrency control
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-cache-control-and-etag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combining Cache-Control and ETag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-a-cache-aware-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: a cache-aware client
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cache-control-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache-Control directives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etags-and-conditional-get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ETags and conditional GET
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#last-modified-as-a-lighter-alternative" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Last-Modified as a lighter alternative
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etags-for-optimistic-concurrency-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ETags for optimistic concurrency control
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-cache-control-and-etag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combining Cache-Control and ETag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-a-cache-aware-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: a cache-aware client
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,158 @@
 
 
 <h1 id="07-caching-headers-etag-cache-control">07 · Caching Headers (ETag, Cache-Control)<a class="headerlink" href="#07-caching-headers-etag-cache-control" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 2 · Intermediate.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Level 1 introduced <code>Cache-Control</code> as one of REST's core constraints
+(cacheability). This module covers the actual headers that implement it —
+<code>Cache-Control</code>, <code>ETag</code>, and conditional requests — and how they combine to
+avoid re-sending data the client already has.</p>
+<h2 id="cache-control-directives">Cache-Control directives<a class="headerlink" href="#cache-control-directives" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="err">Cache-Control: public, max-age=3600</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Directive</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>public</code></td>
+<td>Any cache (browser, CDN, proxy) may store this response</td>
+</tr>
+<tr>
+<td><code>private</code></td>
+<td>Only the end client may cache it, not a shared proxy/CDN (typical for per-user data)</td>
+</tr>
+<tr>
+<td><code>no-cache</code></td>
+<td>May be cached, but <strong>must</strong> be revalidated with the server before reuse (misleadingly named — it doesn't mean "don't cache")</td>
+</tr>
+<tr>
+<td><code>no-store</code></td>
+<td>Must not be cached anywhere, ever — for sensitive data</td>
+</tr>
+<tr>
+<td><code>max-age=N</code></td>
+<td>Fresh for N seconds; safe to reuse without contacting the server at all during that window</td>
+</tr>
+<tr>
+<td><code>must-revalidate</code></td>
+<td>Once stale, must revalidate before use, even if the client would otherwise serve a stale copy</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>https://api.example.com/books/42
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">Cache-Control</span><span class="o">:</span> <span class="l">private, max-age=60</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dune"</span><span class="p">}</span>
+</code></pre></div>
+<p>A client can reuse this response for 60 seconds without another network
+call. After that, it should revalidate.</p>
+<h2 id="etags-and-conditional-get">ETags and conditional GET<a class="headerlink" href="#etags-and-conditional-get" title="Permanent link">&para;</a></h2>
+<p>An <code>ETag</code> is an opaque fingerprint of a resource's current state (often a
+hash of its content). It lets a client ask "has this changed since I last
+saw ETag X?" instead of re-downloading the whole thing.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>https://api.example.com/books/42
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="na">ETag</span><span class="o">:</span> <span class="l">"a1b2c3d4"</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="na">Cache-Control</span><span class="o">:</span> <span class="l">private, max-age=60</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dune"</span><span class="p">,</span><span class="w"> </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">15.99</span><span class="p">}</span>
+</code></pre></div>
+<p>Once the cached copy goes stale, the client revalidates with
+<code>If-None-Match</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>https://api.example.com/books/42<span class="w"> </span>-H<span class="w"> </span><span class="s1">'If-None-Match: "a1b2c3d4"'</span>
+</code></pre></div>
+<p>If unchanged:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">304</span> <span class="ne">Not Modified</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="na">ETag</span><span class="o">:</span> <span class="l">"a1b2c3d4"</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="na">Cache-Control</span><span class="o">:</span> <span class="l">private, max-age=60</span>
+</code></pre></div>
+<p><code>304 Not Modified</code> has <strong>no body</strong> — the client is told to keep using its
+cached copy, saving the full payload transfer. If the resource <em>has</em>
+changed, the server responds normally with <code>200</code> and the new body and
+<code>ETag</code>.</p>
+<h2 id="last-modified-as-a-lighter-alternative">Last-Modified as a lighter alternative<a class="headerlink" href="#last-modified-as-a-lighter-alternative" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="na">Last-Modified</span><span class="o">:</span> <span class="l">Wed, 12 Aug 2026 14:23:00 GMT</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>https://api.example.com/books/42<span class="w"> </span>-H<span class="w"> </span><span class="s1">'If-Modified-Since: Wed, 12 Aug 2026 14:23:00 GMT'</span>
+</code></pre></div>
+<p><code>Last-Modified</code>/<code>If-Modified-Since</code> is coarser (second-level precision,
+relies on accurate clocks/timestamps) than an <code>ETag</code>, but cheaper to
+compute when a resource already has a reliable <code>updated_at</code> column — no
+hashing required.</p>
+<h2 id="etags-for-optimistic-concurrency-control">ETags for optimistic concurrency control<a class="headerlink" href="#etags-for-optimistic-concurrency-control" title="Permanent link">&para;</a></h2>
+<p><code>ETag</code> doubles as a concurrency mechanism via <code>If-Match</code> on writes: "only
+apply this update if the resource still matches the version I last read."</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>https://api.example.com/books/42<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s1">'If-Match: "a1b2c3d4"'</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"title": "Dune", "price": 12.99}'</span>
+</code></pre></div>
+<p>If another client updated the book in the meantime (ETag changed), the
+server rejects with <code>412 Precondition Failed</code> instead of silently
+overwriting the newer change — a lost-update bug in the making otherwise.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">412</span> <span class="ne">Precondition Failed</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">{</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"precondition_failed"</span><span class="p">,</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Resource has changed since it was last fetched. Refetch and retry."</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="p">}</span>
+</code></pre></div>
+<p>This is the same pattern as optimistic locking with a <code>version</code> column in
+a database, expressed over HTTP.</p>
+<h2 id="combining-cache-control-and-etag">Combining Cache-Control and ETag<a class="headerlink" href="#combining-cache-control-and-etag" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="na">Cache-Control</span><span class="o">:</span> <span class="l">private, max-age=60, must-revalidate</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="na">ETag</span><span class="o">:</span> <span class="l">"a1b2c3d4"</span>
+</code></pre></div>
+<p>Read together: "cache me for 60 seconds without asking; after that, don't
+use a stale copy — ask again, but if my content is unchanged, just tell me
+<code>304</code> instead of resending everything." This combination gets both speed
+(no network round trip inside the freshness window) and correctness (no
+stale-forever reuse) without over-fetching unchanged data.</p>
+<h2 id="worked-example-a-cache-aware-client">Worked example: a cache-aware client<a class="headerlink" href="#worked-example-a-cache-aware-client" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_book</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="n">entry</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="k">if</span> <span class="n">entry</span> <span class="ow">and</span> <span class="s2">"etag"</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">:</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>        <span class="n">headers</span><span class="p">[</span><span class="s2">"If-None-Match"</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="s2">"etag"</span><span class="p">]</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">"https://api.example.com/books/</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">304</span><span class="p">:</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>        <span class="k">return</span> <span class="n">entry</span><span class="p">[</span><span class="s2">"body"</span><span class="p">]</span>          <span class="c1"># unchanged, use cached copy</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>    <span class="n">body</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>    <span class="n">cache</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"body"</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span> <span class="s2">"etag"</span><span class="p">:</span> <span class="n">resp</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ETag"</span><span class="p">)}</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>    <span class="k">return</span> <span class="n">body</span>
+</code></pre></div>
+<p>This client transfers the full book payload only on the first fetch and any
+fetch after a real change — every unchanged revalidation costs a small
+request/<code>304</code> round trip instead of the full body.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Explain the practical difference between <code>no-cache</code> and <code>no-store</code>, and
+   give one type of API response where each would be the right choice.</li>
+<li>Two clients <code>GET</code> the same book, both cache its <code>ETag</code>. Client A <code>PUT</code>s
+   an update. What should happen when Client B then tries to <code>PUT</code> its own
+   (now stale) update using <code>If-Match</code> with its old <code>ETag</code>?</li>
+<li>Why does <code>304 Not Modified</code> have no response body, and why does that
+   matter for a large resource (e.g. a 2MB report)?</li>
+<li>When would <code>Last-Modified</code>/<code>If-Modified-Since</code> be preferable to a
+   computed <code>ETag</code>, and when would it be insufficient?</li>
+</ol>
 
 
 

@@ -1774,6 +1774,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Designing Public Developer-Facing APIs
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1790,6 +1808,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#api-keys-and-developer-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API keys and developer accounts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sandbox-vs-live-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sandbox vs. live environments
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdks-generated-from-the-openapi-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SDKs generated from the OpenAPI spec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predictable-generous-rate-limits-and-telling-developers-about-them" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predictable, generous rate limits — and telling developers about them
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-stability-as-a-product-commitment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API stability as a product commitment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-a-developers-first-hour-with-your-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: a developer's first hour with your API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#api-keys-and-developer-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API keys and developer accounts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sandbox-vs-live-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sandbox vs. live environments
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdks-generated-from-the-openapi-spec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SDKs generated from the OpenAPI spec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predictable-generous-rate-limits-and-telling-developers-about-them" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predictable, generous rate limits — and telling developers about them
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-stability-as-a-product-commitment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API stability as a product commitment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-a-developers-first-hour-with-your-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: a developer's first hour with your API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,95 @@
 
 
 <h1 id="04-designing-public-developer-facing-apis">04 · Designing Public Developer-Facing APIs<a class="headerlink" href="#04-designing-public-developer-facing-apis" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Building an API for your own frontend is one job. Building one that
+thousands of third-party developers integrate against, without ever
+talking to your team, is a different discipline: stability,
+discoverability, and self-service are the product.</p>
+<h2 id="api-keys-and-developer-accounts">API keys and developer accounts<a class="headerlink" href="#api-keys-and-developer-accounts" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>https://api.example.com/v1/orders<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer sk_live_51H8x..."</span>
+</code></pre></div>
+<p>Unlike an internal OAuth2 token tied to a logged-in user session, a
+public API typically issues long-lived <strong>API keys</strong> per developer
+account, scoped and revocable independently:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/v1/api-keys<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$DASHBOARD_SESSION_TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"name": "production-server", "scopes": ["orders:read"]}'</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key_9"</span><span class="p">,</span><span class="w"> </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sk_live_51H8x..."</span><span class="p">,</span><span class="w"> </span><span class="nt">"scopes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"orders:read"</span><span class="p">],</span><span class="w"> </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-08-31T00:00:00Z"</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>The raw key is shown exactly once at creation and never again — only
+its prefix and metadata are retrievable afterward, so a leaked key can
+be identified and revoked without the API ever storing the plaintext.</p>
+<h2 id="sandbox-vs-live-environments">Sandbox vs. live environments<a class="headerlink" href="#sandbox-vs-live-environments" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>https://api.example.com/v1/orders<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer sk_test_..."</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>curl<span class="w"> </span>https://api.example.com/v1/orders<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer sk_live_..."</span>
+</code></pre></div>
+<p>A <code>sk_test_</code> key routes to a fully isolated sandbox — fake payment
+processing, no real charges, resettable data — so a developer building
+an integration can experiment freely and safely before ever touching
+production. Key <em>prefix</em> signals environment, catching the common
+mistake of a test key accidentally shipped to production (which simply
+fails auth against live) instead of silently doing something dangerous.</p>
+<h2 id="sdks-generated-from-the-openapi-spec">SDKs generated from the OpenAPI spec<a class="headerlink" href="#sdks-generated-from-the-openapi-spec" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">example_api</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">example_api</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">"sk_live_..."</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">order</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">item_id</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+<p>Auto-generating official SDKs in major languages from the same OpenAPI
+spec that drives the reference docs (Level 3, module 7) keeps every
+language binding in sync automatically when the spec changes — instead
+of hand-maintained SDKs drifting out of date.</p>
+<h2 id="predictable-generous-rate-limits-and-telling-developers-about-them">Predictable, generous rate limits — and telling developers about them<a class="headerlink" href="#predictable-generous-rate-limits-and-telling-developers-about-them" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">X-RateLimit-Limit</span><span class="o">:</span> <span class="l">1000</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="na">X-RateLimit-Remaining</span><span class="o">:</span> <span class="l">998</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="na">X-RateLimit-Reset</span><span class="o">:</span> <span class="l">1735689600</span>
+</code></pre></div>
+<p>Third-party developers build automated systems against these headers —
+unlike an internal team you can just tell "don't hammer that endpoint,"
+a public integrator needs the limit itself, machine-readable, to build
+correct backoff logic.</p>
+<h2 id="api-stability-as-a-product-commitment">API stability as a product commitment<a class="headerlink" href="#api-stability-as-a-product-commitment" title="Permanent link">&para;</a></h2>
+<p>Public APIs need a much longer deprecation runway than internal ones
+(Level 3, module 6) — a third-party developer might not read your
+changelog for months. A common commitment:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gu">## Stability policy</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">-</span><span class="w"> </span>v1 will be supported for a minimum of 24 months after v2 ships.
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">-</span><span class="w"> </span>Breaking changes are only ever shipped in a new major version, never
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  as a patch to an existing one.
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">-</span><span class="w"> </span>New optional fields may be added to v1 responses at any time.
+</code></pre></div>
+<h2 id="worked-example-a-developers-first-hour-with-your-api">Worked example: a developer's first hour with your API<a class="headerlink" href="#worked-example-a-developers-first-hour-with-your-api" title="Permanent link">&para;</a></h2>
+<ol>
+<li>They sign up, land on a dashboard, and generate a sandbox key with
+   zero human involvement.</li>
+<li>The quickstart guide (Level 3, module 7) gets them to one successful
+   <code>curl</code> call in under 5 minutes.</li>
+<li>They install the official SDK (<code>pip install example-api</code>) and build
+   a small integration against sandbox data.</li>
+<li>They hit a rate limit while testing in a loop, read
+   <code>X-RateLimit-Reset</code> in the response, and back off correctly without
+   filing a support ticket.</li>
+<li>They flip to a live key, ship to production, confident nothing will
+   silently break because of the published stability policy.</li>
+</ol>
+<p>Every step above is self-service — no human on your team was involved,
+which is the entire point of a public developer API's design.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Why show a raw API key only once at creation, rather than letting a
+   developer view it again later from the dashboard?</li>
+<li>Explain why a sandbox environment needs to be genuinely isolated
+   (separate data, no real side effects) rather than just a flag on
+   production data.</li>
+<li>Design the <code>scopes</code> a public payments API might offer beyond
+   <code>orders:read</code> — think about what a developer building a read-only
+   analytics dashboard should be limited to versus one processing
+   refunds.</li>
+<li>Why does a public API need a longer deprecation runway than an
+   internal one used only by your own frontend team?</li>
+</ol>
 
 
 

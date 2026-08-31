@@ -1512,6 +1512,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · gRPC & Alternative Protocols
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1528,6 +1546,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#grpc-http2-protocol-buffers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gRPC: HTTP/2 + Protocol Buffers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-grpc-over-restjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why gRPC over REST/JSON
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-rest-still-wins-for-publicbrowser-facing-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why REST still wins for public/browser-facing APIs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-alternatives-worth-knowing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other alternatives worth knowing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-picking-a-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: picking a protocol
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#grpc-http2-protocol-buffers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gRPC: HTTP/2 + Protocol Buffers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-grpc-over-restjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why gRPC over REST/JSON
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-rest-still-wins-for-publicbrowser-facing-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why REST still wins for public/browser-facing APIs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-alternatives-worth-knowing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other alternatives worth knowing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-picking-a-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: picking a protocol
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2187,108 @@
 
 
 <h1 id="08-grpc-alternative-protocols">08 · gRPC &amp; Alternative Protocols<a class="headerlink" href="#08-grpc-alternative-protocols" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>REST over HTTP/JSON isn't the only way to build an API. This module
+covers gRPC and other protocols you'll meet in the wild, and when they
+beat REST.</p>
+<h2 id="grpc-http2-protocol-buffers">gRPC: HTTP/2 + Protocol Buffers<a class="headerlink" href="#grpc-http2-protocol-buffers" title="Permanent link">&para;</a></h2>
+<p>gRPC defines a service in a <code>.proto</code> file, generates strongly-typed
+client and server code in almost any language, and communicates using
+compact binary Protocol Buffers over HTTP/2.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">syntax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"proto3"</span><span class="p">;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kd">service</span><span class="w"> </span><span class="n">OrderService</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="k">rpc</span><span class="w"> </span><span class="n">GetOrder</span><span class="w"> </span><span class="p">(</span><span class="n">GetOrderRequest</span><span class="p">)</span><span class="w"> </span><span class="k">returns</span><span class="w"> </span><span class="p">(</span><span class="n">Order</span><span class="p">);</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="k">rpc</span><span class="w"> </span><span class="n">StreamOrderUpdates</span><span class="w"> </span><span class="p">(</span><span class="n">GetOrderRequest</span><span class="p">)</span><span class="w"> </span><span class="k">returns</span><span class="w"> </span><span class="p">(</span><span class="n">stream</span><span class="w"> </span><span class="n">Order</span><span class="p">);</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">}</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="kd">message</span><span class="w"> </span><span class="nc">GetOrderRequest</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kt">int32</span><span class="w"> </span><span class="na">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="kd">message</span><span class="w"> </span><span class="nc">Order</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="kt">int32</span><span class="w"> </span><span class="na">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="na">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="kt">string</span><span class="w"> </span><span class="na">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">}</span>
+</code></pre></div>
+<p>A generated client calls this like a local function, not an HTTP
+request:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">order</span> <span class="o">=</span> <span class="n">order_service_stub</span><span class="o">.</span><span class="n">GetOrder</span><span class="p">(</span><span class="n">GetOrderRequest</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">total</span><span class="p">)</span>
+</code></pre></div>
+<p>Under the hood this is still a request over the network — but the
+developer writes no URL, no JSON parsing, no manual serialization.</p>
+<h2 id="why-grpc-over-restjson">Why gRPC over REST/JSON<a class="headerlink" href="#why-grpc-over-restjson" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Performance</strong> — binary Protobuf is smaller and faster to
+  (de)serialize than JSON; HTTP/2 multiplexes many calls over one
+  connection.</li>
+<li><strong>Strong contracts</strong> — the <code>.proto</code> file is the single source of truth
+  for types, generated on both client and server, so mismatches are
+  caught at compile time, not at runtime like a malformed JSON body.</li>
+<li><strong>Native streaming</strong> — <code>stream Order</code> above is a first-class
+  bidirectional or server-streaming call; REST has no equivalent without
+  bolting on SSE or WebSockets.</li>
+</ul>
+<h2 id="why-rest-still-wins-for-publicbrowser-facing-apis">Why REST still wins for public/browser-facing APIs<a class="headerlink" href="#why-rest-still-wins-for-publicbrowser-facing-apis" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Browsers can't natively speak gRPC (it needs HTTP/2 trailers browsers
+  don't fully expose) — gRPC-Web exists but adds a proxy layer.</li>
+<li>REST/JSON is debuggable with <code>curl</code> and readable by a human; a
+  Protobuf wire message is not.</li>
+<li>Public third-party integrators expect REST; gRPC assumes both sides
+  control their codegen pipeline, which is realistic inside one company,
+  less so across organizations.</li>
+</ul>
+<p>gRPC is the common choice for <strong>internal service-to-service</strong> calls in a
+microservices architecture (module 1, Level 4); REST/JSON stays the
+default for <strong>public and browser-facing</strong> APIs.</p>
+<h2 id="other-alternatives-worth-knowing">Other alternatives worth knowing<a class="headerlink" href="#other-alternatives-worth-knowing" title="Permanent link">&para;</a></h2>
+<p><strong>WebSockets</strong> — a persistent, full-duplex connection for real-time,
+bidirectional communication (chat, live dashboards):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ws</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">WebSocket</span><span class="p">(</span><span class="s2">"wss://api.example.com/v1/orders/42/stream"</span><span class="p">);</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nx">ws</span><span class="p">.</span><span class="nx">onmessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">));</span>
+</code></pre></div>
+<p><strong>Server-Sent Events (SSE)</strong> — one-way server → client streaming over
+plain HTTP, simpler than WebSockets when the client never needs to send
+messages back over the same connection:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>-N<span class="w"> </span>https://api.example.com/v1/orders/42/events<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Accept: text/event-stream"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>event: status_changed
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>data: {"status": "shipped"}
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>event: status_changed
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>data: {"status": "delivered"}
+</code></pre></div>
+<p><strong>MQTT</strong> — a lightweight pub/sub protocol built for constrained IoT
+devices over unreliable networks; overkill for a typical web API, the
+right choice for a fleet of sensors.</p>
+<h2 id="worked-example-picking-a-protocol">Worked example: picking a protocol<a class="headerlink" href="#worked-example-picking-a-protocol" title="Permanent link">&para;</a></h2>
+<p>A company has a public REST API for customers, and internally, a fleet
+of a dozen microservices calling each other thousands of times a
+second, plus a live "order status" feed customers want to watch update
+in real time.</p>
+<ul>
+<li>Customer-facing CRUD → <strong>REST/JSON</strong>, cacheable, debuggable, matches
+  customer expectations.</li>
+<li>Service-to-service calls → <strong>gRPC</strong>, for the performance and strong
+  typing at high call volume.</li>
+<li>Live order-status feed → <strong>SSE</strong>, because it's one-directional
+  (server informs client) and simpler to operate than WebSockets for
+  that shape of problem.</li>
+</ul>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Why can't a browser call a gRPC service directly the way it calls a
+   REST endpoint with <code>fetch</code>?</li>
+<li>Give one scenario where SSE is the better choice over WebSockets, and
+   one where it's the wrong choice.</li>
+<li>A <code>.proto</code> file changes a field's type from <code>int32</code> to <code>string</code>. Is
+   this breaking in the same way a JSON REST field-type change is
+   (module 6)? Why does Protobuf field <em>numbering</em> matter for
+   compatibility even when types don't change?</li>
+<li>Explain why gRPC is more common for internal microservice traffic
+   than for public developer-facing APIs.</li>
+</ol>
 
 
 

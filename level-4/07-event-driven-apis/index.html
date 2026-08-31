@@ -1858,6 +1858,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Event-Driven APIs & Async Patterns
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1874,6 +1892,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#events-vs-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Events vs. requests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#message-brokers-kafka-sqs-rabbitmq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message brokers: Kafka, SQS, RabbitMQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#at-least-once-delivery-and-idempotency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At-least-once delivery and idempotency
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-outbox-pattern-dont-lose-events-on-a-crash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The outbox pattern: don't lose events on a crash
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webhooks-vs-message-brokers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Webhooks vs. message brokers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-keeping-a-search-index-in-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: keeping a search index in sync
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#events-vs-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Events vs. requests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#message-brokers-kafka-sqs-rabbitmq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message brokers: Kafka, SQS, RabbitMQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#at-least-once-delivery-and-idempotency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At-least-once delivery and idempotency
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-outbox-pattern-dont-lose-events-on-a-crash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The outbox pattern: don't lose events on a crash
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webhooks-vs-message-brokers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Webhooks vs. message brokers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-keeping-a-search-index-in-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: keeping a search index in sync
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,96 @@
 
 
 <h1 id="07-event-driven-apis-async-patterns">07 · Event-Driven APIs &amp; Async Patterns<a class="headerlink" href="#07-event-driven-apis-async-patterns" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Request/response REST assumes the client wants an answer right now. A
+lot of real systems are better modeled as events flowing between
+services asynchronously — this module covers when and how.</p>
+<h2 id="events-vs-requests">Events vs. requests<a class="headerlink" href="#events-vs-requests" title="Permanent link">&para;</a></h2>
+<p>A request says "do this, and tell me what happened." An event says
+"this happened" — with no expectation of who, if anyone, reacts.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order.confirmed"</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"evt_501"</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"order_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mf">89.99</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">"occurred_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-08-31T14:22:01Z"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>orders-service</code> publishes this once. <code>inventory-service</code>,
+<code>notifications-service</code>, and <code>analytics-service</code> each independently
+consume it — <code>orders-service</code> has no idea any of them exist, unlike the
+direct-call composition pattern in module 1.</p>
+<h2 id="message-brokers-kafka-sqs-rabbitmq">Message brokers: Kafka, SQS, RabbitMQ<a class="headerlink" href="#message-brokers-kafka-sqs-rabbitmq" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># publish</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://kafka-proxy.internal/topics/orders<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"event": "order.confirmed", "data": {"order_id": 42}}'</span>
+</code></pre></div>
+<p>A broker sits between publishers and subscribers, durably storing
+events so a consumer that's temporarily down doesn't miss them — it
+processes the backlog once it's back, rather than the event being lost
+forever the way a direct HTTP call would be if the receiver was down.</p>
+<h2 id="at-least-once-delivery-and-idempotency">At-least-once delivery and idempotency<a class="headerlink" href="#at-least-once-delivery-and-idempotency" title="Permanent link">&para;</a></h2>
+<p>Most brokers guarantee <strong>at-least-once</strong> delivery, not exactly-once —
+a consumer might see the same event twice (e.g. after a broker
+rebalance). Consumers must be idempotent, exactly like the
+<code>Idempotency-Key</code> pattern from Level 2:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_order_confirmed</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">processed_events</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]):</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="k">return</span>  <span class="c1"># already handled this exact event, skip</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">db</span><span class="o">.</span><span class="n">processed_events</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">inventory</span><span class="o">.</span><span class="n">decrement</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="s2">"order_id"</span><span class="p">])</span>
+</code></pre></div>
+<h2 id="the-outbox-pattern-dont-lose-events-on-a-crash">The outbox pattern: don't lose events on a crash<a class="headerlink" href="#the-outbox-pattern-dont-lose-events-on-a-crash" title="Permanent link">&para;</a></h2>
+<p>A naive approach — write to the database, then publish the event — has
+a gap: if the process crashes between the two steps, the database
+change happened but the event never fired, and downstream systems
+silently drift out of sync.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">BEGIN</span><span class="p">;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="s1">'confirmed'</span><span class="p">);</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">outbox_events</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'order.confirmed'</span><span class="p">,</span><span class="w"> </span><span class="s1">'{"order_id": 42}'</span><span class="p">);</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">COMMIT</span><span class="p">;</span>
+</code></pre></div>
+<p>Both writes happen in the <strong>same database transaction</strong> — either both
+commit or neither does. A separate relay process reads <code>outbox_events</code>
+and actually publishes to the broker, retrying safely (each row
+published exactly once, marked complete) — this guarantees the event
+is <em>eventually</em> published if the order write succeeded, without a
+distributed transaction across the database and the broker.</p>
+<h2 id="webhooks-vs-message-brokers">Webhooks vs. message brokers<a class="headerlink" href="#webhooks-vs-message-brokers" title="Permanent link">&para;</a></h2>
+<p>Level 3's webhooks are event-driven too, but push events across
+organizational boundaries over plain HTTP — appropriate for
+notifying external partners. A message broker (Kafka, SQS) is for
+event flow <em>within</em> your own systems, where you control both ends and
+want durability, ordering, and replay guarantees a webhook's simple
+HTTP POST doesn't offer.</p>
+<h2 id="worked-example-keeping-a-search-index-in-sync">Worked example: keeping a search index in sync<a class="headerlink" href="#worked-example-keeping-a-search-index-in-sync" title="Permanent link">&para;</a></h2>
+<p>A <code>products-service</code> owns product data; a separate <code>search-service</code>
+needs a near-real-time copy to power search.</p>
+<ol>
+<li><code>products-service</code> writes a product update and an outbox event in
+   one transaction.</li>
+<li>The outbox relay publishes <code>product.updated</code> to a Kafka topic.</li>
+<li><code>search-service</code> consumes the topic, idempotently upserts into its
+   search index (checking the event ID against what it's already
+   processed).</li>
+<li>If <code>search-service</code> is down for an hour, Kafka retains the topic's
+   events; on restart it resumes from its last committed offset and
+   catches up — no manual reconciliation needed, and <code>products-service</code>
+   never had to know <code>search-service</code> existed or was down.</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Why does at-least-once delivery mean consumers must be written
+   idempotently, and what breaks if they aren't?</li>
+<li>Walk through why writing to the database and publishing an event as
+   two separate steps (without an outbox) can silently lose events, and
+   how the outbox pattern's single transaction fixes it.</li>
+<li>Compare event-driven fan-out (this module) with the synchronous API
+   composition pattern (module 1) for keeping <code>search-service</code> in sync
+   with <code>products-service</code> — what does each approach cost in latency,
+   coupling, and failure isolation?</li>
+<li>A consumer processes <code>order.confirmed</code> twice due to an at-least-once
+   redelivery, and it isn't idempotent — it decrements inventory twice.
+   Design the idempotency check that would have prevented this.</li>
+</ol>
 
 
 

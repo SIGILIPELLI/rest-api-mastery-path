@@ -1054,6 +1054,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Idempotency
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1070,6 +1088,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#which-http-methods-are-idempotent-by-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which HTTP methods are idempotent by definition
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-idempotency-key-pattern-for-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The idempotency-key pattern for POST
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementing-it-server-side" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementing it server-side
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#idempotency-vs-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Idempotency vs safety
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-designing-idempotent-order-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: designing idempotent order creation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#which-http-methods-are-idempotent-by-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which HTTP methods are idempotent by definition
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-idempotency-key-pattern-for-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The idempotency-key pattern for POST
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementing-it-server-side" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementing it server-side
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#idempotency-vs-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Idempotency vs safety
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-designing-idempotent-order-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: designing idempotent order creation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2187,157 @@
 
 
 <h1 id="05-idempotency">05 · Idempotency<a class="headerlink" href="#05-idempotency" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 2 · Intermediate.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>An operation is <strong>idempotent</strong> if performing it multiple times has the same
+effect as performing it once. This matters enormously for APIs because
+networks are unreliable: a client might time out waiting for a response,
+retry the request, and now the server may have received the same "logical"
+request twice. Idempotency is what makes retries safe.</p>
+<h2 id="which-http-methods-are-idempotent-by-definition">Which HTTP methods are idempotent by definition<a class="headerlink" href="#which-http-methods-are-idempotent-by-definition" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Idempotent?</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td>Yes</td>
+<td>Read-only, no state change</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td>Yes</td>
+<td>Replaces a resource with a given representation — doing it twice leaves the same end state</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td>Yes</td>
+<td>Deleting an already-deleted resource still ends with it gone</td>
+</tr>
+<tr>
+<td><code>HEAD</code>, <code>OPTIONS</code></td>
+<td>Yes</td>
+<td>No state change</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td>Not guaranteed</td>
+<td>Depends on the patch semantics (see below)</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><strong>No</strong></td>
+<td>Typically creates a new resource — calling it twice creates two</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># PUT is naturally idempotent: replacing with the same body twice = same result</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>https://api.example.com/books/42<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{"title": "Dune", "price": 15}'</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>https://api.example.com/books/42<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{"title": "Dune", "price": 15}'</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Both calls leave book 42 with title "Dune", price 15. No difference.</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># POST is not: retried, it creates two orders instead of one</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/orders<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{"item": "book-42", "qty": 1}'</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/orders<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{"item": "book-42", "qty": 1}'</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># If the first request actually succeeded but the response was lost,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># the client now has two orders instead of the one it intended.</span>
+</code></pre></div>
+<p><code>PATCH</code> depends on what the patch describes: <code>{"price": 15}</code> is idempotent
+(setting an absolute value), but <code>{"price_delta": -5}</code> ("decrease price by
+5") is not — applying it twice decreases the price by 10.</p>
+<h2 id="the-idempotency-key-pattern-for-post">The idempotency-key pattern for POST<a class="headerlink" href="#the-idempotency-key-pattern-for-post" title="Permanent link">&para;</a></h2>
+<p>Since <code>POST</code> is inherently unsafe to retry, APIs that need retry-safe
+creation (payments, orders — anything where a duplicate is costly) adopt an
+<strong>idempotency key</strong>: the client generates a unique token per logical
+operation and sends it with the request. The server remembers keys it has
+already processed and returns the original result instead of repeating the
+side effect.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/payments<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Idempotency-Key: 8f14e45f-ceea-4b16-8ad3-1b3fda8b6c93"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"amount": 5000, "currency": "usd", "customer": "cus_123"}'</span>
+</code></pre></div>
+<p>First call: the server processes the payment, stores the result keyed by
+<code>8f14e45f-...</code>, and returns <code>201 Created</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/payments<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Idempotency-Key: 8f14e45f-ceea-4b16-8ad3-1b3fda8b6c93"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"amount": 5000, "currency": "usd", "customer": "cus_123"}'</span>
+</code></pre></div>
+<p>Second call (a retry after a timeout, same key): the server recognizes the
+key, does <strong>not</strong> charge the customer again, and returns the <em>original</em>
+<code>201</code> response verbatim.</p>
+<p>This is exactly how Stripe's <code>Idempotency-Key</code> header works in production —
+it's the canonical real-world example of this pattern.</p>
+<h2 id="implementing-it-server-side">Implementing it server-side<a class="headerlink" href="#implementing-it-server-side" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_payment</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">key</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Idempotency-Key"</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="k">if</span> <span class="n">key</span><span class="p">:</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="n">cached</span> <span class="o">=</span> <span class="n">idempotency_store</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="k">if</span> <span class="n">cached</span><span class="p">:</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>            <span class="k">return</span> <span class="n">cached</span><span class="o">.</span><span class="n">response</span><span class="p">,</span> <span class="n">cached</span><span class="o">.</span><span class="n">status_code</span>   <span class="c1"># replay, no new charge</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">charge_customer</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">response</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">serialize</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="mi">201</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="k">if</span> <span class="n">key</span><span class="p">:</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="n">idempotency_store</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="k">return</span> <span class="n">response</span><span class="p">,</span> <span class="n">status</span>
+</code></pre></div>
+<p>A few important details:</p>
+<ul>
+<li><strong>Scope the key to the request body too</strong> — if a client reuses a key with
+  a <em>different</em> body, that's a client bug; return <code>422 Unprocessable
+  Entity</code> rather than silently replaying the wrong result.</li>
+<li><strong>Expire keys</strong> after a reasonable window (Stripe uses 24 hours) — storing
+  them forever is unnecessary and costly.</li>
+<li><strong>Store the key atomically with the side effect</strong>, ideally in the same
+  database transaction as the payment/order row, so a crash between
+  "charge card" and "record key" can't cause a duplicate charge on retry.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Client reuses key "8f14e45f-..." but changes the amount — server must reject, not replay</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"idempotency_key_conflict"</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Idempotency-Key 8f14e45f-... was already used with a different request body."</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="idempotency-vs-safety">Idempotency vs safety<a class="headerlink" href="#idempotency-vs-safety" title="Permanent link">&para;</a></h2>
+<p>Don't confuse the two: a <strong>safe</strong> method (<code>GET</code>, <code>HEAD</code>) has no side
+effects at all. An <strong>idempotent</strong> method may have side effects, but
+repeating it doesn't compound them. <code>PUT</code> is idempotent but not safe (it
+does write data); <code>GET</code> is both safe and idempotent.</p>
+<h2 id="worked-example-designing-idempotent-order-creation">Worked example: designing idempotent order creation<a class="headerlink" href="#worked-example-designing-idempotent-order-creation" title="Permanent link">&para;</a></h2>
+<p><code>POST /orders</code> needs retry safety because a flaky mobile network is exactly
+the scenario where a client legitimately doesn't know if its request
+succeeded.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/orders<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Idempotency-Key: order-checkout-7f3a"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"cart_id": "cart_99", "payment_method": "pm_1"}'</span>
+</code></pre></div>
+<p>Client-side rule: generate the key once when the user taps "Place Order,"
+and reuse the <em>same</em> key for every retry of that specific checkout attempt
+(store it in memory/local state until success or a final failure). A new
+tap of "Place Order" — a genuinely new checkout attempt — gets a new key.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Classify <code>DELETE /books/42</code> called three times in a row. Is it
+   idempotent even though the second and third calls return <code>404</code> instead
+   of <code>204</code>? Justify your answer against the definition above.</li>
+<li>A client retries a <code>PATCH /accounts/7 {"balance_delta": -100}</code> request
+   after a timeout, and the first request had actually succeeded. Walk
+   through the resulting bug, then redesign the endpoint to be safely
+   retryable.</li>
+<li>Why must the idempotency store check the request body, not just the
+   key, before replaying a cached response?</li>
+<li>Design the idempotency-key storage schema (columns/fields) needed to
+   safely replay both the response body and the original status code.</li>
+</ol>
 
 
 

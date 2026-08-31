@@ -2,186 +2,186 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/privacy/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-1/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-1/01-what-is-rest/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-1/02-http-methods-status-codes/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-1/03-url-resource-design/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-1/04-request-response-anatomy/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-1/05-query-vs-path-params/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-1/06-curl-httpie-postman/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-1/07-authentication-basics/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-1/08-error-handling-conventions/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-1/09-versioning-basics/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-1/10-capstone-bookshelf-api/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-2/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-2/01-pagination/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-2/02-filtering-sorting/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-2/03-hateoas-basics/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-2/04-openapi-swagger-basics/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-2/05-idempotency/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-2/06-rate-limiting/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-2/07-caching-headers/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-2/08-content-negotiation/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-2/09-bulk-operations/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-2/10-project-paginated-api/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-3/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-3/01-oauth2-flows/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-3/02-webhooks/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-3/03-api-gateways-basics/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-3/04-graphql-vs-rest/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-3/05-api-testing-strategy/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-3/06-backward-compatibility-deprecation/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-3/07-api-documentation/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-3/08-grpc-alternatives/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-3/09-monitoring-observability/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-3/10-project-oauth2-webhooks/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-4/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-4/01-microservices-api-patterns/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-4/02-api-security-hardening/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-4/03-performance-at-scale/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-4/04-public-developer-apis/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-4/05-api-governance/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-4/06-multi-region-ha/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-4/07-event-driven-apis/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-4/08-api-monetization/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-4/09-zero-downtime-migrations/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
     <url>
          <loc>https://sigilipelli.github.io/rest-api-mastery-path/level-4/10-capstone-project/</loc>
-         <lastmod>2026-08-29</lastmod>
+         <lastmod>2026-08-31</lastmod>
     </url>
 </urlset>

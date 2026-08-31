@@ -1746,6 +1746,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Performance at Scale
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1762,6 +1780,113 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#layered-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layered caching
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-level-caching-with-redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Application-level caching with Redis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-pooling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection pooling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#async-processing-dont-make-the-client-wait-for-slow-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Async processing: don't make the client wait for slow work
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load-testing-to-find-the-breaking-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load testing to find the breaking point
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#n1-queries-the-silent-killer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        N+1 queries: the silent killer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-diagnosing-a-slowdown-under-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: diagnosing a slowdown under load
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2116,102 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#layered-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layered caching
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-level-caching-with-redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Application-level caching with Redis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-pooling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection pooling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#async-processing-dont-make-the-client-wait-for-slow-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Async processing: don't make the client wait for slow work
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load-testing-to-find-the-breaking-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load testing to find the breaking point
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#n1-queries-the-silent-killer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        N+1 queries: the silent killer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-diagnosing-a-slowdown-under-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: diagnosing a slowdown under load
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2231,117 @@
 
 
 <h1 id="03-performance-at-scale">03 · Performance at Scale<a class="headerlink" href="#03-performance-at-scale" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>An API that's fast at 10 requests/second can fall over at 10,000. This
+module covers the techniques that keep latency flat as load grows:
+caching layers, connection pooling, async processing, and load testing
+to find the breaking point before your customers do.</p>
+<h2 id="layered-caching">Layered caching<a class="headerlink" href="#layered-caching" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Client → CDN (edge cache) → API gateway → application cache (Redis) → database
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nf">GET</span> <span class="nn">/v1/products/101</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">Cache-Control</span><span class="o">:</span> <span class="l">public, max-age=300</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="na">X-Cache</span><span class="o">:</span> <span class="l">HIT (edge)</span>
+</code></pre></div>
+<p>A public, cacheable product listing gets served entirely from the CDN
+edge for 5 minutes — the origin server never even sees most of that
+traffic. Contrast with the private, per-user caching from Level 2's
+ETag example, which still hits the origin but skips the database.</p>
+<h2 id="application-level-caching-with-redis">Application-level caching with Redis<a class="headerlink" href="#application-level-caching-with-redis" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_product</span><span class="p">(</span><span class="n">product_id</span><span class="p">):</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">cached</span> <span class="o">=</span> <span class="n">redis</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">"product:</span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="k">if</span> <span class="n">cached</span><span class="p">:</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cached</span><span class="p">)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">product</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"SELECT * FROM products WHERE id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">product_id</span><span class="p">)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">redis</span><span class="o">.</span><span class="n">setex</span><span class="p">(</span><span class="sa">f</span><span class="s2">"product:</span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">product</span><span class="p">))</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="k">return</span> <span class="n">product</span>
+</code></pre></div>
+<p>Cache invalidation on write, not just time-based expiry:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">update_product</span><span class="p">(</span><span class="n">product_id</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"UPDATE products SET ... WHERE id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">product_id</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">redis</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="sa">f</span><span class="s2">"product:</span><span class="si">{</span><span class="n">product_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># next read repopulates the cache</span>
+</code></pre></div>
+<h2 id="connection-pooling">Connection pooling<a class="headerlink" href="#connection-pooling" title="Permanent link">&para;</a></h2>
+<p>Opening a new database connection per request is expensive (TCP
+handshake, auth). A pool keeps connections warm and reused:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">pool</span> <span class="o">=</span> <span class="n">ConnectionPool</span><span class="p">(</span><span class="n">min_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_request</span><span class="p">():</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="k">with</span> <span class="n">pool</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        <span class="k">return</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+<p>Under load, a pool that's too small causes requests to queue waiting
+for a connection (visible as a saturation metric, module 9 in Level 3);
+too large and the database itself gets overwhelmed by connection
+overhead. Sizing it is a measured trade-off, not a guess.</p>
+<h2 id="async-processing-dont-make-the-client-wait-for-slow-work">Async processing: don't make the client wait for slow work<a class="headerlink" href="#async-processing-dont-make-the-client-wait-for-slow-work" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/v1/reports<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"type": "annual_sales"}'</span>
+</code></pre></div>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"report_88"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"processing"</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<code>HTTP/1.1 202 Accepted</code></p>
+<p>Generating the report might take two minutes; the client gets an
+immediate <code>202</code> and a job ID, then polls or receives a webhook (Level 3
+module 2) when it's done:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>https://api.example.com/v1/reports/report_88<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"report_88"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w"> </span><span class="nt">"download_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://..."</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<h2 id="load-testing-to-find-the-breaking-point">Load testing to find the breaking point<a class="headerlink" href="#load-testing-to-find-the-breaking-point" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>k6<span class="w"> </span>run<span class="w"> </span>--vus<span class="w"> </span><span class="m">200</span><span class="w"> </span>--duration<span class="w"> </span>60s<span class="w"> </span>loadtest.js
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>http_req_duration.....: avg=45ms  p95=210ms  p99=890ms
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>http_req_failed.......: 0.4%
+</code></pre></div>
+<p>Ramping virtual users up until latency or error rate crosses an
+acceptable threshold reveals the actual capacity of a system —
+"handles 200 concurrent users at p99 under 1s" is a number you can plan
+capacity and alerting thresholds around; "it feels fast" is not.</p>
+<h2 id="n1-queries-the-silent-killer">N+1 queries: the silent killer<a class="headerlink" href="#n1-queries-the-silent-killer" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># N+1: one query for orders, then one MORE query per order for its items</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">orders</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"SELECT * FROM orders WHERE user_id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">user_id</span><span class="p">)</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">:</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="n">order</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"SELECT * FROM items WHERE order_id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># fixed: one query total, joined or batched</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">orders</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"""</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="s2">    SELECT orders.*, items.* FROM orders</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="s2">    JOIN items ON items.order_id = orders.id</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="s2">    WHERE orders.user_id = </span><span class="si">%s</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="s2">"""</span><span class="p">,</span> <span class="n">user_id</span><span class="p">)</span>
+</code></pre></div>
+<p>At low traffic, N+1 is invisible. At scale, an endpoint that fires 50
+extra queries per request multiplies database load 50x under
+concurrency — this is one of the most common causes of "it was fine in
+staging, it fell over in production."</p>
+<h2 id="worked-example-diagnosing-a-slowdown-under-load">Worked example: diagnosing a slowdown under load<a class="headerlink" href="#worked-example-diagnosing-a-slowdown-under-load" title="Permanent link">&para;</a></h2>
+<p>A load test shows <code>p99</code> latency degrading sharply past 100 concurrent
+users, though <code>p50</code> stays fine.</p>
+<ol>
+<li>Check saturation metrics: the DB connection pool is maxed at 50
+   during the test — requests above that queue for a connection.</li>
+<li>A trace on a slow request shows most of its time spent waiting to
+   <em>acquire</em> a connection, not executing the query itself.</li>
+<li>Fix: increase pool size <em>and</em> add Redis caching for the specific
+   read-heavy endpoint causing the pressure, cutting DB query volume
+   directly instead of just widening the pipe.</li>
+<li>Re-run the load test: <code>p99</code> now holds flat past 300 concurrent users.</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Why does a CDN cache reduce origin load more effectively than an
+   application-level Redis cache, for public, non-personalized data?</li>
+<li>Explain why cache invalidation on write is necessary even with a
+   short TTL — what's the user-visible symptom if you skip it?</li>
+<li>Design the async job pattern for an endpoint that resizes an
+   uploaded image — what should the immediate response look like, and
+   how does the client learn when it's done?</li>
+<li>A load test shows <code>p50</code> latency is fine but <code>p99</code> is terrible. What
+   does that gap usually indicate, and what would you check first?</li>
+</ol>
 
 
 

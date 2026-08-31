@@ -1690,6 +1690,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Microservices API Design Patterns
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1706,6 +1724,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#database-per-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database-per-service
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-api-composition-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The API composition pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backend-for-frontend-bff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend-for-Frontend (BFF)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-failure-a-downstream-service-is-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Handling failure: a downstream service is down
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saga-pattern-distributed-transactions-without-a-shared-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saga pattern: distributed transactions without a shared database
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-designing-the-order-placement-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: designing the order-placement flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#database-per-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database-per-service
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-api-composition-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The API composition pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backend-for-frontend-bff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend-for-Frontend (BFF)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-failure-a-downstream-service-is-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Handling failure: a downstream service is down
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saga-pattern-distributed-transactions-without-a-shared-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saga pattern: distributed transactions without a shared database
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-designing-the-order-placement-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: designing the order-placement flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,100 @@
 
 
 <h1 id="01-microservices-api-design-patterns">01 · Microservices API Design Patterns<a class="headerlink" href="#01-microservices-api-design-patterns" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Once an API is backed by many independently-deployed services rather
+than one monolith, new design questions appear: who owns which data,
+how do services talk to each other, and how does a client-facing
+request survive one of those services being slow or down.</p>
+<h2 id="database-per-service">Database-per-service<a class="headerlink" href="#database-per-service" title="Permanent link">&para;</a></h2>
+<p>Each microservice owns its own database; no service reaches directly
+into another's tables.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>orders-service   → orders_db     (orders, order_items)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>users-service    → users_db      (users, addresses)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>inventory-service → inventory_db (stock_levels)
+</code></pre></div>
+<p><code>orders-service</code> never runs <code>SELECT * FROM users</code>. If it needs a user's
+name, it calls <code>users-service</code>'s API — exactly like an external client
+would. This is what makes services independently deployable: no one can
+break another team's queries by changing a table they don't own.</p>
+<h2 id="the-api-composition-pattern">The API composition pattern<a class="headerlink" href="#the-api-composition-pattern" title="Permanent link">&para;</a></h2>
+<p>When a client-facing endpoint needs data owned by multiple services,
+something has to compose it. Usually an API gateway or backend-for-
+frontend layer (module 3, Level 3) does this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>https://api.example.com/v1/orders/42/summary<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"order"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mf">89.99</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nt">"customer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ada"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nt">"item_names"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Widget"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Gadget"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Internally this is three calls (<code>orders-service</code>, <code>users-service</code>,
+<code>inventory-service</code>) merged by the composing layer, not by the client.</p>
+<h2 id="backend-for-frontend-bff">Backend-for-Frontend (BFF)<a class="headerlink" href="#backend-for-frontend-bff" title="Permanent link">&para;</a></h2>
+<p>Different clients need different shapes from the same underlying
+services. A mobile app wants a lean payload; a web dashboard wants
+everything.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Mobile BFF  → GET /mobile/v1/orders/42   → { id, total, status }
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Web BFF     → GET /web/v1/orders/42      → { id, total, status, items[], customer{}, history[] }
+</code></pre></div>
+<p>Each BFF is a thin, client-specific layer over the same core services —
+it avoids either bloating one shared endpoint with every possible field,
+or forcing every client to do its own composition.</p>
+<h2 id="handling-failure-a-downstream-service-is-down">Handling failure: a downstream service is down<a class="headerlink" href="#handling-failure-a-downstream-service-is-down" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">"order"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mf">89.99</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">"customer"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">"_warnings"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"customer service unavailable, showing partial data"</span><span class="p">]</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>A <strong>circuit breaker</strong> in the composing layer detects <code>users-service</code>
+failing repeatedly, stops calling it for a cooldown period (failing
+fast instead of piling up slow timeouts), and the composed response
+degrades gracefully rather than the whole <code>/orders/42/summary</code> call
+failing just because one non-critical field is unavailable.</p>
+<h2 id="saga-pattern-distributed-transactions-without-a-shared-database">Saga pattern: distributed transactions without a shared database<a class="headerlink" href="#saga-pattern-distributed-transactions-without-a-shared-database" title="Permanent link">&para;</a></h2>
+<p>Placing an order touches three services: reserve inventory, charge
+payment, create the order record. There's no single database
+transaction spanning all three. A <strong>saga</strong> runs it as a sequence of
+local transactions with compensating actions on failure:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>1. inventory-service: reserve 2 units          → succeeds
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>2. payments-service: charge $89.99             → FAILS (card declined)
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>3. compensate: inventory-service releases the 2 units reserved in step 1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://internal.example.com/inventory/reserve<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{"item_id": 5, "qty": 2}'</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://internal.example.com/payments/charge<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{"amount": 89.99}'</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># → 402 Payment Required</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://internal.example.com/inventory/release<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{"item_id": 5, "qty": 2}'</span>
+</code></pre></div>
+<p>No global lock, no two-phase commit across services — just a defined
+compensating action for every step, run in reverse on failure.</p>
+<h2 id="worked-example-designing-the-order-placement-flow">Worked example: designing the order-placement flow<a class="headerlink" href="#worked-example-designing-the-order-placement-flow" title="Permanent link">&para;</a></h2>
+<p>For an e-commerce platform split into <code>orders</code>, <code>inventory</code>, and
+<code>payments</code> services:</p>
+<ol>
+<li>Client calls <code>POST /v1/orders</code> on the gateway.</li>
+<li><code>orders-service</code> orchestrates the saga: reserve inventory → charge
+   payment → mark order confirmed.</li>
+<li>If any step fails, run compensations for every step that already
+   succeeded, and return the client a clear error (<code>402
+   payment_failed</code>, not a generic <code>500</code>).</li>
+<li>On success, <code>orders-service</code> publishes an <code>order.confirmed</code> event
+   (module 7) that <code>inventory-service</code> and <code>notifications-service</code> react
+   to independently, rather than <code>orders-service</code> calling them directly
+   and coupling to their availability.</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Why does database-per-service make independent deployability
+   possible in a way that a shared database across services doesn't?</li>
+<li>Design the compensating action for a saga step that sends a
+   confirmation email — is a compensation even needed here, and why or
+   why not?</li>
+<li>A circuit breaker trips on <code>users-service</code>. What should the
+   composing layer return to the client, and what HTTP status code is
+   appropriate for a partially-degraded response?</li>
+<li>Compare API composition (gateway calls multiple services
+   synchronously) with an event-driven approach (module 7) for keeping
+   an <code>orders</code> read-model in sync with <code>inventory</code> changes — what's the
+   trade-off?</li>
+</ol>
 
 
 

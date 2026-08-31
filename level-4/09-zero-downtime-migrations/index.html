@@ -1914,6 +1914,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Zero-Downtime Deployments & Migrations
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1930,6 +1948,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rolling-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rolling deployments
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-danger-window-two-versions-running-at-once" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The danger window: two versions running at once
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-expand-contract-pattern-for-database-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The expand-contract pattern for database migrations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-level-compatibility-during-rollout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API-level compatibility during rollout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blue-green-deployment-an-alternative-to-rolling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blue-green deployment: an alternative to rolling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-a-real-migration-end-to-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: a real migration end to end
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rolling-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rolling deployments
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-danger-window-two-versions-running-at-once" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The danger window: two versions running at once
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-expand-contract-pattern-for-database-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The expand-contract pattern for database migrations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-level-compatibility-during-rollout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API-level compatibility during rollout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blue-green-deployment-an-alternative-to-rolling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blue-green deployment: an alternative to rolling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-a-real-migration-end-to-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: a real migration end to end
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,112 @@
 
 
 <h1 id="09-zero-downtime-deployments-migrations">09 · Zero-Downtime Deployments &amp; Migrations<a class="headerlink" href="#09-zero-downtime-deployments-migrations" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Shipping a change to a live API without an outage — no dropped
+requests, no downtime window, no "maintenance mode" — requires
+deliberate technique at both the deployment and database layers.</p>
+<h2 id="rolling-deployments">Rolling deployments<a class="headerlink" href="#rolling-deployments" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>t0: [old, old, old, old]   4 instances, all serving traffic
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>t1: [new, old, old, old]   1 instance replaced, health-checked before receiving traffic
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>t2: [new, new, old, old]
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>t3: [new, new, new, old]
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>t4: [new, new, new, new]   fully rolled out
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>https://api.example.com/healthz
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"healthy"</span><span class="p">,</span><span class="w"> </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.4.1"</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>The load balancer only routes traffic to instances passing health
+checks; a new instance that fails its health check is never sent live
+traffic, and the rollout halts automatically rather than taking the
+whole fleet down with a bad build.</p>
+<h2 id="the-danger-window-two-versions-running-at-once">The danger window: two versions running at once<a class="headerlink" href="#the-danger-window-two-versions-running-at-once" title="Permanent link">&para;</a></h2>
+<p>During a rolling deploy, <strong>both old and new code are serving traffic
+simultaneously</strong> — for anywhere from seconds to minutes. Any change
+that isn't compatible with itself running alongside the previous
+version breaks requests during that window, even though the final
+state (all-new) is fine.</p>
+<h2 id="the-expand-contract-pattern-for-database-migrations">The expand-contract pattern for database migrations<a class="headerlink" href="#the-expand-contract-pattern-for-database-migrations" title="Permanent link">&para;</a></h2>
+<p>Renaming a column outright breaks whichever code version doesn't expect
+the new name, for the entire rollout window. The safe path splits it
+into independent, individually-safe deploys:</p>
+<p><strong>Expand</strong> — add the new column, write to both, without removing the
+old one yet:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">total_amount</span><span class="w"> </span><span class="nb">NUMERIC</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_order</span><span class="p">(</span><span class="n">total</span><span class="p">):</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>        <span class="s2">"INSERT INTO orders (total, total_amount) VALUES (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="n">total</span><span class="p">,</span> <span class="n">total</span>  <span class="c1"># write both columns during the transition</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="p">)</span>
+</code></pre></div>
+<p>Deploy this. Old and new instances both work fine — old code doesn't
+know <code>total_amount</code> exists and doesn't need to.</p>
+<p><strong>Migrate</strong> — backfill existing rows, then switch reads to the new
+column:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">total_amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">total_amount</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_order</span><span class="p">(</span><span class="nb">id</span><span class="p">):</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">row</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"SELECT total_amount AS total FROM orders WHERE id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+</code></pre></div>
+<p>Deploy this only after every row is backfilled — otherwise old rows
+read as <code>null</code>.</p>
+<p><strong>Contract</strong> — once every instance is running code that only uses
+<code>total_amount</code>, and enough time has passed that you're confident
+nothing external still depends on <code>total</code>, drop the old column:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">DROP</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">total</span><span class="p">;</span>
+</code></pre></div>
+<p>Three independent deploys, each individually safe with both old and
+new code running simultaneously — versus one deploy that's broken for
+the entire rollout window.</p>
+<h2 id="api-level-compatibility-during-rollout">API-level compatibility during rollout<a class="headerlink" href="#api-level-compatibility-during-rollout" title="Permanent link">&para;</a></h2>
+<p>The same principle applies to the API surface, not just the database:
+a response field being added or removed must also survive the mixed-
+version window, which is exactly why module 6 (Level 3) insists new
+fields are additive and old fields aren't dropped until a full
+deprecation cycle completes — a rolling deploy is a live, if brief,
+demonstration of the same compatibility rules deprecation policy
+enforces over a longer timescale.</p>
+<h2 id="blue-green-deployment-an-alternative-to-rolling">Blue-green deployment: an alternative to rolling<a class="headerlink" href="#blue-green-deployment-an-alternative-to-rolling" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Blue (live, v1)   ← 100% traffic
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Green (staged, v2) ← 0% traffic, fully deployed, health-checked
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a># cutover: flip traffic atomically
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>Blue (v1)          ← 0% traffic
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Green (v2)         ← 100% traffic
+</code></pre></div>
+<p>No mixed-version window at all — traffic switches from one complete
+environment to another in one step. Trades the rolling deploy's gradual
+exposure (a bad build only affects a fraction of instances briefly) for
+an instant, all-or-nothing cutover that's trivially reversible (flip
+back to blue) if something's wrong.</p>
+<h2 id="worked-example-a-real-migration-end-to-end">Worked example: a real migration end to end<a class="headerlink" href="#worked-example-a-real-migration-end-to-end" title="Permanent link">&para;</a></h2>
+<p>Renaming <code>orders.total</code> to <code>orders.total_amount</code> across an API with
+multiple running instances:</p>
+<ol>
+<li><strong>Deploy 1 (expand)</strong>: add <code>total_amount</code>, write to both columns,
+   API still returns <code>total</code> only. Safe during rollout — no reader
+   depends on <code>total_amount</code> yet.</li>
+<li><strong>Backfill</strong>: run the <code>UPDATE</code> migration against existing rows,
+   off-peak, in batches to avoid locking the table.</li>
+<li><strong>Deploy 2 (migrate reads, add field)</strong>: API response now includes
+   both <code>total</code> and <code>total_amount</code>; internal reads use <code>total_amount</code>.</li>
+<li><strong>Deprecation window</strong> (Level 3, module 6): announce <code>total</code> as
+   deprecated with a sunset date; monitor which clients still read it.</li>
+<li><strong>Deploy 3 (contract)</strong>: once usage of <code>total</code> drops to zero (or the
+   sunset date passes), remove it from the response and drop the
+   column.</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Why does renaming a column in one step break requests during a
+   rolling deploy, even though the deploy fully succeeds in the end?</li>
+<li>Explain what would go wrong if step 2 (migrate reads) shipped before
+   step 1's expand deploy had reached 100% of instances.</li>
+<li>Compare rolling deployment and blue-green: which limits the blast
+   radius of a bad build better, and which makes rollback faster?</li>
+<li>Design the expand-contract steps for adding a <code>NOT NULL</code> constraint
+   to an existing nullable column without downtime.</li>
+</ol>
 
 
 

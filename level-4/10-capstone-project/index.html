@@ -1940,6 +1940,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Capstone Project
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1956,6 +1974,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-brief" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The brief
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-resource-design-level-1-foundations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Resource design &amp; Level 1 foundations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-level-2-pagination-caching-idempotency-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Level 2: pagination, caching, idempotency, rate limiting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-level-3-oauth2-webhooks-gateway-docs-testing-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Level 3: OAuth2, webhooks, gateway, docs, testing, monitoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-level-4-architecture-at-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Level 4: architecture at scale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deliverable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deliverable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1989,6 +2103,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-brief" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The brief
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-resource-design-level-1-foundations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Resource design &amp; Level 1 foundations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-level-2-pagination-caching-idempotency-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Level 2: pagination, caching, idempotency, rate limiting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-level-3-oauth2-webhooks-gateway-docs-testing-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Level 3: OAuth2, webhooks, gateway, docs, testing, monitoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-level-4-architecture-at-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Level 4: architecture at scale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deliverable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deliverable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2008,8 +2207,113 @@
 
 
 <h1 id="10-capstone-project">10 · Capstone Project<a class="headerlink" href="#10-capstone-project" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Design and describe a production-grade API platform end to end,
+bringing together every module from all four levels. This is a design
+exercise: work through each decision below the way you would in a real
+architecture review, and be able to justify it.</p>
+<h2 id="the-brief">The brief<a class="headerlink" href="#the-brief" title="Permanent link">&para;</a></h2>
+<p>You're building <strong>OrderFlow</strong>, a public API letting third-party
+e-commerce platforms manage orders, inventory, and payments through
+your service, at a scale of tens of thousands of requests per second
+across multiple continents, monetized as a paid product.</p>
+<h2 id="1-resource-design-level-1-foundations">1. Resource design &amp; Level 1 foundations<a class="headerlink" href="#1-resource-design-level-1-foundations" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>https://api.orderflow.example.com/v1/orders/42<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer sk_live_..."</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"confirmed"</span><span class="p">,</span><span class="w"> </span><span class="nt">"total_amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">89.99</span><span class="p">,</span><span class="w"> </span><span class="nt">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/orders/42"</span><span class="p">,</span><span class="w"> </span><span class="nt">"items"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/orders/42/items"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Resources: <code>orders</code>, <code>items</code>, <code>inventory</code>, <code>refunds</code> — nouns, proper
+status codes, consistent error envelope from day one.</p>
+<h2 id="2-level-2-pagination-caching-idempotency-rate-limiting">2. Level 2: pagination, caching, idempotency, rate limiting<a class="headerlink" href="#2-level-2-pagination-caching-idempotency-rate-limiting" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span><span class="s2">"https://api.orderflow.example.com/v1/orders?limit=50&amp;cursor=..."</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Idempotency-Key: create-order-8f2e"</span>
+</code></pre></div>
+<p>Cursor pagination for the ever-growing orders collection, <code>ETag</code>
+caching on read-heavy <code>GET /v1/inventory/{sku}</code>, idempotency keys on
+every <code>POST</code>, and per-account rate limits enforced at the gateway.</p>
+<h2 id="3-level-3-oauth2-webhooks-gateway-docs-testing-monitoring">3. Level 3: OAuth2, webhooks, gateway, docs, testing, monitoring<a class="headerlink" href="#3-level-3-oauth2-webhooks-gateway-docs-testing-monitoring" title="Permanent link">&para;</a></h2>
+<ul>
+<li>OAuth2 client-credentials flow for server-to-server partner
+  integrations; Authorization Code + PKCE for any OrderFlow-hosted
+  dashboard.</li>
+<li>Webhooks (<code>order.confirmed</code>, <code>refund.issued</code>) signed and retried with
+  backoff, so partners don't have to poll.</li>
+<li>A gateway terminating TLS, validating tokens once, and routing to
+  <code>orders-service</code>, <code>inventory-service</code>, <code>payments-service</code>.</li>
+<li>OpenAPI-generated reference docs, a quickstart, and a changelog with
+  <code>Deprecation</code>/<code>Sunset</code> headers ready for the inevitable <code>v2</code>.</li>
+<li>A test pyramid: unit tests for pricing logic, integration tests
+  against a staging database, contract tests validating every response
+  against the OpenAPI spec in CI, and a handful of end-to-end checkout
+  journeys.</li>
+<li>Structured logs with <code>request_id</code>, RED metrics (Rate/Errors/
+  Duration) per endpoint, and distributed tracing across the three
+  services.</li>
+</ul>
+<h2 id="4-level-4-architecture-at-scale">4. Level 4: architecture at scale<a class="headerlink" href="#4-level-4-architecture-at-scale" title="Permanent link">&para;</a></h2>
+<p><strong>Microservices &amp; sagas</strong> — placing an order runs as a saga across
+<code>inventory-service</code> (reserve), <code>payments-service</code> (charge), and
+<code>orders-service</code> (confirm), with compensating actions if any step
+fails, and an outbox-pattern event (<code>order.confirmed</code>) published only
+after the local transaction commits.</p>
+<p><strong>Security hardening</strong> — every resource lookup filters by the
+authenticated partner's <code>account_id</code>, closing BOLA; mass-assignment is
+prevented by explicit per-endpoint field allowlists; CORS is locked to
+an explicit allowlist for any browser-facing dashboard.</p>
+<p><strong>Performance</strong> — Redis caches hot inventory reads with write-time
+invalidation; slow report generation (<code>GET /v1/reports/monthly</code>) runs
+async, returning <code>202</code> with a job ID; load testing establishes a
+verified capacity (e.g. p99 &lt; 300ms at 5,000 req/s) before launch.</p>
+<p><strong>Multi-region</strong> — active-active in <code>us-east-1</code> and <code>eu-central-1</code>,
+GeoDNS routing reads to the nearest healthy region, writes routed to a
+per-account home region to avoid cross-region write latency, with
+documented RPO/RTO for regional failover.</p>
+<p><strong>Governance</strong> — a style guide (cursor pagination, integer-cents money
+fields, the standard error envelope) enforced by CI lint on every new
+endpoint any team adds, plus design-first spec review for anything
+introducing a new pattern.</p>
+<p><strong>Event-driven</strong> — <code>order.confirmed</code> and <code>refund.issued</code> flow through
+Kafka to <code>analytics-service</code> and <code>notifications-service</code>, each
+consuming idempotently and independently, decoupled from
+<code>orders-service</code>'s own availability.</p>
+<p><strong>Monetization</strong> — a free tier (1,000 calls/mo) and paid tiers with
+overage billing, usage metered asynchronously via the same event
+stream, a live usage dashboard, and <code>429 quota_exceeded</code> responses that
+clearly point at the upgrade path.</p>
+<p><strong>Zero-downtime evolution</strong> — any schema change follows expand-migrate-
+contract; deploys are rolling with health-checked instances; the
+platform has shipped and fully sunset a <code>v1</code> field rename without a
+single customer-facing incident.</p>
+<h2 id="deliverable">Deliverable<a class="headerlink" href="#deliverable" title="Permanent link">&para;</a></h2>
+<p>Produce, for OrderFlow:</p>
+<ol>
+<li>An OpenAPI spec covering <code>orders</code>, <code>inventory</code>, <code>refunds</code>, and
+   <code>webhooks</code>.</li>
+<li>A one-page architecture diagram showing the gateway, the three
+   services, the message broker, and the multi-region layout.</li>
+<li>A written justification (a few paragraphs) for three of your
+   biggest design decisions — e.g. why sagas over distributed
+   transactions, why active-active over active-passive, why cursor
+   over offset pagination — referencing the specific trade-offs covered
+   in the relevant module.</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Walk through what happens, end to end, when a partner's <code>POST
+   /v1/orders</code> call succeeds: every module from this capstone that
+   touches that single request, in order.</li>
+<li>Now walk through what happens when the same call's payment step
+   fails midway — the saga compensation, the client-facing error, and
+   what (if anything) gets published as an event.</li>
+<li>A partner reports intermittent <code>404</code>s on an order they just created
+   moments earlier, from a different API call. Which Level 4 concept
+   explains this, and what's the fix?</li>
+<li>Six months post-launch, you need to rename <code>total_amount</code> again to
+   <code>amount_total</code> after a company-wide naming standard changes. Lay out
+   the full multi-deploy plan, referencing the specific pattern that
+   makes it safe.</li>
+</ol>
 
 
 

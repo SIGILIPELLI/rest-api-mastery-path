@@ -1886,6 +1886,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · API Monetization & Developer Portals
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1902,6 +1920,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#metering-counting-what-customers-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metering: counting what customers use
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pricing-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pricing models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-dashboards-self-service-visibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage dashboards: self-service visibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-developer-portal-as-the-whole-self-service-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The developer portal as the whole self-service loop
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-designing-quota-enforcement-without-hurting-reliability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: designing quota enforcement without hurting reliability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#metering-counting-what-customers-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metering: counting what customers use
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pricing-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pricing models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-dashboards-self-service-visibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage dashboards: self-service visibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-developer-portal-as-the-whole-self-service-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The developer portal as the whole self-service loop
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-designing-quota-enforcement-without-hurting-reliability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: designing quota enforcement without hurting reliability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2187,101 @@
 
 
 <h1 id="08-api-monetization-developer-portals">08 · API Monetization &amp; Developer Portals<a class="headerlink" href="#08-api-monetization-developer-portals" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Some APIs are the product itself — customers pay directly for access.
+This module covers metering usage, billing for it, and the developer
+portal experience that makes a paid API self-service.</p>
+<h2 id="metering-counting-what-customers-use">Metering: counting what customers use<a class="headerlink" href="#metering-counting-what-customers-use" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>https://api.example.com/v1/geocode?address<span class="o">=</span><span class="m">1600</span>+Amphitheatre+Pkwy<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer sk_live_..."</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">X-Usage-Billed</span><span class="o">:</span> <span class="l">1</span>
+</code></pre></div>
+<p>Every billable call increments a per-account usage counter, typically
+recorded asynchronously (so metering never adds latency to the actual
+response) via the same event-driven pattern from module 7:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api_call.billed"</span><span class="p">,</span><span class="w"> </span><span class="nt">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"acct_42"</span><span class="p">,</span><span class="w"> </span><span class="nt">"endpoint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/geocode"</span><span class="p">,</span><span class="w"> </span><span class="nt">"units"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<h2 id="pricing-models">Pricing models<a class="headerlink" href="#pricing-models" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Tier        | Included calls/mo | Overage       | Price
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>------------|--------------------|--------------|----------
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Free         | 1,000             | blocked       | $0
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Pro          | 100,000           | $0.001/call  | $49/mo
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Enterprise   | Custom            | Custom        | Custom (negotiated)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span>https://api.example.com/v1/geocode<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$FREE_TIER_KEY</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"quota_exceeded"</span><span class="p">,</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Free tier limit of 1,000 calls/mo reached. Upgrade at https://example.com/pricing"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><code>HTTP/1.1 429 Too Many Requests</code></p>
+<p>Unlike the rate limiting in Level 2 (fairness, resets every window),
+quota exhaustion here is a <em>billing</em> boundary — it resets on the
+billing cycle, not every minute, and the fix for the customer is
+upgrading a plan, not waiting 60 seconds.</p>
+<h2 id="usage-dashboards-self-service-visibility">Usage dashboards: self-service visibility<a class="headerlink" href="#usage-dashboards-self-service-visibility" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>https://api.example.com/v1/account/usage<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$DASHBOARD_TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-08"</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">"calls_used"</span><span class="p">:</span><span class="w"> </span><span class="mi">84213</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">"calls_included"</span><span class="p">:</span><span class="w"> </span><span class="mi">100000</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nt">"projected_overage_cost_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.00</span><span class="p">,</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nt">"breakdown"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"/v1/geocode"</span><span class="p">:</span><span class="w"> </span><span class="mi">71000</span><span class="p">,</span><span class="w"> </span><span class="nt">"/v1/reverse-geocode"</span><span class="p">:</span><span class="w"> </span><span class="mi">13213</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">}</span>
+</code></pre></div>
+<p>Giving developers this data directly, in real time, avoids the worst
+outcome for a paid API: a customer discovering a huge bill at the end
+of the month with no way to have seen it coming.</p>
+<h2 id="the-developer-portal-as-the-whole-self-service-loop">The developer portal as the whole self-service loop<a class="headerlink" href="#the-developer-portal-as-the-whole-self-service-loop" title="Permanent link">&para;</a></h2>
+<p>A monetized API's portal typically bundles:</p>
+<ul>
+<li>Sign-up → key generation (module 4)</li>
+<li>Interactive docs and quickstart (Level 3, module 7)</li>
+<li>Live usage dashboard (above)</li>
+<li>Billing/invoices and plan upgrade, self-service, no sales call needed
+  for the lower tiers</li>
+<li>Support ticket / community forum link</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/v1/account/plan<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$DASHBOARD_TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"plan": "pro"}'</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"plan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pro"</span><span class="p">,</span><span class="w"> </span><span class="nt">"effective"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-09-01"</span><span class="p">,</span><span class="w"> </span><span class="nt">"next_invoice_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">49.00</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<h2 id="worked-example-designing-quota-enforcement-without-hurting-reliability">Worked example: designing quota enforcement without hurting reliability<a class="headerlink" href="#worked-example-designing-quota-enforcement-without-hurting-reliability" title="Permanent link">&para;</a></h2>
+<p>A naive implementation checks quota synchronously against a database on
+every single call — adding latency and a new point of failure to every
+request, and risking overselling if two concurrent requests both read
+"999 of 1000 used" before either writes back 1000.</p>
+<p>A better design:</p>
+<ol>
+<li>Maintain a fast, in-memory (Redis) counter per account, incremented
+   atomically (<code>INCR</code>) on every call — no read-then-write race.</li>
+<li>Check the counter against the plan's limit synchronously (this part
+   must be fast and correct) — return <code>429 quota_exceeded</code> immediately
+   if over.</li>
+<li>Asynchronously reconcile the fast counter against the durable
+   billing ledger (via the event stream from module 7) for accurate
+   invoicing, decoupled from the hot request path.</li>
+<li>Reset the counter on the billing cycle boundary, not a rolling
+   window.</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Why is a naive read-then-write quota check subject to a race
+   condition under concurrent requests, and how does an atomic
+   increment (<code>INCR</code>) fix it?</li>
+<li>Explain the difference between rate limiting (Level 2, module 9) and
+   billing quota enforcement — why do they need different reset
+   windows and different client-facing remedies?</li>
+<li>Design the response body and status code for a customer who's 80%
+   through their monthly quota — should this ever be surfaced
+   proactively, and how?</li>
+<li>A customer disputes an invoice, claiming the usage count is wrong.
+   What data would you need to have been logging all along to resolve
+   this dispute with confidence?</li>
+</ol>
 
 
 

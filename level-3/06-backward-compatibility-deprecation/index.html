@@ -1456,6 +1456,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · Backward Compatibility & Deprecation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1472,6 +1490,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-vs-non-breaking-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Breaking vs. non-breaking changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versioning-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Versioning strategies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deprecation-done-properly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deprecation, done properly
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-retiring-v1orders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: retiring v1/orders
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additive-only-evolution-within-a-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additive-only evolution within a version
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-vs-non-breaking-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Breaking vs. non-breaking changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versioning-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Versioning strategies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deprecation-done-properly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deprecation, done properly
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-retiring-v1orders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: retiring v1/orders
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additive-only-evolution-within-a-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additive-only evolution within a version
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2187,106 @@
 
 
 <h1 id="06-backward-compatibility-deprecation">06 · Backward Compatibility &amp; Deprecation<a class="headerlink" href="#06-backward-compatibility-deprecation" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>Once an API has real clients, every change is a promise you might break.
+This module is about changing an API safely: what counts as a breaking
+change, how to version, and how to retire something without breaking
+everyone who depends on it.</p>
+<h2 id="breaking-vs-non-breaking-changes">Breaking vs. non-breaking changes<a class="headerlink" href="#breaking-vs-non-breaking-changes" title="Permanent link">&para;</a></h2>
+<p><strong>Safe (non-breaking), because well-behaved clients ignore what they
+don't recognize:</strong></p>
+<ul>
+<li>Adding a new optional field to a response.</li>
+<li>Adding a new endpoint.</li>
+<li>Adding a new optional request parameter with a sensible default.</li>
+<li>Adding a new enum value, <em>if</em> clients are documented to handle unknown
+  values gracefully.</li>
+</ul>
+<p><strong>Breaking, because existing clients will misbehave or crash:</strong></p>
+<ul>
+<li>Removing or renaming a field or endpoint.</li>
+<li>Changing a field's type (<code>"id": 42</code> → <code>"id": "42"</code>).</li>
+<li>Making a previously optional request field required.</li>
+<li>Changing the meaning of an existing field or status code.</li>
+<li>Tightening validation that previously-valid requests now fail.</li>
+</ul>
+<h2 id="versioning-strategies">Versioning strategies<a class="headerlink" href="#versioning-strategies" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>URL path:    /v1/orders   /v2/orders
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Header:      Accept: application/vnd.example.v2+json
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Query param: /orders?version=2
+</code></pre></div>
+<p>URL-path versioning is the most common because it's visible, cacheable
+per-version, and trivial to route at the gateway (module 3). Header
+versioning keeps URLs stable but is harder to test with a browser and
+easy for clients to forget.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>https://api.example.com/v2/orders/42<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"total_amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"42.50"</span><span class="p">,</span><span class="w"> </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>https://api.example.com/v1/orders/42<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mf">42.50</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Both versions run simultaneously against the same underlying data —
+<code>v1</code> and <code>v2</code> are just different serializations of the same resource.</p>
+<h2 id="deprecation-done-properly">Deprecation, done properly<a class="headerlink" href="#deprecation-done-properly" title="Permanent link">&para;</a></h2>
+<p>Never remove a field or version overnight. Announce, signal, and give a
+runway:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">Deprecation</span><span class="o">:</span> <span class="l">true</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="na">Sunset</span><span class="o">:</span> <span class="l">Sat, 01 Nov 2026 00:00:00 GMT</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="na">Link</span><span class="o">:</span> <span class="l">&lt;https://docs.example.com/migration/v1-to-v2&gt;; rel="deprecation"</span>
+</code></pre></div>
+<p>The <code>Deprecation</code> and <code>Sunset</code> headers (both real, standardized HTTP
+headers) let automated tooling and dashboards detect deprecated usage
+without a human reading changelogs.</p>
+<h2 id="worked-example-retiring-v1orders">Worked example: retiring <code>v1/orders</code><a class="headerlink" href="#worked-example-retiring-v1orders" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Ship <code>v2</code></strong> alongside <code>v1</code>, with the field rename and any other
+   accumulated breaking changes bundled into one release, not drip-fed.</li>
+<li><strong>Announce</strong> the deprecation of <code>v1</code> with a concrete sunset date, in
+   the changelog, docs, and via the <code>Deprecation</code>/<code>Sunset</code> headers on
+   every <code>v1</code> response.</li>
+<li><strong>Instrument</strong> <code>v1</code> usage — log which API keys are still calling it —
+   so you know who to actually contact before the cutoff, rather than
+   guessing.</li>
+<li><strong>Reach out directly</strong> to the remaining heavy <code>v1</code> callers as the
+   sunset date approaches; a header alone is easy to miss.</li>
+<li><strong>Sunset</strong>: after the date, <code>v1</code> returns <code>410 Gone</code> with a body
+   pointing at the migration guide, rather than disappearing silently
+   or (worse) returning wrong/broken data.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"version_sunset"</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"API v1 was retired on 2026-11-01. Migrate to v2."</span><span class="p">,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nt">"docs"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://docs.example.com/migration/v1-to-v2"</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="additive-only-evolution-within-a-version">Additive-only evolution within a version<a class="headerlink" href="#additive-only-evolution-within-a-version" title="Permanent link">&para;</a></h2>
+<p>Many teams avoid ever bumping the major version by committing to
+additive-only changes within <code>v1</code> forever: new optional fields, new
+endpoints, but never removing or repurposing anything. This works well
+for years but eventually accumulates cruft (unused legacy fields kept
+around solely for backward compatibility) — the trade-off is fewer
+version migrations for clients, at the cost of a messier schema over
+time.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Classify each as breaking or non-breaking: (a) adding a <code>currency</code>
+   field to an order response, (b) changing <code>total</code> from a number to a
+   string, (c) making a previously-optional <code>email</code> field required on
+   signup, (d) adding a new <code>DELETE /v1/orders/{id}</code> endpoint.</li>
+<li>Why is returning <code>410 Gone</code> with a migration link better than simply
+   turning off a sunset endpoint with no response at all?</li>
+<li>Compare URL-path versioning and header versioning: what's one
+   advantage each has that the other lacks?</li>
+<li>A client depends on an undocumented quirk of your API (a bug that
+   happens to be convenient for them). Is fixing that bug a breaking
+   change? How would you handle it?</li>
+</ol>
 
 
 

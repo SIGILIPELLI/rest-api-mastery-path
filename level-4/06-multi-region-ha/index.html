@@ -1830,6 +1830,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · Multi-Region & High Availability APIs
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1846,6 +1864,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-multi-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why multi-region
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#active-active-vs-active-passive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Active-active vs. active-passive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routing-traffic-geodns-and-health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routing traffic: GeoDNS and health checks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-consistency-across-regions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data consistency across regions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-replication-lag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Handling replication lag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-designing-failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: designing failover
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-multi-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why multi-region
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#active-active-vs-active-passive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Active-active vs. active-passive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routing-traffic-geodns-and-health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routing traffic: GeoDNS and health checks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-consistency-across-regions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data consistency across regions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-replication-lag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Handling replication lag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-designing-failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: designing failover
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,114 @@
 
 
 <h1 id="06-multi-region-high-availability-apis">06 · Multi-Region &amp; High Availability APIs<a class="headerlink" href="#06-multi-region-high-availability-apis" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<p>A single-region API has a hard ceiling: if that region's data center
+has a bad day, every customer worldwide is down, and customers far from
+it always pay extra latency. This module covers running an API across
+multiple regions for both resilience and speed.</p>
+<h2 id="why-multi-region">Why multi-region<a class="headerlink" href="#why-multi-region" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Latency</strong> — a customer in Singapore calling a US-only API pays
+  ~200ms of pure network transit before any processing even starts;
+  a Singapore region serves them in single-digit milliseconds.</li>
+<li><strong>Availability</strong> — an entire region going down (power, network,
+  provider outage) shouldn't mean total downtime if traffic can shift
+  to another region.</li>
+<li><strong>Regulatory</strong> — data residency laws sometimes require EU customer
+  data to stay in EU infrastructure.</li>
+</ul>
+<h2 id="active-active-vs-active-passive">Active-active vs. active-passive<a class="headerlink" href="#active-active-vs-active-passive" title="Permanent link">&para;</a></h2>
+<p><strong>Active-passive</strong>: one region serves all live traffic; a second region
+stands by, replicated but idle, promoted only on failure. Simpler, but
+wastes capacity and the failover itself takes time (DNS propagation,
+promotion scripts).</p>
+<p><strong>Active-active</strong>: multiple regions serve live traffic simultaneously,
+each routed the nearest customer.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>https://api.example.com/v1/orders<span class="w">   </span><span class="c1"># DNS/anycast routes to nearest healthy region</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">X-Served-By</span><span class="o">:</span> <span class="l">us-east-1</span>
+</code></pre></div>
+<p>Harder to build correctly (data written in one region needs to be
+consistent with — or explicitly reconciled against — the same data
+written in another) but no wasted capacity and a region failure only
+removes a fraction of total capacity, not all of it.</p>
+<h2 id="routing-traffic-geodns-and-health-checks">Routing traffic: GeoDNS and health checks<a class="headerlink" href="#routing-traffic-geodns-and-health-checks" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>customer in Tokyo    → resolves api.example.com → 203.0.113.10 (ap-northeast-1)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>customer in Frankfurt → resolves api.example.com → 198.51.100.20 (eu-central-1)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>https://ap-northeast-1.internal.example.com/healthz
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"healthy"</span><span class="p">,</span><span class="w"> </span><span class="nt">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ap-northeast-1"</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>A region that starts failing health checks is automatically removed
+from DNS/routing so traffic reroutes to the next-nearest healthy
+region within seconds — without any human intervening.</p>
+<h2 id="data-consistency-across-regions">Data consistency across regions<a class="headerlink" href="#data-consistency-across-regions" title="Permanent link">&para;</a></h2>
+<p>The hard part isn't running the API in multiple places — stateless
+application servers replicate trivially. It's the <strong>database</strong>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Strategy                    | Consistency        | Write latency
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>-----------------------------|--------------------|--------------
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Single primary, one region   | Strong             | Fast (local), slow (remote writes)
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Multi-primary, all regions    | Eventual, conflicts possible | Fast everywhere
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Read replicas per region      | Reads local, writes to primary | Fast reads, single write bottleneck
+</code></pre></div>
+<p>Most real systems pick "read replicas per region, single write
+primary" as a pragmatic middle ground: a customer's <code>GET /v1/orders</code>
+is served from the nearest regional replica (fast reads everywhere),
+but <code>POST /v1/orders</code> still routes to the primary region (writes are
+consistent, if slightly slower for far-away customers).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/v1/orders<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="na">X-Served-By</span><span class="o">:</span> <span class="l">us-east-1 (primary)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>https://api.example.com/v1/orders/42<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="na">X-Served-By</span><span class="o">:</span> <span class="l">ap-northeast-1 (replica)</span>
+</code></pre></div>
+<h2 id="handling-replication-lag">Handling replication lag<a class="headerlink" href="#handling-replication-lag" title="Permanent link">&para;</a></h2>
+<p>A customer creates an order in <code>us-east-1</code> (the primary), then
+immediately reads it back from <code>ap-northeast-1</code> (a replica) before
+replication catches up — a classic read-your-own-writes problem.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"not_found"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>...even though the order exists. Common fixes: route a user's reads to
+the primary region for a short window right after they write
+(session-affinity), or have the client retry with backoff, or return a
+<code>202</code>-style "still propagating" hint rather than a bare <code>404</code>.</p>
+<h2 id="worked-example-designing-failover">Worked example: designing failover<a class="headerlink" href="#worked-example-designing-failover" title="Permanent link">&para;</a></h2>
+<p><code>eu-central-1</code> goes down entirely for 20 minutes.</p>
+<ol>
+<li>Health checks against <code>eu-central-1</code> start failing within seconds;
+   GeoDNS stops routing new traffic there.</li>
+<li>European customers' requests reroute to <code>eu-west-1</code>, adding ~15ms of
+   latency but zero downtime.</li>
+<li>Any writes that were in-flight to <code>eu-central-1</code>'s primary at the
+   moment of failure are the actual risk — this is why the write
+   primary needs its own documented failover runbook (promote a
+   replica, verify no split-brain) separate from the stateless
+   application layer's automatic rerouting.</li>
+<li>Post-incident: measure how much replication lag existed at failure
+   time, to bound possible data loss and confirm the recovery point
+   objective (RPO) was met.</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Why does an active-active architecture handle a regional outage
+   better than active-passive, in terms of both downtime and wasted
+   capacity?</li>
+<li>Explain read-your-own-writes and design one fix for it in a
+   read-replica-per-region architecture.</li>
+<li>A single global write primary means every write pays cross-region
+   latency for customers far from it. What's the trade-off of moving to
+   multi-primary writes instead?</li>
+<li>Design the health-check contract (endpoint, response, failure
+   threshold) that GeoDNS routing should use to decide a region is
+   unhealthy.</li>
+</ol>
 
 
 
