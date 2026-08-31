@@ -16,4 +16,9 @@ documentation, idempotency, rate limiting, and caching.
 9. [Bulk Operations & Batch Requests](09-bulk-operations.md)
 10. [Project — Paginated, Cacheable API](10-project-paginated-api.md)
 
-More lessons are on the way — check back soon.
+By the end of this level you'll be able to design collection endpoints that
+scale (pagination, filtering, sorting), keep clients and servers in sync
+efficiently (caching, conditional requests), protect an API from abuse and
+retries gone wrong (rate limiting, idempotency), speak more than one wire
+format when needed (content negotiation), and document the whole surface in
+an OpenAPI spec other engineers and tools can consume directly.

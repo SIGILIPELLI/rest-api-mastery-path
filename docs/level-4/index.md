@@ -15,5 +15,3 @@ patterns, hardened security, performance, and public developer platforms.
 8. [API Monetization & Developer Portals](08-api-monetization.md)
 9. [Zero-Downtime Deployments & Migrations](09-zero-downtime-migrations.md)
 10. [Capstone Project](10-capstone-project.md)
-
-More lessons are on the way — check back soon.

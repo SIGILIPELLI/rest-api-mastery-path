@@ -16,5 +16,3 @@ testing.
 8. [gRPC & Alternative Protocols](08-grpc-alternatives.md)
 9. [Monitoring & Observability for APIs](09-monitoring-observability.md)
 10. [Project — OAuth2-Secured API with Webhooks](10-project-oauth2-webhooks.md)
-
-More lessons are on the way — check back soon.
