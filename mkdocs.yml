@@ -1,8 +1,8 @@
 site_name: REST API Mastery Path
 site_description: A structured, module-wise REST API design, development, and consumption training program from entry level to master level.
-site_url: https://sigilipelli.github.io/rest-api-mastery-path/
-repo_url: https://github.com/SIGILIPELLI/rest-api-mastery-path
-repo_name: rest-api-mastery-path
+site_url: https://sigilipelli.github.io/rest-api-skillmastery/
+repo_url: https://github.com/SIGILIPELLI/rest-api-skillmastery
+repo_name: rest-api-skillmastery
 
 theme:
   name: material
