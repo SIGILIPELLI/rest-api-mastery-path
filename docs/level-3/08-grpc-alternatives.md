@@ -110,6 +110,10 @@ in real time.
   (server informs client) and simpler to operate than WebSockets for
   that shape of problem.
 
+## How It Actually Works
+
+gRPC's speed advantage over JSON-over-REST comes from two stacked mechanisms: HTTP/2 multiplexes many requests over one TCP connection (no repeated handshakes, no head-of-line blocking at the connection level), and Protocol Buffers encode messages as a compact binary wire format keyed by field *numbers* rather than string field names — so there's no text parsing, no whitespace, and the receiver only needs the numbered schema (the `.proto` file) to decode it deterministically. That efficiency is exactly the tradeoff: a REST/JSON response is human-readable in a browser's network tab and debuggable with `curl`, while a gRPC binary payload requires the schema and tooling to even inspect — which is why public, browser-facing APIs still lean REST even where gRPC would be objectively faster on the wire.
+
 ## Exercise
 
 1. Why can't a browser call a gRPC service directly the way it calls a
