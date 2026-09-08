@@ -114,6 +114,39 @@ anything:
    reachable by clients at all — until then it's fully internal, so
    there's zero external-facing risk during development.
 
+## How It Actually Works
+
+An API gateway sits as a reverse proxy in front of your actual services,
+and its core mechanism is inspecting and rewriting each request before
+forwarding it — a single incoming connection from the client, then a
+separate outgoing connection to the real backend.
+
+```text
+Client -> [Gateway] -> Backend service
+             |
+             +- terminates TLS from the client
+             +- matches path against a routing table
+             +- runs auth/rate-limit checks BEFORE forwarding
+             +- opens a NEW connection to the matched backend
+             +- (often) rewrites the path, e.g. strips /api prefix
+             +- streams the backend's response back to the client
+```
+
+The gateway terminating TLS means the client's encrypted connection ends
+*at the gateway* — traffic from gateway to backend may be plain HTTP
+inside a trusted private network, which is why backend services often
+don't need their own TLS certificates at all.
+
+Centralizing auth and rate limiting at the gateway means those checks run
+exactly once, before the request reaches any backend service — a
+short-circuited `401`/`429` response from the gateway never even opens a
+connection to the backend, saving that service's resources entirely. This
+is mechanically why gateways reduce backend code duplication: instead of
+every microservice independently verifying a JWT, one gateway process does
+it once per request and forwards a already-verified user identity (often
+as an internal header like `X-User-Id`) that backends trust implicitly
+because they only accept traffic from the gateway's internal network.
+
 ## Exercise
 
 1. A client complains that two different backend services return

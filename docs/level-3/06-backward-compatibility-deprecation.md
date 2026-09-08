@@ -110,6 +110,37 @@ around solely for backward compatibility) — the trade-off is fewer
 version migrations for clients, at the cost of a messier schema over
 time.
 
+## How It Actually Works
+
+Whether a change is "breaking" is a question about what real client code
+does when it *parses* your new response — not a subjective judgment call.
+Mechanically:
+
+**Adding a new field** to a JSON response is non-breaking because most
+JSON parsers and typed deserializers ignore unrecognized keys by default
+(`JSON.parse` in JS, `json.loads` in Python, and most typed struct
+deserializers with permissive mode) — old client code simply never reads
+the new key.
+
+**Removing or renaming a field** is breaking because any client code that
+does `response.data.price` throws `undefined`/`KeyError`/a null-pointer
+the instant that key stops existing — the parser doesn't fail, but the
+client's own logic downstream does.
+
+**Changing a field's type** (e.g. `id: 42` becoming `id: "42"`) is breaking
+in *typed* clients (a generated SDK expecting `int` gets a runtime
+deserialization exception) even though a loosely-typed JS client might
+tolerate it silently — which is why "no breaking changes" has to be
+defined against your strictest real consumer, not your most forgiving one.
+
+**Sunset headers** (`Sunset: Sat, 31 Dec 2026 23:59:59 GMT` and
+`Deprecation: true`) are read by well-behaved API client libraries and
+surfaced as warnings — but this only works if the client's HTTP layer
+actually inspects response headers, which many simple `fetch`/`curl`-based
+integrations never do; this is why deprecation announcements also need an
+out-of-band channel (email, changelog) rather than relying on headers
+alone to be noticed.
+
 ## Exercise
 
 1. Classify each as breaking or non-breaking: (a) adding a `currency`

@@ -175,6 +175,41 @@ Design decision: best-effort with per-item `409` for duplicates, since one
 duplicate ISBN in a 200-row import shouldn't fail the other 199 valid rows
 — exactly the situation bulk best-effort semantics exist for.
 
+## How It Actually Works
+
+A single `POST /orders/bulk` with an array body still ultimately becomes
+individual database operations — bulk endpoints exist to save network
+round trips, not database work, and the mechanism for reporting **partial
+failure** is what makes them genuinely harder to implement correctly than
+looping over single-item calls.
+
+The core problem: HTTP has exactly one status code per response, but a
+bulk request can have per-item success/failure. The common pattern:
+
+```json
+{
+  "results": [
+    { "index": 0, "status": 201, "id": 501 },
+    { "index": 1, "status": 400, "error": "invalid_price" },
+    { "index": 2, "status": 201, "id": 502 }
+  ]
+}
+```
+
+returned with an overall `207 Multi-Status` (borrowed from WebDAV) or a
+plain `200`, because no single top-level status code can represent "2
+succeeded, 1 failed" — the *body* has to carry that information, and
+client code must explicitly check `results[i].status` per item rather than
+trusting the outer response code alone.
+
+The database side typically wraps the whole batch in a transaction only
+if the API's contract is "all-or-nothing"; if it's "best-effort, report
+per-item," the handler runs each insert independently (often outside a
+single transaction, or with per-item savepoints) so one bad row doesn't
+roll back the 99 good ones. Which behavior you get is an explicit design
+choice the handler code makes — "bulk" alone specifies nothing about
+atomicity.
+
 ## Exercise
 
 1. Design the request/response shape for a bulk endpoint that must be

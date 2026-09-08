@@ -170,6 +170,44 @@ revocable access to a user's account:
 4. CLI uses the access token as `Authorization: Bearer ...` on every API
    call, transparently refreshing when it expires.
 
+## How It Actually Works
+
+The OAuth 2.0 Authorization Code flow is a specific sequence of HTTP
+redirects and back-channel calls, and the security of the whole flow rests
+on details in that sequence, not just "the user logs in somewhere else."
+
+```text
+1. App redirects browser to:
+   https://auth.example.com/authorize?response_type=code&client_id=...
+   &redirect_uri=https://app.example.com/callback&state=xyz789
+2. User authenticates at the AUTH SERVER (app never sees the password).
+3. Auth server redirects browser back to:
+   https://app.example.com/callback?code=AUTH_CODE&state=xyz789
+4. App's BACKEND (not the browser) exchanges the code server-to-server:
+   POST /token  { code, client_id, client_secret, redirect_uri }
+5. Auth server verifies the code (single-use, short-lived) and returns:
+   { access_token, refresh_token, expires_in }
+```
+
+Step 4 happening server-to-server, not in the browser, is the critical
+mechanism: the `client_secret` never touches the browser or gets exposed
+in a URL, and the authorization `code` from step 3 is deliberately
+single-use and short-lived (often 60 seconds) specifically so that even if
+it leaks via browser history or a referrer header, it's already worthless
+by the time an attacker could use it.
+
+The `state` parameter is a CSRF defense: the app generates a random value
+before redirecting, stores it (session or signed cookie), and verifies the
+value coming back in step 3 matches — this stops an attacker from tricking
+a victim's browser into completing steps 3-4 with the attacker's own
+authorization code, which would otherwise log the victim into the
+attacker's account.
+
+Access tokens are short-lived by design (minutes to hours) and refresh
+tokens (long-lived) let the app get new access tokens without re-running
+the whole redirect dance — the refresh call is also a plain server-to-
+server POST, invisible to the user.
+
 ## Exercise
 
 1. Explain why the Authorization Code flow uses a two-step exchange

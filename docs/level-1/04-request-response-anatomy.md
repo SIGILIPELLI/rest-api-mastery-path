@@ -146,6 +146,41 @@ internalizing:
 - Dates: use ISO 8601 (`"2026-08-29T10:00:00Z"`), not ambiguous formats like
   `"08/29/2026"`.
 
+## How It Actually Works
+
+An HTTP message — request or response — is not a data structure your
+language understands natively; it's a specific text (or binary, in
+HTTP/2) format that both sides must parse byte-by-byte.
+
+For HTTP/1.1, a request looks like this on the wire, exactly:
+
+```
+POST /orders HTTP/1.1\r\n
+Host: api.example.com\r\n
+Content-Type: application/json\r\n
+Content-Length: 27\r\n
+\r\n
+{"item":"widget","qty":3}
+```
+
+The parser reads line by line, splitting on `\r\n` (CRLF, not just `\n` —
+a detail that trips up hand-rolled parsers). The **blank line** (`\r\n\r\n`)
+is the hard boundary between headers and body — everything after it is
+opaque bytes until `Content-Length` bytes have been read (or, for chunked
+transfer, until a `0\r\n\r\n` terminator chunk arrives).
+
+`Content-Length` matters mechanically: the parser doesn't know where the
+body ends by "reading until it looks done" — it counts exactly that many
+bytes. Send a `Content-Length` that doesn't match your actual body size and
+you get a hung connection (server waiting for bytes that never come) or a
+truncated parse (server stops reading mid-JSON).
+
+`Content-Type` tells the *receiving* code which deserializer to invoke —
+`application/json` triggers a JSON parser, `application/x-www-form-
+urlencoded` triggers key=value&key=value splitting. Get this header wrong
+and a perfectly valid JSON body gets parsed as an empty form, producing
+confusing "missing field" errors that have nothing to do with your JSON.
+
 ## Exercise
 
 1. Run `curl -v https://httpbin.org/get` (or reason through it if you don't

@@ -158,6 +158,47 @@ The `secret` is shown once at creation — the receiver stores it to verify
 future signatures; it's never retrievable again afterward (only
 regenerable), the same convention as an API key.
 
+## How It Actually Works
+
+A webhook inverts the usual request direction: instead of your app
+polling `GET /orders/42`, the *provider* makes an outbound HTTP `POST` to
+a URL you registered, whenever an event happens on their side. Mechanically
+this is just a normal HTTP request — the provider's server is now acting
+as an HTTP client hitting yours.
+
+**Signature verification** is the part that actually secures this,
+because anyone who knows (or guesses) your webhook URL can otherwise POST
+fake payloads to it. The provider computes an HMAC over the raw request
+body using a shared secret, and sends it as a header:
+
+```text
+signature = HMAC-SHA256(secret, raw_request_body)
+header: X-Signature: sha256=4d8f3a...
+```
+
+Your handler must independently recompute that HMAC over the *exact same
+raw bytes* it received and compare it to the header, using a
+constant-time comparison (not `==`, which short-circuits on the first
+mismatched byte and can leak timing information about how much of the
+signature is correct):
+
+```python
+expected = hmac.new(secret, raw_body, hashlib.sha256).hexdigest()
+hmac.compare_digest(expected, received_signature)  # constant-time
+```
+
+The check must run against the **raw, unparsed body bytes** — if your
+framework auto-parses JSON before your handler runs and you re-serialize
+it to verify, whitespace/key-order differences will make a legitimate
+signature fail to match, which is why most webhook-receiving code reads
+the raw body first, verifies, and only then parses it.
+
+Retries are the other real mechanism: providers typically retry a webhook
+delivery with exponential backoff if your endpoint doesn't return `2xx`
+within a timeout — meaning your handler must be idempotent (module 5,
+Level 2) against redelivery of the same event, identified by an event ID
+your handler should deduplicate against.
+
 ## Exercise
 
 1. Why is HMAC signature verification necessary even though the webhook

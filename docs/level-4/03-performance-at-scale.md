@@ -142,6 +142,40 @@ users, though `p50` stays fine.
    directly instead of just widening the pipe.
 4. Re-run the load test: `p99` now holds flat past 300 concurrent users.
 
+## How It Actually Works
+
+Performance at scale is fundamentally about what work happens **per
+request** versus what work is shared or avoided — three mechanisms do
+most of the load-bearing work:
+
+**Connection pooling**: opening a TCP connection (plus TLS handshake) is
+expensive relative to actually sending a request — a pool keeps a set of
+already-established connections to a database or downstream service open
+and hands one out per request, returning it to the pool afterward instead
+of tearing it down. This is why a connection pool exhaustion (all
+connections checked out, none available) manifests as requests *queuing*
+rather than failing outright — new requests wait for a connection to be
+returned, and if that wait exceeds a timeout, they fail with a
+misleadingly generic "timeout" error that's actually a pool-sizing
+problem.
+
+**Read replicas**: a database's write-ahead log (WAL) is streamed to
+replica nodes, which apply the same changes asynchronously — "async"
+means there's a real, measurable **replication lag** (milliseconds to
+seconds) between a write committing on the primary and that data being
+visible on a replica. Routing `GET` reads to replicas and `POST/PUT`
+writes to the primary distributes load, but a client that writes then
+immediately reads its own write from a replica can see stale data — a
+mechanical consequence of the lag, not a bug, which is why "read your own
+writes" patterns route that specific read back to the primary explicitly.
+
+**CDN edge caching**: a CDN node geographically close to the client caches
+a response keyed by URL (plus `Vary` header dimensions like `Accept-
+Encoding`), so subsequent requests for the same URL from nearby clients
+are served from edge memory/disk without a round trip to your origin
+server at all — the actual latency win comes from physical distance
+(speed of light over a shorter path), not just "caching" in the abstract.
+
 ## Exercise
 
 1. Why does a CDN cache reduce origin load more effectively than an

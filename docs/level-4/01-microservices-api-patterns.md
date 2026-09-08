@@ -109,6 +109,41 @@ For an e-commerce platform split into `orders`, `inventory`, and
    to independently, rather than `orders-service` calling them directly
    and coupling to their availability.
 
+## How It Actually Works
+
+Patterns like API composition and the backend-for-frontend (BFF) exist to
+manage a mechanical reality: a single client-facing request often needs
+data that lives behind multiple independent network hops, each with its
+own latency and failure mode.
+
+An **API composition** layer fans a single incoming request out into
+several backend calls, concurrently:
+
+```text
+GET /order-summary/42
+   -> orders-service.get(42)      \
+   -> users-service.get(order.userId)  } issued in parallel, not sequentially
+   -> inventory-service.check(order.items) /
+   -> merge all three results into one response
+```
+
+Issuing these calls **concurrently** (via `Promise.all`/async gather)
+rather than sequentially is the actual mechanism that keeps composed-
+endpoint latency close to the *slowest single call*, not the *sum* of all
+three — a detail that matters enormously at scale, since sequential
+composition of three 100ms calls means 300ms, while concurrent composition
+means roughly 100ms plus merge overhead.
+
+The **circuit breaker** pattern is a literal state machine wrapping each
+outbound call: `CLOSED` (calls pass through normally) → after N
+consecutive failures → `OPEN` (calls fail immediately without even
+attempting the network call, for a cooldown period) → after the cooldown →
+`HALF_OPEN` (one trial call is allowed through; success closes the circuit
+again, failure reopens it). This prevents one slow/failing downstream
+service from exhausting the calling service's own thread pool or
+connection pool waiting on doomed requests — the breaker fails fast
+instead of piling up blocked calls.
+
 ## Exercise
 
 1. Why does database-per-service make independent deployability

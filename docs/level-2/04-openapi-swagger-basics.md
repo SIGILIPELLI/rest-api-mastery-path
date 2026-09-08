@@ -204,6 +204,48 @@ Running `redocly lint` after this change catches, e.g., a missing
 `description` or an inconsistent response code before it ships — cheaper
 than a consumer discovering the mismatch at runtime.
 
+## How It Actually Works
+
+An OpenAPI document isn't documentation in the "prose" sense — it's a
+machine-readable JSON/YAML schema describing every route, parameter, and
+response shape, which is precisely what lets tooling generate real code
+and validation from it without a human reading a word.
+
+Given this fragment:
+
+```yaml
+paths:
+  /books/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: integer }
+                  title: { type: string }
+```
+
+A code generator walks this tree and emits a typed client method
+(`getBook(id: number): Promise<{id: number, title: string}>`) by literally
+mapping OpenAPI's `type: integer`/`type: string` primitives to the target
+language's types — no guessing involved, because the schema is a formal
+grammar (built on JSON Schema) that a parser can traverse deterministically.
+
+The same document powers **request validation middleware**: before your
+handler runs, a validator checks the incoming `id` path param against
+`type: integer` and rejects non-numeric values with `400` automatically —
+this is why teams treat the spec as a *contract*, not just docs: the same
+artifact that describes the API can also enforce it at runtime, catching
+mismatches between what you documented and what your handler actually
+accepts.
+
 ## Exercise
 
 1. Write the OpenAPI `paths` entry for `PATCH /books/{id}` that accepts a

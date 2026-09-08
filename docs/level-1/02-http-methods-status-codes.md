@@ -182,6 +182,38 @@ HTTP/1.1 204 No Content
     A common test: if the caller sent no `Authorization` header at all, that
     should almost always be `401`, never `403`.
 
+## How It Actually Works
+
+HTTP methods and status codes aren't enforced by any central authority —
+they're a *convention* your server code chooses to honor. Concretely, when a
+request arrives:
+
+1. The server's HTTP parser reads the **request line** (`GET /books/17
+   HTTP/1.1`) off the raw TCP stream and extracts the method as a plain
+   string token — there's no special "GET packet" at the network level,
+   just ASCII text before the first space.
+2. A **router** (inside frameworks like Express, Flask, or Spring) holds a
+   table mapping `(method, path pattern) -> handler function`. It walks
+   this table looking for a match — this is why `GET /books/17` and `DELETE
+   /books/17` can point at completely different functions despite sharing a
+   path.
+3. Once a handler runs, *it*, not HTTP, decides what status code to send.
+   Nothing stops a buggy server from returning `200 OK` with an error
+   message in the body — the code is only as correct as the developer who
+   wrote `res.status(201)`.
+4. The status code is written back as the first line of the response
+   (`HTTP/1.1 201 Created`), and clients (browsers, HTTP libraries) apply
+   their *own* conventions on top — e.g. `fetch()` only rejects on network
+   failure, not on 4xx/5xx, because the spec treats those as "successfully
+   received a response," just one describing failure.
+
+**Idempotency** (why `PUT`/`DELETE` are "safe to retry" but `POST` isn't)
+is likewise not enforced by the protocol — it's a promise the *server's
+implementation* has to keep. If your `DELETE /books/17` handler is written
+to throw a 500 on the second call because the row is already gone, you've
+broken the idempotency contract even though you used the "idempotent"
+verb.
+
 ## Exercise
 
 For each scenario below, write down which HTTP method and status code you'd

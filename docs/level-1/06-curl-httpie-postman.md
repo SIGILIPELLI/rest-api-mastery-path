@@ -193,6 +193,48 @@ Authorization: Bearer {{auth_token}}
 All three send exactly the same HTTP over the wire — pick based on your
 workflow, not on any difference in what's possible.
 
+## How It Actually Works
+
+`curl`, HTTPie, and Postman are just three different HTTP *clients* — each
+one performs the same low-level socket work, but you can see this most
+clearly with curl's verbose flag:
+
+```bash
+curl -v https://api.example.com/books/17
+```
+
+```text
+* Connected to api.example.com (203.0.113.10) port 443
+* TLS handshake, Client hello (1)
+* TLS handshake, Server hello (2)
+* SSL connection using TLSv1.3
+> GET /books/17 HTTP/1.1
+> Host: api.example.com
+> Accept: */*
+>
+< HTTP/1.1 200 OK
+< Content-Type: application/json
+< Content-Length: 84
+<
+{"id":17,"title":"..."}
+* Connection #0 to host api.example.com left intact
+```
+
+Every line curl prints with `>` is a header *it* generated and sent; every
+`<` line is a header the server sent back. This is the actual raw exchange
+that Postman's GUI and HTTPie's colorized output are also performing
+underneath — they just parse the same bytes into a nicer view. "Connection
+... left intact" is curl telling you it kept the TCP+TLS session open for
+potential reuse (HTTP keep-alive), rather than tearing down and
+renegotiating on your next request.
+
+Postman's "Collections" and environment variables don't change any of
+this — they're client-side templating that gets resolved into the exact
+same plain-text request line and headers before anything touches the
+socket. If you can't explain a Postman failure, drop to curl -v against
+the same URL — you're removing a rendering layer, not changing the
+protocol.
+
 ## Exercise
 
 1. Using `curl`, write the command to `POST` a new resource to

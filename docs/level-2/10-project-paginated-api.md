@@ -205,6 +205,39 @@ security:
 - [ ] An `openapi.yaml` documents all of the above, including the new
       headers and the `207` bulk response.
 
+## How It Actually Works
+
+Wiring cursor pagination, filtering, and caching together in one endpoint
+means understanding the *order* these mechanisms actually execute in a
+single request:
+
+1. **Parse & validate query params** — `?status=shipped&after=cursor123&limit=20`
+   is split into a filter map, a decoded cursor, and a bounded limit
+   (servers should clamp `limit` server-side — e.g. `min(requested, 100)`
+   — because an unbounded `?limit=999999999` is a real resource-exhaustion
+   vector, not a hypothetical one).
+2. **Build the query** — filters become `WHERE` clauses, the cursor
+   becomes a keyset `WHERE (sort_key) < (decoded_cursor)` predicate (see
+   module 1), combined with `AND` against the filter clauses.
+3. **Execute against the index** — the database uses a composite index on
+   `(status, created_at, id)` if one exists, so filtering and keyset
+   pagination are satisfied by a single index scan rather than a full
+   table scan followed by in-memory filtering — the difference between
+   milliseconds and seconds at scale.
+4. **Compute the ETag** — typically a hash of the *exact resulting page's*
+   content (row IDs + a version/updated_at watermark), not the whole
+   collection, so unrelated changes elsewhere in the table don't
+   invalidate this page's cache entry.
+5. **Serialize** — rows become JSON, plus a `next_cursor` encoding the last
+   row's sort key for the client's next request.
+
+Each of these steps is a separate function call in a real implementation,
+and a bug at any layer (an unindexed filter column, a cursor that encodes
+the wrong tiebreaker column, an ETag computed before pagination is
+applied) produces a plausible-looking response that's subtly wrong under
+concurrent writes or at scale — which is why this project module exists
+as a capstone rather than a single isolated concept.
+
 ## Exercise
 
 Extend the design with a `GET /v1/shelves/{id}/books` endpoint that

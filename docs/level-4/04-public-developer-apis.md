@@ -102,6 +102,39 @@ changelog for months. A common commitment:
 Every step above is self-service — no human on your team was involved,
 which is the entire point of a public developer API's design.
 
+## How It Actually Works
+
+Running a public developer API means handling identity and quota
+enforcement for callers you don't control, at every single request —
+mechanically different from an internal API where you trust the caller.
+
+**API key issuance and lookup**: a key like `sk_live_a1b2c3...` is
+typically not stored in your database in plaintext — it's hashed (like a
+password) on issuance, and every incoming request re-hashes the presented
+key and looks up the hash, so a database leak doesn't hand attackers
+usable keys directly (mirroring password storage practice, module 7,
+Level 1 auth basics extended). The key's prefix (`sk_live_` vs `sk_test_`)
+is often left unhashed specifically so it can be pattern-matched and
+revoked in bulk, or displayed truncated in a dashboard, without exposing
+the secret portion.
+
+**Per-key rate limiting** reuses the token-bucket mechanism (module 6,
+Level 2) but keyed by API key rather than IP or user session — this is
+why a public API's `429` responses typically include `X-RateLimit-Limit`,
+`X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers computed directly
+off that same bucket's current token count and refill schedule, giving
+well-behaved SDKs enough information to self-throttle before hitting the
+wall.
+
+**SDK generation** from your OpenAPI spec (module 4, Level 2) means a
+client library in Python, JS, or Go is mechanically produced by walking
+the same schema tree a doc generator uses — a breaking schema change
+doesn't just break hand-written client code, it breaks the *next SDK
+build* for every language you publish, which is why public APIs are held
+to stricter backward-compatibility discipline (module 6, Level 3) than
+internal ones: SDK consumers can't just "read the updated docs and adapt"
+as fluidly as an internal team sitting next to yours.
+
 ## Exercise
 
 1. Why show a raw API key only once at creation, rather than letting a

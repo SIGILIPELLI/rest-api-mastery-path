@@ -153,6 +153,40 @@ Echoing `filters_applied` in the metadata is a small but valuable touch — it
 tells the client exactly how the server interpreted its query, which helps
 catch silent typos or unsupported combinations during debugging.
 
+## How It Actually Works
+
+A query string like `?status=shipped&sort=-created_at` doesn't execute
+itself — your handler code must explicitly translate each recognized
+parameter into a database predicate, which means every filter you *don't*
+whitelist is silently ignored (or, if you're not careful, injectable).
+
+Mechanically, a naive but common implementation builds SQL incrementally:
+
+```text
+base:    SELECT * FROM orders WHERE 1=1
++status: AND status = ?          (bound parameter, from ?status=shipped)
++sort:   ORDER BY created_at DESC   (from ?sort=-created_at, '-' mapped to DESC)
+```
+
+The `?` placeholder matters mechanically: the database driver sends the
+query text and the value *separately* to the database, so the value is
+never parsed as SQL syntax — this is what actually prevents SQL injection,
+not string-escaping tricks. A `sort` parameter is more dangerous to
+implement naively than `status`, because sort is usually a *column name*,
+not a value — you cannot parameterize a column name the same way, so
+unless you map the incoming string against a fixed whitelist of allowed
+columns (`{"created_at", "price", "name"}`), a client could pass
+`?sort=(SELECT password FROM users)` into a naive string-concatenation
+implementation and exfiltrate data through ordering side channels or
+outright injection.
+
+Combining filters is `AND`-composed by default in most implementations
+because each filter clause independently narrows the same base query —
+`OR` semantics require deliberate, separate query-building logic that most
+REST filter syntaxes don't support without a dedicated query language
+(hence why complex filtering often pushes teams toward GraphQL, module 4
+of Level 3).
+
 ## Exercise
 
 1. Design query parameters for `/orders` supporting: filter by `status`

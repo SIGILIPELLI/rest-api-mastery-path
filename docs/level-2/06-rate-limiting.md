@@ -154,6 +154,41 @@ This is a simplified sketch (a production version needs this check to be
 atomic, typically via a Lua script executed inside Redis, to avoid a
 race between concurrent requests reading and writing the same bucket).
 
+## How It Actually Works
+
+Rate limiting is enforced with a counter and a clock, checked *before* your
+handler runs. Two common algorithms differ in exactly how they count:
+
+**Fixed window**: `requests_this_minute[user_id]` increments per request
+and resets every 60 seconds. Mechanically simple (one counter, one TTL in
+Redis: `INCR key; EXPIRE key 60`), but has a boundary flaw — a client can
+send 100 requests at 0:59 and another 100 at 1:01, bursting 200 requests
+in a 2-second window while technically never exceeding "100/minute" in
+either fixed window.
+
+**Sliding window / token bucket** fixes this by tracking request
+timestamps (or token counts) continuously rather than resetting on a
+clock edge. A token bucket adds `refill_rate` tokens per second up to a
+`capacity` cap, and each request consumes one token — the actual
+mechanics of `INCR`-then-check in Redis:
+
+```text
+tokens = min(capacity, tokens + elapsed_seconds * refill_rate)
+if tokens >= 1: tokens -= 1; allow
+else: reject with 429
+```
+
+The `Retry-After` header on a `429` response isn't decorative — it's
+computed from exactly how many seconds until the bucket has ≥1 token
+again (`(1 - tokens) / refill_rate`), which a well-behaved client's retry
+logic reads and sleeps for, rather than guessing or retrying immediately.
+
+At scale, this counter can't live in one process's memory — it must be a
+shared store (Redis) that every server instance behind a load balancer
+reads and writes atomically, or a client could dodge the limit just by
+having consecutive requests land on different backend instances that each
+think they're the first request this minute.
+
 ## Exercise
 
 1. Explain concretely why fixed-window counting allows a 2x burst at

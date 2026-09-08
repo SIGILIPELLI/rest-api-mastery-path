@@ -166,6 +166,43 @@ The set of available actions changes as the resource moves through its
 state machine, and the client reads that from the response instead of
 re-implementing the state machine itself.
 
+## How It Actually Works
+
+HATEOAS means a response carries not just data but the URLs of legal next
+actions, so a client can navigate without hardcoding paths. Mechanically,
+this requires the server to run **authorization logic at serialization
+time**, not just at request time:
+
+```json
+{
+  "id": 42,
+  "status": "pending",
+  "_links": {
+    "self":   { "href": "/orders/42" },
+    "cancel": { "href": "/orders/42/cancel" }
+  }
+}
+```
+
+To produce that `_links` block correctly, the handler must check — for
+*this specific order, for this specific caller* — whether cancellation is
+currently a valid transition (e.g. `status == "pending"`) and whether the
+caller is authorized to perform it, then conditionally include or omit the
+`cancel` link. This is meaningfully different from just serializing model
+fields: the server is embedding a live decision (a permission check plus a
+state-machine check) into every response, computed fresh each time,
+because a link that's present today might not be legal tomorrow once the
+order ships.
+
+Clients that actually follow HATEOAS treat the `href` values as opaque —
+they never construct `/orders/42/cancel` from a template, they read it
+from the `_links.cancel.href` field returned. This is what makes the
+server free to change URL structure without warning, as long as it keeps
+returning correct links — a promise almost no client-side code actually
+relies on in practice, which is why HATEOAS remains rare outside API
+specs like HAL, JSON:API, and Siren despite being part of Fielding's
+original REST definition.
+
 ## Exercise
 
 1. Model an `Article` resource that can be `draft`, `published`, or

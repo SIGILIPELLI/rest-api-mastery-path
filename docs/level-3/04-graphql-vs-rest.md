@@ -121,6 +121,37 @@ comments → attachments).
   end up shipping **both**: REST for the stable public surface, GraphQL
   for an internal BFF layer.
 
+## How It Actually Works
+
+GraphQL and REST both travel over HTTP, but GraphQL replaces "one URL per
+resource shape" with a single endpoint and a *query language* the server
+parses and executes at request time — a fundamentally different mechanism
+underneath.
+
+A GraphQL request is a `POST /graphql` with a query string as the body:
+
+```graphql
+{ book(id: 17) { title author { name } } }
+```
+
+The server doesn't route this to a matching URL pattern — it **parses the
+query into an abstract syntax tree**, then walks that tree, calling a
+**resolver function** for each field: a `book` resolver fetches the book
+row, then an `author` resolver (nested under it) fetches the related
+author row, each resolver typically making its own database call. This is
+exactly why naive GraphQL servers suffer the "N+1 query problem" — fetching
+20 books, each with an author sub-field, triggers 1 query for books plus
+20 separate queries for authors unless the server batches them (typically
+via a "DataLoader" that collects all pending author IDs within one tick
+of the event loop and issues one `WHERE id IN (...)` query instead of 20).
+
+REST's equivalent request (`GET /books/17?include=author`) is matched
+against a fixed route pattern and runs one pre-written handler function —
+no query parsing or dynamic resolver graph involved, which is why REST
+responses have a fixed, predictable shape per endpoint while GraphQL
+responses shape-match whatever fields the *client* asked for in that
+specific query string.
+
 ## Exercise
 
 1. Explain why a CDN can cache a REST `GET` response but generally

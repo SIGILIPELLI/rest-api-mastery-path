@@ -119,6 +119,38 @@ the field is missing, the pipeline fails the build — the break never
 reaches production. The fix: add `total_amount` alongside `total`,
 deprecate `total` per module 6, remove it only after consumers migrate.
 
+## How It Actually Works
+
+The test pyramid for APIs maps directly onto what's actually being
+exercised at each layer, mechanically:
+
+**Unit tests** call handler/business-logic functions directly in-process —
+no HTTP parsing, no socket, no real database (usually a mock or in-memory
+fake). They're fast because they skip the entire network stack.
+
+**Integration tests** spin up the real HTTP server (often on a random
+local port) and issue real HTTP requests against it, exercising the actual
+router, middleware chain, and serializer — but typically against a real
+or containerized test database, so a bug in your JSON schema validation
+middleware (which a unit test bypasses entirely) gets caught here.
+
+**Contract tests** (e.g. Pact) don't test your API against expectations
+you wrote yourself — they test that your API's actual response shape
+matches a contract file the *consumer* generated from their own
+expectations, and separately that the consumer's request shape matches
+what your provider actually accepts. Mechanically this is two independent
+test suites (consumer-side and provider-side) both verifying against the
+same shared contract file, run in each side's own CI pipeline — so a
+breaking API change fails the *provider's* CI before it ever reaches
+production, without the provider needing the consumer's actual codebase.
+
+**End-to-end tests** drive the system through its real entry point (a
+browser, a CLI) which issues real HTTP calls through the real gateway,
+auth, and backend chain — the slowest and most brittle layer because a
+failure anywhere in that chain (network flake, a downstream service being
+briefly unavailable) can fail the test even when your specific endpoint's
+logic is correct.
+
 ## Exercise
 
 1. Where would you catch a bug where the discount calculation is wrong,

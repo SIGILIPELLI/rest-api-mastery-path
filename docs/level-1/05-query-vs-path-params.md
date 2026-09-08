@@ -131,6 +131,36 @@ GET /books?limit=100&sort=-year
 A well-documented API states its defaults explicitly rather than leaving
 clients to guess.
 
+## How It Actually Works
+
+Query strings and path segments are both just substrings of the same URL,
+but they're extracted by two entirely different code paths on the server.
+
+The **path** is matched against router patterns (see module 3) to select a
+handler and pull out path params as named capture groups. The **query
+string** — everything after the first `?` — is parsed *separately*, after
+routing has already decided which handler runs. A typical query parser:
+
+```text
+"status=shipped&sort=-date&page=2"
+   -> split on "&"           : ["status=shipped", "sort=-date", "page=2"]
+   -> split each on "="      : [["status","shipped"], ["sort","-date"], ["page","2"]]
+   -> percent-decode each side, build a map
+```
+
+Percent-decoding matters mechanically: `%20` becomes a space, `%2B`
+becomes `+`, and a literal `+` in a query string traditionally decodes to
+a space (a legacy quirk from `application/x-www-form-urlencoded`, not the
+general URL spec) — so a search term containing `+` needs explicit
+encoding as `%2B` or it silently becomes a space on the server.
+
+This is also *why* path params can't express optional or repeated values
+cleanly — the router's pattern-matching is positional and rigid (segment 3
+is always segment 3), while the query parser builds a flexible key→value
+(or key→list, for repeated keys like `?tag=a&tag=b`) map that has no fixed
+shape. Choosing path vs. query isn't just convention — it reflects which
+parser is structurally suited to the data.
+
 ## Exercise
 
 For a `GET` request against a hypothetical `/orders` API, decide whether

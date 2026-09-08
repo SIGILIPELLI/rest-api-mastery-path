@@ -133,6 +133,39 @@ and reuse the *same* key for every retry of that specific checkout attempt
 (store it in memory/local state until success or a final failure). A new
 tap of "Place Order" — a genuinely new checkout attempt — gets a new key.
 
+## How It Actually Works
+
+Idempotency means "N identical requests produce the same server state as
+1 request" — but the protocol doesn't enforce this; the server's
+implementation must deliberately guarantee it, and for `POST` (which HTTP
+defines as non-idempotent by default) this requires extra machinery.
+
+**Idempotency keys** work like this: the client generates a unique key
+(usually a UUID) and sends it in a header, e.g. `Idempotency-Key:
+a1b2c3d4`. On the server:
+
+```text
+1. Look up key "a1b2c3d4" in an idempotency store (Redis/DB table).
+2. If found: return the SAME stored response, do not re-run the handler.
+3. If not found: run the handler, store (key -> response) with a TTL,
+   then return the response.
+```
+
+This is why the store must persist the *entire response*, not just "was
+it processed" — a client that retries after a network timeout needs the
+exact same `201 Created` with the same order ID back, not a fresh
+duplicate order or a bare acknowledgment. The lookup-then-store sequence
+also needs to be atomic (a database unique constraint or a Redis `SETNX`)
+to avoid a race where two near-simultaneous retries both see "not found"
+and both create an order — this is the same class of race condition as a
+double-spend bug, solved with the same tool: a uniqueness constraint
+enforced at the storage layer, not just checked in application code.
+
+`PUT`/`DELETE` get idempotency "for free" only when the handler is written
+to compute an absolute end state (`SET status = 'shipped'`) rather than a
+relative one (`increment retry_count by 1`) — the verb alone guarantees
+nothing; the handler's actual logic is what makes it true.
+
 ## Exercise
 
 1. Classify `DELETE /books/42` called three times in a row. Is it

@@ -111,6 +111,41 @@ A better design:
 4. Reset the counter on the billing cycle boundary, not a rolling
    window.
 
+## How It Actually Works
+
+Metering usage for billing means every request has to be counted and
+attributed to a specific customer *reliably*, even under failures and
+retries — the mechanism is closer to financial ledger-keeping than simple
+logging.
+
+A typical metering pipeline:
+
+```text
+1. Request arrives with API key -> resolved to customer_id (module 4).
+2. Handler completes -> emit a usage event:
+   { customer_id, endpoint, timestamp, request_id }
+3. Event goes to a durable queue (not counted in-process synchronously,
+   because an in-memory counter is lost on a crash/restart).
+4. A separate aggregation job sums events per customer per billing period.
+```
+
+The `request_id` in that event is what makes billing idempotent against
+duplicate counting: if step 3's queue delivers the same event twice (the
+at-least-once guarantee from event-driven systems, module 7), the
+aggregation job deduplicates by `request_id` before summing — without
+this, a network retry or a broker redelivery directly inflates a
+customer's bill, a bug class with real financial consequences, not just a
+display glitch.
+
+**Tiered rate limits per plan** reuse the token-bucket mechanism (module
+6, Level 2) but with `capacity`/`refill_rate` looked up per customer's
+plan rather than one global constant — the same rate-limiting code path
+runs for every customer, just parameterized differently, which is why
+billing-plan changes (a customer upgrading tiers) can take effect
+immediately: it's a config lookup change, not a code deploy, as long as
+the plan-to-limits mapping is read fresh (or from a short-TTL cache) on
+each request rather than baked in at startup.
+
 ## Exercise
 
 1. Why is a naive read-then-write quota check subject to a race

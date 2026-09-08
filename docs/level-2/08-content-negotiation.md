@@ -181,6 +181,38 @@ def get_report(request):
     raise NotAcceptable(supported=["application/json", "text/csv"])
 ```
 
+## How It Actually Works
+
+Content negotiation is a real parsing-and-matching algorithm the server
+runs against the `Accept` header, not a simple string equality check.
+
+A client sends: `Accept: application/json;q=0.9, application/xml;q=0.5,
+*/*;q=0.1` — meaning "prefer JSON, XML is acceptable, otherwise anything."
+The server's negotiation logic:
+
+```text
+1. Parse each media type + its q-value (default q=1.0 if omitted).
+2. Sort by q-value descending: [json:0.9, xml:0.5, */*:0.1]
+3. Walk this list; for each, check if the server can actually produce it.
+4. Return the first mutual match, with matching Content-Type set.
+5. If nothing matches: 406 Not Acceptable.
+```
+
+This is genuinely a **negotiation**, not a client dictate — the server's
+list of what it *can* produce (its registered serializers) intersects
+with the client's ordered preference list, and the first mutual match
+wins. A server that only implements a JSON serializer will always return
+JSON regardless of the `Accept` header's XML preference, correctly falling
+through to whatever the server *can* do (many APIs skip strict `406`
+enforcement and just default to JSON for pragmatism).
+
+`Content-Type` on the *response* is not negotiated — it's the server
+stating, after the fact, which format it actually chose, so the client's
+parser knows how to deserialize the body it's about to read. Confusing
+`Accept` (what I can read) with `Content-Type` (what I'm sending/what this
+is) is the single most common content-negotiation bug in hand-rolled
+API clients.
+
 ## Exercise
 
 1. A client sends `Accept: application/xml;q=1.0, application/json;q=0.5`

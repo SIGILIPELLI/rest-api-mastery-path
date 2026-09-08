@@ -130,6 +130,41 @@ the primary region for a short window right after they write
    time, to bound possible data loss and confirm the recovery point
    objective (RPO) was met.
 
+## How It Actually Works
+
+Running an API across regions means confronting real physics — light
+(and therefore network packets) takes a measurable, non-negotiable amount
+of time to cross a continent — and real distributed-systems tradeoffs
+around consistency.
+
+**DNS-based geo-routing**: a client's DNS resolver queries for
+`api.example.com`, and a geo-aware DNS server (like Route 53 latency-based
+routing) returns a *different IP* depending on the resolver's
+geographic location — this happens entirely at the DNS layer, before any
+HTTP request is even formed, meaning a routing failure here (returning a
+region's IP that's currently down) isn't something your application code
+can see or fix; only DNS health-checks removing that region's records
+from rotation address it, and DNS caching (TTLs) means that fix
+propagates with a delay, not instantly.
+
+**Multi-region data consistency** is the harder mechanism: if region A
+and region B both accept writes to the same logical record
+(active-active), you need conflict resolution — typically **last-write-
+wins** using a synchronized timestamp (itself a hard problem: clock drift
+between regions means "last" isn't unambiguous without something like
+Google Spanner's TrueTime or a logical clock/vector clock scheme), or you
+route all writes for a given record to one "home" region and treat other
+regions as read replicas (active-passive), avoiding the conflict entirely
+at the cost of higher write latency for clients far from the home region.
+
+**Health checks driving failover**: a load balancer or DNS service
+periodically calls a `/health` endpoint; consecutive failures beyond a
+threshold remove that region from active rotation — the threshold and
+check interval directly determine your actual failover time (a 5-second
+interval with a 3-failure threshold means roughly 15 seconds of failed
+requests before traffic reroutes), which is a real, calculable number, not
+a marketing claim of "automatic failover."
+
 ## Exercise
 
 1. Why does an active-active architecture handle a regional outage

@@ -149,6 +149,37 @@ Notice `/shelves/{shelfId}/books/{bookId}` for removal — it identifies the
 exact "book on this shelf" relationship without inventing a separate,
 unnecessary resource ID for that link.
 
+## How It Actually Works
+
+URL structure isn't just style — it's parsed literally, piece by piece, by
+both the client's URL library and the server's router before any REST
+"meaning" is applied.
+
+A URL like `https://api.example.com/v1/users/42/orders?status=shipped` is
+broken into components per RFC 3986:
+
+```
+scheme    : https
+host      : api.example.com
+path      : /v1/users/42/orders
+query     : status=shipped
+```
+
+On the server, the router turns your path *pattern* (`/users/:id/orders`)
+into a regular expression at startup — roughly
+`^/users/([^/]+)/orders$` — and tests every incoming path against the list
+of registered patterns in order until one matches, extracting `:id` as a
+capture group. This is why route *order* matters in some frameworks:
+`/users/me` registered after `/users/:id` never gets its own literal
+match, because `:id` already swallows `"me"` as a captured segment.
+
+Nesting resources (`/authors/3/books`) works the same way — it's purely a
+matching convenience for the router; there's no protocol-level concept of
+"nested resources." The server code still runs one handler function, which
+must independently verify that book records under author 3 exist — REST
+gives you no automatic referential guarantee just because the URL implies
+a relationship.
+
 ## Exercise
 
 Design the URL scheme (methods + paths only, no bodies needed) for a "task

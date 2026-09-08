@@ -151,6 +151,34 @@ expiration — fine for quick internal tooling or protecting a staging
 environment, but you should not design a new production API around it in
 2026; prefer bearer tokens or API keys.
 
+## How It Actually Works
+
+HTTP is stateless per the REST constraint, so *every single request* must
+carry proof of identity — there's no session the server "remembers"
+between requests unless it explicitly stores one server-side (which
+breaks pure statelessness, hence the shift toward tokens).
+
+**Basic Auth** mechanics: `Authorization: Basic <base64(username:password)>`.
+Base64 is *encoding*, not encryption — anyone who intercepts this header
+(or reads server logs that print it) can trivially decode it back to
+plaintext credentials. This is why Basic Auth is only acceptable over TLS,
+and even then is rarely used beyond quick internal tools.
+
+**Bearer tokens** (API keys, JWTs, OAuth access tokens): `Authorization:
+Bearer <token>`. The server doesn't "remember" you issued this token — on
+each request it either (a) looks the token up in a database/cache to find
+the associated user, or (b) if it's a signed JWT, cryptographically
+verifies the signature using a secret or public key it holds, and trusts
+the claims embedded inside the token itself without a database round trip
+at all. That verification is a real computation — HMAC-SHA256 over the
+token's header+payload, compared byte-for-byte against the signature
+segment — not a lookup.
+
+This is precisely what makes token auth compatible with REST's
+statelessness constraint: the *proof* travels with the request instead of
+living in server memory, so any server instance behind a load balancer can
+verify it independently, with no shared session store required.
+
 ## Exercise
 
 1. Given this JWT payload — `{"sub": "17", "role": "admin", "exp":

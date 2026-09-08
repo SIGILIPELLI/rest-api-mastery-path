@@ -108,6 +108,39 @@ Dashboard shows `p99 latency` on `POST /v1/orders` jumped from 100ms to
 The trace made it a two-minute diagnosis instead of an hour of guessing
 which of a dozen services was actually at fault.
 
+## How It Actually Works
+
+Observability for an API rests on three distinct signal types, each
+captured by a different mechanism at request time:
+
+**Logs** are discrete events written synchronously (or to a buffered
+async queue) at points your code explicitly calls `log.info(...)` —
+they answer "what happened, in this specific request" and are only as
+complete as the log statements a developer remembered to add.
+
+**Metrics** are pre-aggregated counters/histograms incremented in-process
+(e.g. `request_duration_seconds.observe(0.34)`) and periodically scraped
+by a system like Prometheus — the aggregation (p50/p95/p99 latency,
+request rate) happens as a mathematical operation over many samples, which
+is why metrics answer "how is the system doing overall" cheaply, without
+storing every individual request.
+
+**Distributed tracing** is the mechanism that actually reconnects one
+logical request across multiple services: each service propagates a
+`trace-id` (and generates its own `span-id`, recording the parent
+span-id) in a header — commonly `traceparent` per the W3C Trace Context
+spec — to every downstream call it makes. A tracing backend then
+reassembles the full call tree from these span records after the fact by
+matching `trace-id` and parent/child `span-id` relationships, which is
+the only way to answer "why was this one request slow across four
+microservices" — logs and metrics from each service in isolation don't
+carry the causal link between them; the propagated header is what does.
+
+`Server-Timing` response headers work similarly at a smaller scale —
+your backend can report per-request timing breakdowns (`db;dur=45,
+render;dur=12`) that a client-side tool reads directly off the response,
+no separate tracing infrastructure required for a single-hop breakdown.
+
 ## Exercise
 
 1. Why alert on error *rate* rather than raw error *count*?

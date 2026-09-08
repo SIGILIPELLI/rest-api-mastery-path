@@ -114,6 +114,39 @@ Produce, for OrderFlow:
    over offset pagination — referencing the specific trade-offs covered
    in the relevant module.
 
+## How It Actually Works
+
+A production-grade API pulls every mechanism from this course together
+into one request path, and tracing a single `POST /orders` through a
+hardened, multi-region, event-driven system makes the layering concrete:
+
+1. **DNS** resolves to the nearest healthy region (module 6).
+2. **Gateway** terminates TLS, checks the rate-limit bucket for this API
+   key (module 6, Level 2 + module 4, Level 4), verifies the JWT's
+   signature and pinned algorithm (module 2), and forwards internally with
+   the verified identity attached.
+3. **Application server** validates the body against its OpenAPI schema
+   (module 4, Level 2), begins a DB transaction on the primary (never a
+   replica, module 3) to avoid replication-lag write conflicts, and
+   generates an idempotency key check (module 5, Level 2) before
+   committing the order row.
+4. **Event emission**: on commit, an `order.created` event is published to
+   a partitioned topic keyed by `order_id` (module 7), guaranteeing
+   ordering for that order's subsequent events without blocking the HTTP
+   response on downstream consumers.
+5. **Usage metering**: a separate consumer of that same event increments
+   the customer's billing usage, deduplicated by request ID (module 8).
+6. **Response**: the gateway streams the `201 Created` back through the
+   same reused TLS connection, with `Cache-Control: no-store` (orders
+   aren't cacheable) and a `Location` header pointing at the new resource.
+
+Every "module" in that list is a real function call or middleware stage
+executing in a specific order on this one request — building the capstone
+means implementing enough of that real pipeline to see how a change at
+one layer (a slow gateway auth check, an unindexed idempotency lookup)
+becomes a measurable regression in the whole chain, not an abstract
+diagram.
+
 ## Exercise
 
 1. Walk through what happens, end to end, when a partner's `POST

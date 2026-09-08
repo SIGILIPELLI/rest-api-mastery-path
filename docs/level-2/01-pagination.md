@@ -131,6 +131,32 @@ GET /books?limit=25&cursor=<next_cursor>
 → { "data": [...], "meta": { "next_cursor": "...", "has_more": true } }
 ```
 
+## How It Actually Works
+
+**Offset pagination** (`?limit=20&offset=40`) translates almost literally
+into a SQL clause: `LIMIT 20 OFFSET 40`. The mechanical cost most people
+miss: the database still has to *scan and discard* the first 40 rows
+before it can return rows 41-60, because most storage engines walk an
+index or table in order and count past skipped rows rather than
+teleporting to an offset. At offset 40 this is free; at offset 4,000,000
+it means scanning four million rows just to throw them away, which is why
+offset pagination gets slower — not constant time — as page number grows.
+
+**Cursor (keyset) pagination** (`?after=cursor_abc123`) avoids this by
+encoding the *last seen row's sort key* into an opaque cursor, then
+translating the next request into `WHERE (created_at, id) < (last_created_at,
+last_id) ORDER BY created_at DESC, id DESC LIMIT 20`. This is a direct
+index seek — the database jumps straight to that key's position in the
+index, regardless of how deep into the collection it is, because a B-tree
+index lookup is logarithmic, not linear, in the number of rows skipped.
+
+This is also why cursors must be **opaque** to the client (typically
+base64 of a JSON tuple like `{"created_at":"...","id":42}`): the cursor is
+literally the WHERE-clause bind values for the next query, serialized. If
+you let a client hand-craft it, they're constructing part of your SQL
+query's filter — the same class of exposure as an unparameterized query,
+just base64-wrapped.
+
 ## Exercise
 
 1. An admin dashboard needs a "jump to page 12" control alongside "50 items

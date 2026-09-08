@@ -159,6 +159,40 @@ This client transfers the full book payload only on the first fetch and any
 fetch after a real change — every unchanged revalidation costs a small
 request/`304` round trip instead of the full body.
 
+## How It Actually Works
+
+`Cache-Control` and `ETag` implement two different validation strategies,
+and understanding the actual comparison logic explains when each saves a
+network round trip versus a full response body.
+
+**`Cache-Control: max-age=3600`** is a *time-based* freshness check done
+entirely by the client/cache — no server involvement. The cache stores the
+response plus the time it arrived; on a later request, it computes
+`age = now - stored_time`, and if `age < max_age`, it returns the stored
+copy *without contacting the server at all*. This is the fastest path —
+zero network round trips — but risks serving stale data if the resource
+changed before `max_age` elapsed.
+
+**`ETag`** is a *content-based* validator — the server computes a hash (or
+version stamp) of the resource body, e.g. `ETag: "a1b2c3"`. On a
+subsequent request, the client sends `If-None-Match: "a1b2c3"`, and the
+server recomputes the current ETag and does a literal string comparison:
+
+```text
+if current_etag == request's If-None-Match:
+    return 304 Not Modified (empty body, headers only)
+else:
+    return 200 OK (full body, new ETag)
+```
+
+A `304` still requires a full round trip to the server (unlike max-age),
+but saves re-transferring the (possibly large) response body — the server
+did real work (recomputing the hash) to save the *network*, not the
+server's own CPU. Combining both (`Cache-Control: max-age=60` plus an
+`ETag`) is why real APIs use both: max-age avoids the round trip entirely
+while fresh, and ETag validation kicks in cheaply once that window
+expires, before falling back to a full re-fetch.
+
 ## Exercise
 
 1. Explain the practical difference between `no-cache` and `no-store`, and

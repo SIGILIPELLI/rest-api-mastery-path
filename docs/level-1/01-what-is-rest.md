@@ -155,6 +155,43 @@ Both "work," but the first is predictable — once you know the pattern, you
 can guess the URL for any resource and action. The second requires you to
 memorize every endpoint name individually.
 
+## How It Actually Works
+
+Every REST call, no matter how "resourceful" it looks in a diagram, ends up
+as bytes on a TCP connection. When your client does `GET /books/17`, here is
+the actual sequence:
+
+1. **DNS resolution** — the hostname (`api.example.com`) resolves to an IP.
+2. **TCP three-way handshake** — client sends `SYN`, server replies
+   `SYN-ACK`, client replies `ACK`. Only after this completes does any HTTP
+   byte move.
+3. **TLS handshake** (if HTTPS) — a `ClientHello`/`ServerHello` exchange
+   negotiates a cipher suite and exchanges keys, so everything after this
+   point is encrypted at the transport layer, not the application layer.
+   REST's "statelessness" constraint is about the *application* layer; TLS
+   session state is a separate, lower-level thing.
+4. **The HTTP request line + headers + (optional) body go over that
+   encrypted socket as plain text** (or binary frames, if HTTP/2):
+
+```text
+GET /books/17 HTTP/1.1
+Host: api.example.com
+Accept: application/json
+```
+
+5. The server's TCP stack hands the bytes to whatever process is listening
+   on port 443, which parses the request line, matches it against a routing
+   table, and produces a response — which travels back over the *same* TCP
+   connection if `Connection: keep-alive` is in play (the connection is
+   reused for the next request instead of renegotiating TCP+TLS from
+   scratch — a major reason "statelessness" at the API layer and
+   "connection reuse" at the transport layer are two independent concepts
+   that often get conflated).
+
+The six REST constraints describe the *contract* two independently-evolving
+programs agree to follow on top of this — they say nothing about the wire
+mechanics that make the bytes actually arrive.
+
 ## Exercise
 
 1. Pick an API you use often (GitHub's, Spotify's, or any public API with

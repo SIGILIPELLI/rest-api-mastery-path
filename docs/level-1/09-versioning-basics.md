@@ -149,6 +149,34 @@ usually by having `v2` be the "real" internal model and `v1` be a thin
 compatibility-transforming layer on top of it) until it's formally
 deprecated and eventually retired — the process covered in Level 3.
 
+## How It Actually Works
+
+API versioning strategies differ in *where in the request* the version
+signal lives, which determines which layer of the stack can act on it.
+
+**URL versioning** (`/v1/books`) puts the version in the path, so it's
+visible to the router *before* any application code runs — a reverse proxy
+or load balancer can route `/v1/*` to one fleet of servers and `/v2/*` to
+another with a simple path-prefix rule, no application logic involved.
+This is mechanically the simplest to operate.
+
+**Header versioning** (`Accept: application/vnd.example.v2+json` or a
+custom `X-API-Version: 2` header) keeps the version out of the URL, but
+means routing decisions require parsing headers, not just the path — a
+plain path-based load balancer can't split traffic on it without extra
+configuration, and this header must survive every proxy/CDN hop
+unmodified (some intermediaries strip unrecognized custom headers by
+default).
+
+**Content negotiation via `Accept`** goes through the same header-parsing
+machinery your server already uses to pick response formats (module 8 in
+Level 2) — the server reads the `Accept` header, matches it against a list
+of media types it can produce for that route, and dispatches to the
+matching serializer. If no version matches, the correct HTTP-mechanical
+response is `406 Not Acceptable`, not a silent fallback — though many APIs
+skip this and default instead, trading strict correctness for lower
+integration friction.
+
 ## Exercise
 
 1. You need to rename a field from `full_name` to `name` in your `/users`

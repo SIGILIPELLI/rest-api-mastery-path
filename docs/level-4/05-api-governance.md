@@ -100,6 +100,40 @@ writing any code.
 4. Spec approved; implementation begins with the shape already
    validated, no rework needed after the fact.
 
+## How It Actually Works
+
+API governance enforces its rules the same way a linter enforces code
+style — as an automated check run against the machine-readable OpenAPI
+spec (module 4, Level 2) in CI, not as a human reviewing PRs by memory.
+
+A governance tool like Spectral walks the parsed spec's AST and evaluates
+rules against it:
+
+```yaml
+rules:
+  paths-kebab-case:
+    given: "$.paths[*]~"
+    then: { function: pattern, functionOptions: { match: "^/[a-z0-9-/{}]+$" } }
+  must-have-error-schema:
+    given: "$.paths[*][*].responses[?(@property >= 400)]"
+    then: { field: content, function: truthy }
+```
+
+The first rule's `given` is a JSONPath expression selecting every path key
+in the spec; the `then` checks it against a regex — a PR that introduces
+`/getUserOrders` instead of `/user-orders` fails this rule automatically,
+the instant the spec is linted, before a human reviewer even looks at it.
+The second rule walks every response definition with a status code ≥ 400
+and fails the build if no error schema is defined for it — enforcing "all
+error responses must be documented" as a structural, not stylistic, check.
+
+Because this runs against the same OpenAPI document that also drives
+mock servers, SDK generation, and documentation (a running theme across
+Level 2-4), a single governance failure blocks the *same* CI pipeline
+stage that would otherwise publish an inconsistent doc site or generate a
+badly-shaped SDK — governance and documentation share one source of
+truth by construction, not by policy alone.
+
 ## Exercise
 
 1. Why is design-first review (spec before code) cheaper to act on than

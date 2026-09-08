@@ -232,6 +232,41 @@ extended in your own words) includes:
 - [ ] The version prefix in every URL, with a one-sentence note on your
       versioning strategy.
 
+## How It Actually Works
+
+Building the bookshelf API end-to-end means every mechanism from this
+level operates together on a single request. Trace `POST /books` all the
+way through:
+
+1. **Connection**: client's HTTP library completes TCP handshake (+ TLS)
+   to your server's listening socket.
+2. **Parsing**: the server's HTTP layer reads the request line, headers,
+   and — because `Content-Length: 42` is present — exactly 42 more bytes
+   as the body.
+3. **Routing**: the router matches method `POST` + path `/books` against
+   its registered pattern table and dispatches to your `createBook`
+   handler, with no other patterns (like `/books/:id`) matching a path
+   with no trailing segment.
+4. **Deserialization**: because `Content-Type: application/json` is set,
+   the framework invokes a JSON parser on the raw body bytes, producing an
+   in-memory object your handler code can read as `req.body.title`.
+5. **Authentication**: middleware runs *before* your handler, reading the
+   `Authorization` header and verifying the bearer token — if this fails,
+   the request never reaches your business logic at all; the framework
+   short-circuits with `401`.
+6. **Validation and persistence**: your handler checks required fields,
+   writes a row, and constructs a response object.
+7. **Serialization + response**: the framework turns your response object
+   back into JSON bytes, sets `Content-Type` and `Content-Length`
+   automatically, writes the status line (`201 Created`) and a `Location:
+   /books/18` header, and flushes it back over the *same* TCP connection
+   the request arrived on (assuming keep-alive), ready for the next
+   request to reuse the socket without a fresh handshake.
+
+Every module you've studied so far is a named stage in that seven-step
+pipeline — none of it is REST-specific magic, it's the standard anatomy of
+any HTTP server framework.
+
 ## Exercise
 
 Extend the spec above with one additional feature of your choosing — for

@@ -131,6 +131,41 @@ multiple running instances:
    sunset date passes), remove it from the response and drop the
    column.
 
+## How It Actually Works
+
+Zero-downtime schema migrations work by never having a single moment
+where old code and new code disagree about what the database looks like —
+mechanically, this means splitting one conceptual change into several
+independently-safe deploy steps.
+
+Renaming a column, done unsafely, is a single `ALTER TABLE ... RENAME
+COLUMN` — the instant it runs, any still-running old server process whose
+code references the old column name starts throwing SQL errors on every
+query, because the column it expects literally no longer exists. Done
+safely (the "expand-contract" pattern):
+
+```text
+1. EXPAND: add new column `full_name`, keep old `name`. Deploy.
+   (old code writes `name`; new column sits unused)
+2. BACKFILL: run a background job copying name -> full_name for existing
+   rows, in batches (to avoid locking the whole table at once).
+3. DUAL-WRITE: deploy code that writes to BOTH `name` and `full_name`.
+   Old and new code can coexist because both columns exist and are kept
+   in sync.
+4. SWITCH READS: deploy code that reads from `full_name` only.
+5. CONTRACT: once all instances run the new code and no rollback risk
+   remains, drop the old `name` column.
+```
+
+Each step is independently deployable and independently *reversible* — a
+rollback mid-migration at any step still has a valid, consistent database
+state, because at every step both the old and new server code (which will
+briefly coexist during a rolling deploy across many instances) can
+successfully read and write against the schema as it exists at that
+moment. Collapsing steps (skipping dual-write, say) reintroduces exactly
+the failure window this pattern exists to eliminate — a request hitting
+an old-code instance after the schema changed underneath it.
+
 ## Exercise
 
 1. Why does renaming a column in one step break requests during a

@@ -170,6 +170,37 @@ Content-Type: application/json
 Both problems are reported together — the client fixes both fields and
 resubmits once, rather than a frustrating fix-one-resubmit-repeat loop.
 
+## How It Actually Works
+
+An HTTP error response is mechanically identical to a success response —
+same wire format, same headers-then-body structure — the *only*
+difference is the three-digit number on the status line and whatever the
+server chooses to put in the body.
+
+```
+HTTP/1.1 404 Not Found\r\n
+Content-Type: application/json\r\n
+\r\n
+{"error":"book_not_found","id":17}
+```
+
+Nothing in the HTTP protocol validates that the body's content matches the
+status code's meaning — a server could return `404` with an empty body, or
+`200` with `{"error": "..."}` in the JSON (a common REST anti-pattern:
+"200 with an error object," which breaks every HTTP-layer tool that
+inspects only the status line, like CDNs, monitoring dashboards, and
+generic retry logic).
+
+The status-code *class* (4xx vs 5xx) matters at layers below your
+application code too: a caching proxy will typically never cache a 5xx,
+and load balancers commonly treat repeated 5xx responses from one backend
+instance as a health-check failure and stop routing traffic to it — a
+signal your application emits for free just by returning the right class
+of code, with no extra monitoring code required. This is also why
+"structured error bodies" are an *application-level convention* layered on
+top — HTTP itself has no schema for error payloads, which is exactly why
+this module recommends picking one and applying it consistently.
+
 ## Exercise
 
 1. Design a consistent JSON error shape (your own, or RFC 9457) for an API

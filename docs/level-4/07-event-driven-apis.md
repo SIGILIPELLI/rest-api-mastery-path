@@ -97,6 +97,39 @@ needs a near-real-time copy to power search.
    catches up — no manual reconciliation needed, and `products-service`
    never had to know `search-service` existed or was down.
 
+## How It Actually Works
+
+Event-driven APIs replace synchronous request/response with a message
+broker in between, which changes the actual delivery guarantees your code
+can rely on.
+
+A producer publishes to a topic/queue (Kafka, RabbitMQ, SQS):
+
+```text
+Producer -> [Broker: topic "order.created", partition by order_id] -> Consumer(s)
+```
+
+**At-least-once delivery** (the common default) means a broker will
+redeliver a message if it doesn't receive an acknowledgment within a
+timeout — mechanically, the consumer must call `ack()` only *after*
+successfully processing the message; if the consumer crashes between
+processing and acking, the broker, seeing no ack, redelivers the same
+message to another consumer. This is exactly why event handlers, like
+webhook handlers (module 2, Level 3), must be idempotent — the delivery
+mechanism itself guarantees "at least once," never "exactly once," without
+extra deduplication logic your consumer supplies (commonly: track
+processed message IDs in a store with a TTL, skip reprocessing on a seen
+ID).
+
+**Partitioning/ordering**: a Kafka topic split into partitions, keyed by
+`order_id`, guarantees ordering only *within* a partition (all events for
+one order_id land on the same partition and are delivered in order) — not
+across the whole topic. A consumer that needs global ordering across all
+orders fundamentally can't parallelize consumption beyond one partition,
+which is the actual mechanical tradeoff behind "eventual consistency" in
+these systems: throughput scales with partition count, but ordering
+guarantees only hold within each partition's own sequence.
+
 ## Exercise
 
 1. Why does at-least-once delivery mean consumers must be written

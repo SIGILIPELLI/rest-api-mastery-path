@@ -137,6 +137,44 @@ ID to any authenticated user, not just their own.
 4. Add a regression test asserting this specifically, and an automated
    BOLA scan (varying IDs across authenticated sessions) to CI.
 
+## How It Actually Works
+
+Hardening measures target specific, well-understood attack mechanics —
+each defense maps to exactly how the corresponding attack actually
+executes at the protocol/parsing level.
+
+**Input validation against injection**: a SQL injection succeeds when
+untrusted input is concatenated directly into a query string, so the
+database parses part of the attacker's data as executable SQL syntax
+rather than as a value. Parameterized queries prevent this mechanically
+(module 2, Level 2) by sending the value over a separate channel from the
+query template — the database driver never gives the value's bytes a
+chance to be interpreted as syntax.
+
+**CORS** is enforced by the *browser*, not the server: your server sends
+`Access-Control-Allow-Origin: https://app.example.com`, and it's the
+browser's own JavaScript engine that reads this response header and
+decides whether to let the calling page's script access the response —
+a `curl` request or a server-to-server call ignores CORS entirely, because
+CORS is a browser-side sandboxing mechanism, not an authentication
+mechanism.
+
+**JWT verification hardening** means explicitly checking the `alg` header
+your code accepts before verifying the signature — a well-known real
+exploit sends a JWT with `alg: none` or downgrades from RS256 (asymmetric)
+to HS256 (symmetric, using the server's own *public* key as the HMAC
+secret), and a library that blindly trusts the token's own `alg` field
+will "verify" a forged token that was never actually signed by the real
+private key. Correct implementations pin the expected algorithm in the
+verification call itself, ignoring what the token claims about itself.
+
+**Secrets in headers, never URLs**: a URL (including its query string) is
+routinely logged by proxies, browser history, and server access logs in
+plaintext — an API key in `?api_key=...` ends up durably persisted in
+multiple log files, while the same key in an `Authorization` header
+typically is not, because most default access-log formats capture the
+request line and headers list but not header *values*.
+
 ## Exercise
 
 1. Why is reflecting any `Origin` back with `Access-Control-Allow-

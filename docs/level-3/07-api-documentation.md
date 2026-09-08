@@ -108,6 +108,36 @@ includes:
 4. If this replaces an older `POST /v1/refunds` endpoint, a deprecation
    entry for the old one, per module 6.
 
+## How It Actually Works
+
+Good API docs aren't just prose — the mechanism that keeps them accurate
+is generating them *from* the same source that defines the API's actual
+behavior, rather than maintaining a separate hand-written description that
+drifts.
+
+An OpenAPI-driven doc site (like Swagger UI or Redoc) works like this:
+
+```text
+1. Your OpenAPI YAML/JSON is the single source of truth.
+2. A doc-generator tool parses it and renders interactive HTML —
+   route list, parameter tables, example requests/responses — directly
+   from the schema's structure.
+3. Swagger UI's "Try it out" button constructs a REAL HTTP request using
+   the schema's parameter definitions and sends it to the actual server,
+   rendering the real response — this only works because the schema
+   contains enough machine-readable detail (base URL, auth scheme,
+   parameter types) to build a valid request without a human writing it.
+```
+
+This is mechanically why "docs that lie" (a documented parameter that no
+longer exists, an example that 400s) happen almost exclusively in
+hand-written documentation systems disconnected from the code — nothing
+forces prose to stay in sync with a route handler's actual `if` checks.
+A schema-driven pipeline, by contrast, can be linted in CI: a contract
+test (module 5) or schema-validation step that fails the build if the
+implementation's actual response shape diverges from the documented
+schema, catching drift before it reaches a published doc site at all.
+
 ## Exercise
 
 1. Why should example values in an OpenAPI spec be realistic (`"id":

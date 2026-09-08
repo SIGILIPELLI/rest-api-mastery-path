@@ -113,6 +113,38 @@ DB write, structured log line with a `request_id`, an async webhook
 delivery to every subscriber of `book.added`, and a metric increment —
 all seven modules working together on one call.
 
+## How It Actually Works
+
+Combining OAuth2 and webhooks in one project means two independent
+security mechanisms have to cooperate correctly, and the failure modes
+are different for each direction of traffic.
+
+**Inbound (your app calling a provider with OAuth)**: your stored access
+token is attached as `Authorization: Bearer <token>` on every outbound
+call; when the provider's token-verification middleware rejects it as
+expired (`401`), your client code must catch that specific status, use
+the stored refresh token in a separate server-to-server `POST /token`
+call, persist the new access token, and retry the original request — a
+state machine your HTTP client wrapper has to implement explicitly,
+because HTTP itself has no "retry with a refreshed credential" primitive.
+
+**Outbound (the provider calling your webhook endpoint)**: this is the
+reverse trust direction — you're now the server verifying the *provider's*
+signature (module 2) on every incoming POST, using a webhook secret,
+which is a completely separate credential from your OAuth access/refresh
+tokens. Mixing these up (verifying a webhook against your OAuth client
+secret, say) is a real, exploitable bug class, because the two secrets are
+meant to be known by different parties for different purposes.
+
+Concurrency also matters mechanically here: a webhook delivery can arrive
+*while* your background job is mid-refresh of the OAuth token for a
+related outbound call — both processes touching the same stored
+credential record means the refresh-token exchange and storage write need
+to be guarded (a DB row lock or atomic compare-and-swap) so two concurrent
+refreshes don't race and one overwrite a still-valid token with a
+duplicate, invalidated one (many providers invalidate the old refresh
+token the instant a new one is issued).
+
 ## Exercise
 
 1. Trace exactly what happens, module by module, when a client with a
