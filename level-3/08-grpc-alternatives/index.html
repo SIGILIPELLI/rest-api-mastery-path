@@ -1721,6 +1721,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2381,6 +2403,8 @@ in real time.</p>
   (server informs client) and simpler to operate than WebSockets for
   that shape of problem.</li>
 </ul>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>gRPC's speed advantage over JSON-over-REST comes from two stacked mechanisms: HTTP/2 multiplexes many requests over one TCP connection (no repeated handshakes, no head-of-line blocking at the connection level), and Protocol Buffers encode messages as a compact binary wire format keyed by field <em>numbers</em> rather than string field names — so there's no text parsing, no whitespace, and the receiver only needs the numbered schema (the <code>.proto</code> file) to decode it deterministically. That efficiency is exactly the tradeoff: a REST/JSON response is human-readable in a browser's network tab and debuggable with <code>curl</code>, while a gRPC binary payload requires the schema and tooling to even inspect — which is why public, browser-facing APIs still lean REST even where gRPC would be objectively faster on the wire.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Why can't a browser call a gRPC service directly the way it calls a
