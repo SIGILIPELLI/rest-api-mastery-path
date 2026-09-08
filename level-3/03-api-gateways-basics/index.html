@@ -1592,6 +1592,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2429,6 +2451,33 @@ anything:</p>
    reachable by clients at all — until then it's fully internal, so
    there's zero external-facing risk during development.</li>
 </ol>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>An API gateway sits as a reverse proxy in front of your actual services,
+and its core mechanism is inspecting and rewriting each request before
+forwarding it — a single incoming connection from the client, then a
+separate outgoing connection to the real backend.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Client -&gt; [Gateway] -&gt; Backend service
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>             |
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>             +- terminates TLS from the client
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>             +- matches path against a routing table
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>             +- runs auth/rate-limit checks BEFORE forwarding
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>             +- opens a NEW connection to the matched backend
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>             +- (often) rewrites the path, e.g. strips /api prefix
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>             +- streams the backend's response back to the client
+</code></pre></div>
+<p>The gateway terminating TLS means the client's encrypted connection ends
+<em>at the gateway</em> — traffic from gateway to backend may be plain HTTP
+inside a trusted private network, which is why backend services often
+don't need their own TLS certificates at all.</p>
+<p>Centralizing auth and rate limiting at the gateway means those checks run
+exactly once, before the request reaches any backend service — a
+short-circuited <code>401</code>/<code>429</code> response from the gateway never even opens a
+connection to the backend, saving that service's resources entirely. This
+is mechanically why gateways reduce backend code duplication: instead of
+every microservice independently verifying a JWT, one gateway process does
+it once per request and forwards a already-verified user identity (often
+as an internal header like <code>X-User-Id</code>) that backends trust implicitly
+because they only accept traffic from the gateway's internal network.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>A client complains that two different backend services return

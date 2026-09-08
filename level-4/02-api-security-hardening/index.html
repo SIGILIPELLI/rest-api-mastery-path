@@ -1929,6 +1929,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2390,6 +2412,38 @@ ID to any authenticated user, not just their own.</p>
 <li>Add a regression test asserting this specifically, and an automated
    BOLA scan (varying IDs across authenticated sessions) to CI.</li>
 </ol>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Hardening measures target specific, well-understood attack mechanics —
+each defense maps to exactly how the corresponding attack actually
+executes at the protocol/parsing level.</p>
+<p><strong>Input validation against injection</strong>: a SQL injection succeeds when
+untrusted input is concatenated directly into a query string, so the
+database parses part of the attacker's data as executable SQL syntax
+rather than as a value. Parameterized queries prevent this mechanically
+(module 2, Level 2) by sending the value over a separate channel from the
+query template — the database driver never gives the value's bytes a
+chance to be interpreted as syntax.</p>
+<p><strong>CORS</strong> is enforced by the <em>browser</em>, not the server: your server sends
+<code>Access-Control-Allow-Origin: https://app.example.com</code>, and it's the
+browser's own JavaScript engine that reads this response header and
+decides whether to let the calling page's script access the response —
+a <code>curl</code> request or a server-to-server call ignores CORS entirely, because
+CORS is a browser-side sandboxing mechanism, not an authentication
+mechanism.</p>
+<p><strong>JWT verification hardening</strong> means explicitly checking the <code>alg</code> header
+your code accepts before verifying the signature — a well-known real
+exploit sends a JWT with <code>alg: none</code> or downgrades from RS256 (asymmetric)
+to HS256 (symmetric, using the server's own <em>public</em> key as the HMAC
+secret), and a library that blindly trusts the token's own <code>alg</code> field
+will "verify" a forged token that was never actually signed by the real
+private key. Correct implementations pin the expected algorithm in the
+verification call itself, ignoring what the token claims about itself.</p>
+<p><strong>Secrets in headers, never URLs</strong>: a URL (including its query string) is
+routinely logged by proxies, browser history, and server access logs in
+plaintext — an API key in <code>?api_key=...</code> ends up durably persisted in
+multiple log files, while the same key in an <code>Authorization</code> header
+typically is not, because most default access-log formats capture the
+request line and headers list but not header <em>values</em>.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Why is reflecting any <code>Origin</code> back with <code>Access-Control-Allow-

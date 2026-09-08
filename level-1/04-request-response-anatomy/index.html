@@ -868,6 +868,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2487,6 +2509,33 @@ internalizing:</p>
 <li>Dates: use ISO 8601 (<code>"2026-08-29T10:00:00Z"</code>), not ambiguous formats like
   <code>"08/29/2026"</code>.</li>
 </ul>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>An HTTP message — request or response — is not a data structure your
+language understands natively; it's a specific text (or binary, in
+HTTP/2) format that both sides must parse byte-by-byte.</p>
+<p>For HTTP/1.1, a request looks like this on the wire, exactly:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>POST /orders HTTP/1.1\r\n
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Host: api.example.com\r\n
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Content-Type: application/json\r\n
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Content-Length: 27\r\n
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>\r\n
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>{"item":"widget","qty":3}
+</code></pre></div>
+<p>The parser reads line by line, splitting on <code>\r\n</code> (CRLF, not just <code>\n</code> —
+a detail that trips up hand-rolled parsers). The <strong>blank line</strong> (<code>\r\n\r\n</code>)
+is the hard boundary between headers and body — everything after it is
+opaque bytes until <code>Content-Length</code> bytes have been read (or, for chunked
+transfer, until a <code>0\r\n\r\n</code> terminator chunk arrives).</p>
+<p><code>Content-Length</code> matters mechanically: the parser doesn't know where the
+body ends by "reading until it looks done" — it counts exactly that many
+bytes. Send a <code>Content-Length</code> that doesn't match your actual body size and
+you get a hung connection (server waiting for bytes that never come) or a
+truncated parse (server stops reading mid-JSON).</p>
+<p><code>Content-Type</code> tells the <em>receiving</em> code which deserializer to invoke —
+<code>application/json</code> triggers a JSON parser, <code>application/x-www-form-
+urlencoded</code> triggers key=value&amp;key=value splitting. Get this header wrong
+and a perfectly valid JSON body gets parsed as an empty form, producing
+confusing "missing field" errors that have nothing to do with your JSON.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Run <code>curl -v https://httpbin.org/get</code> (or reason through it if you don't

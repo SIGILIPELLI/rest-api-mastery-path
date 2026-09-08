@@ -1041,6 +1041,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2349,6 +2360,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2550,6 +2572,29 @@ string would break if this changed in place. So it ships as <code>v2</code>:</p>
 usually by having <code>v2</code> be the "real" internal model and <code>v1</code> be a thin
 compatibility-transforming layer on top of it) until it's formally
 deprecated and eventually retired — the process covered in Level 3.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>API versioning strategies differ in <em>where in the request</em> the version
+signal lives, which determines which layer of the stack can act on it.</p>
+<p><strong>URL versioning</strong> (<code>/v1/books</code>) puts the version in the path, so it's
+visible to the router <em>before</em> any application code runs — a reverse proxy
+or load balancer can route <code>/v1/*</code> to one fleet of servers and <code>/v2/*</code> to
+another with a simple path-prefix rule, no application logic involved.
+This is mechanically the simplest to operate.</p>
+<p><strong>Header versioning</strong> (<code>Accept: application/vnd.example.v2+json</code> or a
+custom <code>X-API-Version: 2</code> header) keeps the version out of the URL, but
+means routing decisions require parsing headers, not just the path — a
+plain path-based load balancer can't split traffic on it without extra
+configuration, and this header must survive every proxy/CDN hop
+unmodified (some intermediaries strip unrecognized custom headers by
+default).</p>
+<p><strong>Content negotiation via <code>Accept</code></strong> goes through the same header-parsing
+machinery your server already uses to pick response formats (module 8 in
+Level 2) — the server reads the <code>Accept</code> header, matches it against a list
+of media types it can produce for that route, and dispatches to the
+matching serializer. If no version matches, the correct HTTP-mechanical
+response is <code>406 Not Acceptable</code>, not a silent fallback — though many APIs
+skip this and default instead, trading strict correctness for lower
+integration friction.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>You need to rename a field from <code>full_name</code> to <code>name</code> in your <code>/users</code>

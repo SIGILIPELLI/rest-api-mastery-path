@@ -2097,6 +2097,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2372,6 +2394,34 @@ request, and risking overselling if two concurrent requests both read
 <li>Reset the counter on the billing cycle boundary, not a rolling
    window.</li>
 </ol>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Metering usage for billing means every request has to be counted and
+attributed to a specific customer <em>reliably</em>, even under failures and
+retries — the mechanism is closer to financial ledger-keeping than simple
+logging.</p>
+<p>A typical metering pipeline:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>1. Request arrives with API key -&gt; resolved to customer_id (module 4).
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>2. Handler completes -&gt; emit a usage event:
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>   { customer_id, endpoint, timestamp, request_id }
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>3. Event goes to a durable queue (not counted in-process synchronously,
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>   because an in-memory counter is lost on a crash/restart).
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>4. A separate aggregation job sums events per customer per billing period.
+</code></pre></div>
+<p>The <code>request_id</code> in that event is what makes billing idempotent against
+duplicate counting: if step 3's queue delivers the same event twice (the
+at-least-once guarantee from event-driven systems, module 7), the
+aggregation job deduplicates by <code>request_id</code> before summing — without
+this, a network retry or a broker redelivery directly inflates a
+customer's bill, a bug class with real financial consequences, not just a
+display glitch.</p>
+<p><strong>Tiered rate limits per plan</strong> reuse the token-bucket mechanism (module
+6, Level 2) but with <code>capacity</code>/<code>refill_rate</code> looked up per customer's
+plan rather than one global constant — the same rate-limiting code path
+runs for every customer, just parameterized differently, which is why
+billing-plan changes (a customer upgrading tiers) can take effect
+immediately: it's a config lookup change, not a code deploy, as long as
+the plan-to-limits mapping is read fresh (or from a short-TTL cache) on
+each request rather than baked in at startup.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Why is a naive read-then-write quota check subject to a race

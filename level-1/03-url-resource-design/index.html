@@ -862,6 +862,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2327,6 +2338,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2466,6 +2488,30 @@ books they own).</p>
 <p>Notice <code>/shelves/{shelfId}/books/{bookId}</code> for removal — it identifies the
 exact "book on this shelf" relationship without inventing a separate,
 unnecessary resource ID for that link.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>URL structure isn't just style — it's parsed literally, piece by piece, by
+both the client's URL library and the server's router before any REST
+"meaning" is applied.</p>
+<p>A URL like <code>https://api.example.com/v1/users/42/orders?status=shipped</code> is
+broken into components per RFC 3986:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>scheme    : https
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>host      : api.example.com
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>path      : /v1/users/42/orders
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>query     : status=shipped
+</code></pre></div>
+<p>On the server, the router turns your path <em>pattern</em> (<code>/users/:id/orders</code>)
+into a regular expression at startup — roughly
+<code>^/users/([^/]+)/orders$</code> — and tests every incoming path against the list
+of registered patterns in order until one matches, extracting <code>:id</code> as a
+capture group. This is why route <em>order</em> matters in some frameworks:
+<code>/users/me</code> registered after <code>/users/:id</code> never gets its own literal
+match, because <code>:id</code> already swallows <code>"me"</code> as a captured segment.</p>
+<p>Nesting resources (<code>/authors/3/books</code>) works the same way — it's purely a
+matching convenience for the router; there's no protocol-level concept of
+"nested resources." The server code still runs one handler function, which
+must independently verify that book records under author 3 exist — REST
+gives you no automatic referential guarantee just because the URL implies
+a relationship.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Design the URL scheme (methods + paths only, no bodies needed) for a "task
 tracker" API with these resources: <strong>projects</strong>, <strong>tasks</strong> (each belongs to

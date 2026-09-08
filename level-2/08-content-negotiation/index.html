@@ -1356,6 +1356,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2436,6 +2458,31 @@ notice and reason about than a version buried in a header.</p>
 <a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>
 <a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>    <span class="k">raise</span> <span class="n">NotAcceptable</span><span class="p">(</span><span class="n">supported</span><span class="o">=</span><span class="p">[</span><span class="s2">"application/json"</span><span class="p">,</span> <span class="s2">"text/csv"</span><span class="p">])</span>
 </code></pre></div>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Content negotiation is a real parsing-and-matching algorithm the server
+runs against the <code>Accept</code> header, not a simple string equality check.</p>
+<p>A client sends: <code>Accept: application/json;q=0.9, application/xml;q=0.5,
+*/*;q=0.1</code> — meaning "prefer JSON, XML is acceptable, otherwise anything."
+The server's negotiation logic:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>1. Parse each media type + its q-value (default q=1.0 if omitted).
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>2. Sort by q-value descending: [json:0.9, xml:0.5, */*:0.1]
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>3. Walk this list; for each, check if the server can actually produce it.
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>4. Return the first mutual match, with matching Content-Type set.
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>5. If nothing matches: 406 Not Acceptable.
+</code></pre></div>
+<p>This is genuinely a <strong>negotiation</strong>, not a client dictate — the server's
+list of what it <em>can</em> produce (its registered serializers) intersects
+with the client's ordered preference list, and the first mutual match
+wins. A server that only implements a JSON serializer will always return
+JSON regardless of the <code>Accept</code> header's XML preference, correctly falling
+through to whatever the server <em>can</em> do (many APIs skip strict <code>406</code>
+enforcement and just default to JSON for pragmatism).</p>
+<p><code>Content-Type</code> on the <em>response</em> is not negotiated — it's the server
+stating, after the fact, which format it actually chose, so the client's
+parser knows how to deserialize the body it's about to read. Confusing
+<code>Accept</code> (what I can read) with <code>Content-Type</code> (what I'm sending/what this
+is) is the single most common content-negotiation bug in hand-rolled
+API clients.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>A client sends <code>Accept: application/xml;q=1.0, application/json;q=0.5</code>

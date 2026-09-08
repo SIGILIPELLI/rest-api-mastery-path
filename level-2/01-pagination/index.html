@@ -1160,6 +1160,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2442,6 +2464,28 @@ books while scrolling).</p>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>GET /books?limit=25&amp;cursor=&lt;next_cursor&gt;
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>→ { "data": [...], "meta": { "next_cursor": "...", "has_more": true } }
 </code></pre></div>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Offset pagination</strong> (<code>?limit=20&amp;offset=40</code>) translates almost literally
+into a SQL clause: <code>LIMIT 20 OFFSET 40</code>. The mechanical cost most people
+miss: the database still has to <em>scan and discard</em> the first 40 rows
+before it can return rows 41-60, because most storage engines walk an
+index or table in order and count past skipped rows rather than
+teleporting to an offset. At offset 40 this is free; at offset 4,000,000
+it means scanning four million rows just to throw them away, which is why
+offset pagination gets slower — not constant time — as page number grows.</p>
+<p><strong>Cursor (keyset) pagination</strong> (<code>?after=cursor_abc123</code>) avoids this by
+encoding the <em>last seen row's sort key</em> into an opaque cursor, then
+translating the next request into <code>WHERE (created_at, id) &lt; (last_created_at,
+last_id) ORDER BY created_at DESC, id DESC LIMIT 20</code>. This is a direct
+index seek — the database jumps straight to that key's position in the
+index, regardless of how deep into the collection it is, because a B-tree
+index lookup is logarithmic, not linear, in the number of rows skipped.</p>
+<p>This is also why cursors must be <strong>opaque</strong> to the client (typically
+base64 of a JSON tuple like <code>{"created_at":"...","id":42}</code>): the cursor is
+literally the WHERE-clause bind values for the next query, serialized. If
+you let a client hand-craft it, they're constructing part of your SQL
+query's filter — the same class of exposure as an unparameterized query,
+just base64-wrapped.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>An admin dashboard needs a "jump to page 12" control alongside "50 items

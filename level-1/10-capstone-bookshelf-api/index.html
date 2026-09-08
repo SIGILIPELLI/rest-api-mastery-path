@@ -1141,6 +1141,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2493,6 +2504,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2727,6 +2749,39 @@ extended in your own words) includes:</p>
 <li>[ ] The version prefix in every URL, with a one-sentence note on your
       versioning strategy.</li>
 </ul>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Building the bookshelf API end-to-end means every mechanism from this
+level operates together on a single request. Trace <code>POST /books</code> all the
+way through:</p>
+<ol>
+<li><strong>Connection</strong>: client's HTTP library completes TCP handshake (+ TLS)
+   to your server's listening socket.</li>
+<li><strong>Parsing</strong>: the server's HTTP layer reads the request line, headers,
+   and — because <code>Content-Length: 42</code> is present — exactly 42 more bytes
+   as the body.</li>
+<li><strong>Routing</strong>: the router matches method <code>POST</code> + path <code>/books</code> against
+   its registered pattern table and dispatches to your <code>createBook</code>
+   handler, with no other patterns (like <code>/books/:id</code>) matching a path
+   with no trailing segment.</li>
+<li><strong>Deserialization</strong>: because <code>Content-Type: application/json</code> is set,
+   the framework invokes a JSON parser on the raw body bytes, producing an
+   in-memory object your handler code can read as <code>req.body.title</code>.</li>
+<li><strong>Authentication</strong>: middleware runs <em>before</em> your handler, reading the
+   <code>Authorization</code> header and verifying the bearer token — if this fails,
+   the request never reaches your business logic at all; the framework
+   short-circuits with <code>401</code>.</li>
+<li><strong>Validation and persistence</strong>: your handler checks required fields,
+   writes a row, and constructs a response object.</li>
+<li><strong>Serialization + response</strong>: the framework turns your response object
+   back into JSON bytes, sets <code>Content-Type</code> and <code>Content-Length</code>
+   automatically, writes the status line (<code>201 Created</code>) and a <code>Location:
+   /books/18</code> header, and flushes it back over the <em>same</em> TCP connection
+   the request arrived on (assuming keep-alive), ready for the next
+   request to reuse the socket without a fresh handshake.</li>
+</ol>
+<p>Every module you've studied so far is a named stage in that seven-step
+pipeline — none of it is REST-specific magic, it's the standard anatomy of
+any HTTP server framework.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Extend the spec above with one additional feature of your choosing — for
 example, a <code>GET /v1/books/{bookId}/shelves</code> endpoint (which shelves contain

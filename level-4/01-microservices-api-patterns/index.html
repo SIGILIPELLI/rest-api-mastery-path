@@ -1912,6 +1912,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2393,6 +2415,34 @@ compensating action for every step, run in reverse on failure.</p>
    to independently, rather than <code>orders-service</code> calling them directly
    and coupling to their availability.</li>
 </ol>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Patterns like API composition and the backend-for-frontend (BFF) exist to
+manage a mechanical reality: a single client-facing request often needs
+data that lives behind multiple independent network hops, each with its
+own latency and failure mode.</p>
+<p>An <strong>API composition</strong> layer fans a single incoming request out into
+several backend calls, concurrently:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>GET /order-summary/42
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>   -&gt; orders-service.get(42)      \
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>   -&gt; users-service.get(order.userId)  } issued in parallel, not sequentially
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>   -&gt; inventory-service.check(order.items) /
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>   -&gt; merge all three results into one response
+</code></pre></div>
+<p>Issuing these calls <strong>concurrently</strong> (via <code>Promise.all</code>/async gather)
+rather than sequentially is the actual mechanism that keeps composed-
+endpoint latency close to the <em>slowest single call</em>, not the <em>sum</em> of all
+three — a detail that matters enormously at scale, since sequential
+composition of three 100ms calls means 300ms, while concurrent composition
+means roughly 100ms plus merge overhead.</p>
+<p>The <strong>circuit breaker</strong> pattern is a literal state machine wrapping each
+outbound call: <code>CLOSED</code> (calls pass through normally) → after N
+consecutive failures → <code>OPEN</code> (calls fail immediately without even
+attempting the network call, for a cooldown period) → after the cooldown →
+<code>HALF_OPEN</code> (one trial call is allowed through; success closes the circuit
+again, failure reopens it). This prevents one slow/failing downstream
+service from exhausting the calling service's own thread pool or
+connection pool waiting on doomed requests — the breaker fails fast
+instead of piling up blocked calls.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Why does database-per-service make independent deployability

@@ -2136,6 +2136,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2409,6 +2431,35 @@ multiple running instances:</p>
    sunset date passes), remove it from the response and drop the
    column.</li>
 </ol>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Zero-downtime schema migrations work by never having a single moment
+where old code and new code disagree about what the database looks like —
+mechanically, this means splitting one conceptual change into several
+independently-safe deploy steps.</p>
+<p>Renaming a column, done unsafely, is a single <code>ALTER TABLE ... RENAME
+COLUMN</code> — the instant it runs, any still-running old server process whose
+code references the old column name starts throwing SQL errors on every
+query, because the column it expects literally no longer exists. Done
+safely (the "expand-contract" pattern):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>1. EXPAND: add new column `full_name`, keep old `name`. Deploy.
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>   (old code writes `name`; new column sits unused)
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>2. BACKFILL: run a background job copying name -&gt; full_name for existing
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>   rows, in batches (to avoid locking the whole table at once).
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>3. DUAL-WRITE: deploy code that writes to BOTH `name` and `full_name`.
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>   Old and new code can coexist because both columns exist and are kept
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>   in sync.
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>4. SWITCH READS: deploy code that reads from `full_name` only.
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>5. CONTRACT: once all instances run the new code and no rollback risk
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>   remains, drop the old `name` column.
+</code></pre></div>
+<p>Each step is independently deployable and independently <em>reversible</em> — a
+rollback mid-migration at any step still has a valid, consistent database
+state, because at every step both the old and new server code (which will
+briefly coexist during a rolling deploy across many instances) can
+successfully read and write against the schema as it exists at that
+moment. Collapsing steps (skipping dual-write, say) reintroduces exactly
+the failure window this pattern exists to eliminate — a request hitting
+an old-code instance after the schema changed underneath it.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Why does renaming a column in one step break requests during a

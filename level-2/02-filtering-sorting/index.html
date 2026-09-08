@@ -1205,6 +1205,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2317,6 +2328,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2453,6 +2475,33 @@ search on title, and sorting — all combinable:</p>
 <p>Echoing <code>filters_applied</code> in the metadata is a small but valuable touch — it
 tells the client exactly how the server interpreted its query, which helps
 catch silent typos or unsupported combinations during debugging.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>A query string like <code>?status=shipped&amp;sort=-created_at</code> doesn't execute
+itself — your handler code must explicitly translate each recognized
+parameter into a database predicate, which means every filter you <em>don't</em>
+whitelist is silently ignored (or, if you're not careful, injectable).</p>
+<p>Mechanically, a naive but common implementation builds SQL incrementally:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>base:    SELECT * FROM orders WHERE 1=1
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>+status: AND status = ?          (bound parameter, from ?status=shipped)
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>+sort:   ORDER BY created_at DESC   (from ?sort=-created_at, '-' mapped to DESC)
+</code></pre></div>
+<p>The <code>?</code> placeholder matters mechanically: the database driver sends the
+query text and the value <em>separately</em> to the database, so the value is
+never parsed as SQL syntax — this is what actually prevents SQL injection,
+not string-escaping tricks. A <code>sort</code> parameter is more dangerous to
+implement naively than <code>status</code>, because sort is usually a <em>column name</em>,
+not a value — you cannot parameterize a column name the same way, so
+unless you map the incoming string against a fixed whitelist of allowed
+columns (<code>{"created_at", "price", "name"}</code>), a client could pass
+<code>?sort=(SELECT password FROM users)</code> into a naive string-concatenation
+implementation and exfiltrate data through ordering side channels or
+outright injection.</p>
+<p>Combining filters is <code>AND</code>-composed by default in most implementations
+because each filter clause independently narrows the same base query —
+<code>OR</code> semantics require deliberate, separate query-building logic that most
+REST filter syntaxes don't support without a dedicated query language
+(hence why complex filtering often pushes teams toward GraphQL, module 4
+of Level 3).</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Design query parameters for <code>/orders</code> supporting: filter by <code>status</code>

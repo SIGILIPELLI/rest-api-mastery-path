@@ -1456,6 +1456,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2371,6 +2382,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2551,6 +2573,37 @@ without creating a duplicate book.</p>
 <li>[ ] An <code>openapi.yaml</code> documents all of the above, including the new
       headers and the <code>207</code> bulk response.</li>
 </ul>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Wiring cursor pagination, filtering, and caching together in one endpoint
+means understanding the <em>order</em> these mechanisms actually execute in a
+single request:</p>
+<ol>
+<li><strong>Parse &amp; validate query params</strong> — <code>?status=shipped&amp;after=cursor123&amp;limit=20</code>
+   is split into a filter map, a decoded cursor, and a bounded limit
+   (servers should clamp <code>limit</code> server-side — e.g. <code>min(requested, 100)</code>
+   — because an unbounded <code>?limit=999999999</code> is a real resource-exhaustion
+   vector, not a hypothetical one).</li>
+<li><strong>Build the query</strong> — filters become <code>WHERE</code> clauses, the cursor
+   becomes a keyset <code>WHERE (sort_key) &lt; (decoded_cursor)</code> predicate (see
+   module 1), combined with <code>AND</code> against the filter clauses.</li>
+<li><strong>Execute against the index</strong> — the database uses a composite index on
+   <code>(status, created_at, id)</code> if one exists, so filtering and keyset
+   pagination are satisfied by a single index scan rather than a full
+   table scan followed by in-memory filtering — the difference between
+   milliseconds and seconds at scale.</li>
+<li><strong>Compute the ETag</strong> — typically a hash of the <em>exact resulting page's</em>
+   content (row IDs + a version/updated_at watermark), not the whole
+   collection, so unrelated changes elsewhere in the table don't
+   invalidate this page's cache entry.</li>
+<li><strong>Serialize</strong> — rows become JSON, plus a <code>next_cursor</code> encoding the last
+   row's sort key for the client's next request.</li>
+</ol>
+<p>Each of these steps is a separate function call in a real implementation,
+and a bug at any layer (an unindexed filter column, a cursor that encodes
+the wrong tiebreaker column, an ETag computed before pagination is
+applied) produces a plausible-looking response that's subtly wrong under
+concurrent writes or at scale — which is why this project module exists
+as a capstone rather than a single isolated concept.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Extend the design with a <code>GET /v1/shelves/{id}/books</code> endpoint that
 supports the same pagination and filtering as <code>/v1/books</code>, and add

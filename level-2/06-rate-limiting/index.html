@@ -1350,6 +1350,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2383,6 +2394,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2526,6 +2548,33 @@ ceiling is a common source of support tickets.</p>
 <p>This is a simplified sketch (a production version needs this check to be
 atomic, typically via a Lua script executed inside Redis, to avoid a
 race between concurrent requests reading and writing the same bucket).</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Rate limiting is enforced with a counter and a clock, checked <em>before</em> your
+handler runs. Two common algorithms differ in exactly how they count:</p>
+<p><strong>Fixed window</strong>: <code>requests_this_minute[user_id]</code> increments per request
+and resets every 60 seconds. Mechanically simple (one counter, one TTL in
+Redis: <code>INCR key; EXPIRE key 60</code>), but has a boundary flaw — a client can
+send 100 requests at 0:59 and another 100 at 1:01, bursting 200 requests
+in a 2-second window while technically never exceeding "100/minute" in
+either fixed window.</p>
+<p><strong>Sliding window / token bucket</strong> fixes this by tracking request
+timestamps (or token counts) continuously rather than resetting on a
+clock edge. A token bucket adds <code>refill_rate</code> tokens per second up to a
+<code>capacity</code> cap, and each request consumes one token — the actual
+mechanics of <code>INCR</code>-then-check in Redis:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>tokens = min(capacity, tokens + elapsed_seconds * refill_rate)
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>if tokens &gt;= 1: tokens -= 1; allow
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>else: reject with 429
+</code></pre></div>
+<p>The <code>Retry-After</code> header on a <code>429</code> response isn't decorative — it's
+computed from exactly how many seconds until the bucket has ≥1 token
+again (<code>(1 - tokens) / refill_rate</code>), which a well-behaved client's retry
+logic reads and sleeps for, rather than guessing or retrying immediately.</p>
+<p>At scale, this counter can't live in one process's memory — it must be a
+shared store (Redis) that every server instance behind a load balancer
+reads and writes atomically, or a client could dodge the limit just by
+having consecutive requests land on different backend instances that each
+think they're the first request this minute.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Explain concretely why fixed-window counting allows a 2x burst at

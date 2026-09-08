@@ -1760,6 +1760,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2399,6 +2421,33 @@ single incident doesn't page the same person 50 times.</p>
 </ol>
 <p>The trace made it a two-minute diagnosis instead of an hour of guessing
 which of a dozen services was actually at fault.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Observability for an API rests on three distinct signal types, each
+captured by a different mechanism at request time:</p>
+<p><strong>Logs</strong> are discrete events written synchronously (or to a buffered
+async queue) at points your code explicitly calls <code>log.info(...)</code> —
+they answer "what happened, in this specific request" and are only as
+complete as the log statements a developer remembered to add.</p>
+<p><strong>Metrics</strong> are pre-aggregated counters/histograms incremented in-process
+(e.g. <code>request_duration_seconds.observe(0.34)</code>) and periodically scraped
+by a system like Prometheus — the aggregation (p50/p95/p99 latency,
+request rate) happens as a mathematical operation over many samples, which
+is why metrics answer "how is the system doing overall" cheaply, without
+storing every individual request.</p>
+<p><strong>Distributed tracing</strong> is the mechanism that actually reconnects one
+logical request across multiple services: each service propagates a
+<code>trace-id</code> (and generates its own <code>span-id</code>, recording the parent
+span-id) in a header — commonly <code>traceparent</code> per the W3C Trace Context
+spec — to every downstream call it makes. A tracing backend then
+reassembles the full call tree from these span records after the fact by
+matching <code>trace-id</code> and parent/child <code>span-id</code> relationships, which is
+the only way to answer "why was this one request slow across four
+microservices" — logs and metrics from each service in isolation don't
+carry the causal link between them; the propagated header is what does.</p>
+<p><code>Server-Timing</code> response headers work similarly at a smaller scale —
+your backend can report per-request timing breakdowns (<code>db;dur=45,
+render;dur=12</code>) that a client-side tool reads directly off the response,
+no separate tracing infrastructure required for a single-hop breakdown.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Why alert on error <em>rate</em> rather than raw error <em>count</em>?</li>

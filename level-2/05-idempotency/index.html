@@ -1261,6 +1261,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2429,6 +2451,32 @@ succeeded.</p>
 and reuse the <em>same</em> key for every retry of that specific checkout attempt
 (store it in memory/local state until success or a final failure). A new
 tap of "Place Order" — a genuinely new checkout attempt — gets a new key.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Idempotency means "N identical requests produce the same server state as
+1 request" — but the protocol doesn't enforce this; the server's
+implementation must deliberately guarantee it, and for <code>POST</code> (which HTTP
+defines as non-idempotent by default) this requires extra machinery.</p>
+<p><strong>Idempotency keys</strong> work like this: the client generates a unique key
+(usually a UUID) and sends it in a header, e.g. <code>Idempotency-Key:
+a1b2c3d4</code>. On the server:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>1. Look up key "a1b2c3d4" in an idempotency store (Redis/DB table).
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>2. If found: return the SAME stored response, do not re-run the handler.
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>3. If not found: run the handler, store (key -&gt; response) with a TTL,
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>   then return the response.
+</code></pre></div>
+<p>This is why the store must persist the <em>entire response</em>, not just "was
+it processed" — a client that retries after a network timeout needs the
+exact same <code>201 Created</code> with the same order ID back, not a fresh
+duplicate order or a bare acknowledgment. The lookup-then-store sequence
+also needs to be atomic (a database unique constraint or a Redis <code>SETNX</code>)
+to avoid a race where two near-simultaneous retries both see "not found"
+and both create an order — this is the same class of race condition as a
+double-spend bug, solved with the same tool: a uniqueness constraint
+enforced at the storage layer, not just checked in application code.</p>
+<p><code>PUT</code>/<code>DELETE</code> get idempotency "for free" only when the handler is written
+to compute an absolute end state (<code>SET status = 'shipped'</code>) rather than a
+relative one (<code>increment retry_count by 1</code>) — the verb alone guarantees
+nothing; the handler's actual logic is what makes it true.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Classify <code>DELETE /books/42</code> called three times in a row. Is it

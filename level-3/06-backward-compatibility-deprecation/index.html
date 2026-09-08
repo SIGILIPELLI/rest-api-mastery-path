@@ -1665,6 +1665,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2378,6 +2400,31 @@ for years but eventually accumulates cruft (unused legacy fields kept
 around solely for backward compatibility) — the trade-off is fewer
 version migrations for clients, at the cost of a messier schema over
 time.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Whether a change is "breaking" is a question about what real client code
+does when it <em>parses</em> your new response — not a subjective judgment call.
+Mechanically:</p>
+<p><strong>Adding a new field</strong> to a JSON response is non-breaking because most
+JSON parsers and typed deserializers ignore unrecognized keys by default
+(<code>JSON.parse</code> in JS, <code>json.loads</code> in Python, and most typed struct
+deserializers with permissive mode) — old client code simply never reads
+the new key.</p>
+<p><strong>Removing or renaming a field</strong> is breaking because any client code that
+does <code>response.data.price</code> throws <code>undefined</code>/<code>KeyError</code>/a null-pointer
+the instant that key stops existing — the parser doesn't fail, but the
+client's own logic downstream does.</p>
+<p><strong>Changing a field's type</strong> (e.g. <code>id: 42</code> becoming <code>id: "42"</code>) is breaking
+in <em>typed</em> clients (a generated SDK expecting <code>int</code> gets a runtime
+deserialization exception) even though a loosely-typed JS client might
+tolerate it silently — which is why "no breaking changes" has to be
+defined against your strictest real consumer, not your most forgiving one.</p>
+<p><strong>Sunset headers</strong> (<code>Sunset: Sat, 31 Dec 2026 23:59:59 GMT</code> and
+<code>Deprecation: true</code>) are read by well-behaved API client libraries and
+surfaced as warnings — but this only works if the client's HTTP layer
+actually inspects response headers, which many simple <code>fetch</code>/<code>curl</code>-based
+integrations never do; this is why deprecation announcements also need an
+out-of-band channel (email, changelog) rather than relying on headers
+alone to be noticed.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Classify each as breaking or non-breaking: (a) adding a <code>currency</code>

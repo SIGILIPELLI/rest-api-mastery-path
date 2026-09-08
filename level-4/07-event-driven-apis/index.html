@@ -2080,6 +2080,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2389,6 +2411,32 @@ needs a near-real-time copy to power search.</p>
    catches up — no manual reconciliation needed, and <code>products-service</code>
    never had to know <code>search-service</code> existed or was down.</li>
 </ol>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Event-driven APIs replace synchronous request/response with a message
+broker in between, which changes the actual delivery guarantees your code
+can rely on.</p>
+<p>A producer publishes to a topic/queue (Kafka, RabbitMQ, SQS):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Producer -&gt; [Broker: topic "order.created", partition by order_id] -&gt; Consumer(s)
+</code></pre></div>
+<p><strong>At-least-once delivery</strong> (the common default) means a broker will
+redeliver a message if it doesn't receive an acknowledgment within a
+timeout — mechanically, the consumer must call <code>ack()</code> only <em>after</em>
+successfully processing the message; if the consumer crashes between
+processing and acking, the broker, seeing no ack, redelivers the same
+message to another consumer. This is exactly why event handlers, like
+webhook handlers (module 2, Level 3), must be idempotent — the delivery
+mechanism itself guarantees "at least once," never "exactly once," without
+extra deduplication logic your consumer supplies (commonly: track
+processed message IDs in a store with a TTL, skip reprocessing on a seen
+ID).</p>
+<p><strong>Partitioning/ordering</strong>: a Kafka topic split into partitions, keyed by
+<code>order_id</code>, guarantees ordering only <em>within</em> a partition (all events for
+one order_id land on the same partition and are delivered in order) — not
+across the whole topic. A consumer that needs global ordering across all
+orders fundamentally can't parallelize consumption beyond one partition,
+which is the actual mechanical tradeoff behind "eventual consistency" in
+these systems: throughput scales with partition count, but ordering
+guarantees only hold within each partition's own sequence.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Why does at-least-once delivery mean consumers must be written

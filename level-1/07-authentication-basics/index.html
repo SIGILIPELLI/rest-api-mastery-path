@@ -986,6 +986,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2351,6 +2362,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2529,6 +2551,29 @@ but sends credentials on every single request and has no built-in
 expiration — fine for quick internal tooling or protecting a staging
 environment, but you should not design a new production API around it in
 2026; prefer bearer tokens or API keys.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>HTTP is stateless per the REST constraint, so <em>every single request</em> must
+carry proof of identity — there's no session the server "remembers"
+between requests unless it explicitly stores one server-side (which
+breaks pure statelessness, hence the shift toward tokens).</p>
+<p><strong>Basic Auth</strong> mechanics: <code>Authorization: Basic &lt;base64(username:password)&gt;</code>.
+Base64 is <em>encoding</em>, not encryption — anyone who intercepts this header
+(or reads server logs that print it) can trivially decode it back to
+plaintext credentials. This is why Basic Auth is only acceptable over TLS,
+and even then is rarely used beyond quick internal tools.</p>
+<p><strong>Bearer tokens</strong> (API keys, JWTs, OAuth access tokens): <code>Authorization:
+Bearer &lt;token&gt;</code>. The server doesn't "remember" you issued this token — on
+each request it either (a) looks the token up in a database/cache to find
+the associated user, or (b) if it's a signed JWT, cryptographically
+verifies the signature using a secret or public key it holds, and trusts
+the claims embedded inside the token itself without a database round trip
+at all. That verification is a real computation — HMAC-SHA256 over the
+token's header+payload, compared byte-for-byte against the signature
+segment — not a lookup.</p>
+<p>This is precisely what makes token auth compatible with REST's
+statelessness constraint: the <em>proof</em> travels with the request instead of
+living in server memory, so any server instance behind a load balancer can
+verify it independently, with no shared session store required.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Given this JWT payload — <code>{"sub": "17", "role": "admin", "exp":

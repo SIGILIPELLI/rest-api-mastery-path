@@ -1996,6 +1996,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2389,6 +2411,34 @@ changelog for months. A common commitment:</p>
 </ol>
 <p>Every step above is self-service — no human on your team was involved,
 which is the entire point of a public developer API's design.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Running a public developer API means handling identity and quota
+enforcement for callers you don't control, at every single request —
+mechanically different from an internal API where you trust the caller.</p>
+<p><strong>API key issuance and lookup</strong>: a key like <code>sk_live_a1b2c3...</code> is
+typically not stored in your database in plaintext — it's hashed (like a
+password) on issuance, and every incoming request re-hashes the presented
+key and looks up the hash, so a database leak doesn't hand attackers
+usable keys directly (mirroring password storage practice, module 7,
+Level 1 auth basics extended). The key's prefix (<code>sk_live_</code> vs <code>sk_test_</code>)
+is often left unhashed specifically so it can be pattern-matched and
+revoked in bulk, or displayed truncated in a dashboard, without exposing
+the secret portion.</p>
+<p><strong>Per-key rate limiting</strong> reuses the token-bucket mechanism (module 6,
+Level 2) but keyed by API key rather than IP or user session — this is
+why a public API's <code>429</code> responses typically include <code>X-RateLimit-Limit</code>,
+<code>X-RateLimit-Remaining</code>, and <code>X-RateLimit-Reset</code> headers computed directly
+off that same bucket's current token count and refill schedule, giving
+well-behaved SDKs enough information to self-throttle before hitting the
+wall.</p>
+<p><strong>SDK generation</strong> from your OpenAPI spec (module 4, Level 2) means a
+client library in Python, JS, or Go is mechanically produced by walking
+the same schema tree a doc generator uses — a breaking schema change
+doesn't just break hand-written client code, it breaks the <em>next SDK
+build</em> for every language you publish, which is why public APIs are held
+to stricter backward-compatibility discipline (module 6, Level 3) than
+internal ones: SDK consumers can't just "read the updated docs and adapt"
+as fluidly as an internal team sitting next to yours.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Why show a raw API key only once at creation, rather than letting a

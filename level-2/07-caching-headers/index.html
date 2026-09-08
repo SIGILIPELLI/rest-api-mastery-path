@@ -1328,6 +1328,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2454,6 +2476,33 @@ stale-forever reuse) without over-fetching unchanged data.</p>
 <p>This client transfers the full book payload only on the first fetch and any
 fetch after a real change — every unchanged revalidation costs a small
 request/<code>304</code> round trip instead of the full body.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>Cache-Control</code> and <code>ETag</code> implement two different validation strategies,
+and understanding the actual comparison logic explains when each saves a
+network round trip versus a full response body.</p>
+<p><strong><code>Cache-Control: max-age=3600</code></strong> is a <em>time-based</em> freshness check done
+entirely by the client/cache — no server involvement. The cache stores the
+response plus the time it arrived; on a later request, it computes
+<code>age = now - stored_time</code>, and if <code>age &lt; max_age</code>, it returns the stored
+copy <em>without contacting the server at all</em>. This is the fastest path —
+zero network round trips — but risks serving stale data if the resource
+changed before <code>max_age</code> elapsed.</p>
+<p><strong><code>ETag</code></strong> is a <em>content-based</em> validator — the server computes a hash (or
+version stamp) of the resource body, e.g. <code>ETag: "a1b2c3"</code>. On a
+subsequent request, the client sends <code>If-None-Match: "a1b2c3"</code>, and the
+server recomputes the current ETag and does a literal string comparison:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>if current_etag == request's If-None-Match:
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    return 304 Not Modified (empty body, headers only)
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>else:
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    return 200 OK (full body, new ETag)
+</code></pre></div>
+<p>A <code>304</code> still requires a full round trip to the server (unlike max-age),
+but saves re-transferring the (possibly large) response body — the server
+did real work (recomputing the hash) to save the <em>network</em>, not the
+server's own CPU. Combining both (<code>Cache-Control: max-age=60</code> plus an
+<code>ETag</code>) is why real APIs use both: max-age avoids the round trip entirely
+while fresh, and ETag validation kicks in cheaply once that window
+expires, before falling back to a full re-fetch.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Explain the practical difference between <code>no-cache</code> and <code>no-store</code>, and

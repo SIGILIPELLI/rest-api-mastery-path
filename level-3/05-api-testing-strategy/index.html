@@ -1659,6 +1659,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2305,6 +2316,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2423,6 +2445,32 @@ recorded consumer contract (<code>{"total": "number"}</code>) against the new co
 the field is missing, the pipeline fails the build — the break never
 reaches production. The fix: add <code>total_amount</code> alongside <code>total</code>,
 deprecate <code>total</code> per module 6, remove it only after consumers migrate.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>The test pyramid for APIs maps directly onto what's actually being
+exercised at each layer, mechanically:</p>
+<p><strong>Unit tests</strong> call handler/business-logic functions directly in-process —
+no HTTP parsing, no socket, no real database (usually a mock or in-memory
+fake). They're fast because they skip the entire network stack.</p>
+<p><strong>Integration tests</strong> spin up the real HTTP server (often on a random
+local port) and issue real HTTP requests against it, exercising the actual
+router, middleware chain, and serializer — but typically against a real
+or containerized test database, so a bug in your JSON schema validation
+middleware (which a unit test bypasses entirely) gets caught here.</p>
+<p><strong>Contract tests</strong> (e.g. Pact) don't test your API against expectations
+you wrote yourself — they test that your API's actual response shape
+matches a contract file the <em>consumer</em> generated from their own
+expectations, and separately that the consumer's request shape matches
+what your provider actually accepts. Mechanically this is two independent
+test suites (consumer-side and provider-side) both verifying against the
+same shared contract file, run in each side's own CI pipeline — so a
+breaking API change fails the <em>provider's</em> CI before it ever reaches
+production, without the provider needing the consumer's actual codebase.</p>
+<p><strong>End-to-end tests</strong> drive the system through its real entry point (a
+browser, a CLI) which issues real HTTP calls through the real gateway,
+auth, and backend chain — the slowest and most brittle layer because a
+failure anywhere in that chain (network flake, a downstream service being
+briefly unavailable) can fail the test even when your specific endpoint's
+logic is correct.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Where would you catch a bug where the discount calculation is wrong,

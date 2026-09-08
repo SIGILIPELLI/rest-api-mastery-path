@@ -796,6 +796,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2251,6 +2262,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2513,6 +2535,36 @@ status codes shown are exactly what a correctly implemented API returns.</p>
 A common test: if the caller sent no <code>Authorization</code> header at all, that
 should almost always be <code>401</code>, never <code>403</code>.</p>
 </div>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>HTTP methods and status codes aren't enforced by any central authority —
+they're a <em>convention</em> your server code chooses to honor. Concretely, when a
+request arrives:</p>
+<ol>
+<li>The server's HTTP parser reads the <strong>request line</strong> (<code>GET /books/17
+   HTTP/1.1</code>) off the raw TCP stream and extracts the method as a plain
+   string token — there's no special "GET packet" at the network level,
+   just ASCII text before the first space.</li>
+<li>A <strong>router</strong> (inside frameworks like Express, Flask, or Spring) holds a
+   table mapping <code>(method, path pattern) -&gt; handler function</code>. It walks
+   this table looking for a match — this is why <code>GET /books/17</code> and <code>DELETE
+   /books/17</code> can point at completely different functions despite sharing a
+   path.</li>
+<li>Once a handler runs, <em>it</em>, not HTTP, decides what status code to send.
+   Nothing stops a buggy server from returning <code>200 OK</code> with an error
+   message in the body — the code is only as correct as the developer who
+   wrote <code>res.status(201)</code>.</li>
+<li>The status code is written back as the first line of the response
+   (<code>HTTP/1.1 201 Created</code>), and clients (browsers, HTTP libraries) apply
+   their <em>own</em> conventions on top — e.g. <code>fetch()</code> only rejects on network
+   failure, not on 4xx/5xx, because the spec treats those as "successfully
+   received a response," just one describing failure.</li>
+</ol>
+<p><strong>Idempotency</strong> (why <code>PUT</code>/<code>DELETE</code> are "safe to retry" but <code>POST</code> isn't)
+is likewise not enforced by the protocol — it's a promise the <em>server's
+implementation</em> has to keep. If your <code>DELETE /books/17</code> handler is written
+to throw a 500 on the second call because the row is already gone, you've
+broken the idempotency contract even though you used the "idempotent"
+verb.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>For each scenario below, write down which HTTP method and status code you'd
 use, and why:</p>

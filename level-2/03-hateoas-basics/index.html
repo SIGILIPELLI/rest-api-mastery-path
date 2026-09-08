@@ -1216,6 +1216,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2438,6 +2460,37 @@ add real value, without going all the way to a fully link-driven client.</p>
 <p>The set of available actions changes as the resource moves through its
 state machine, and the client reads that from the response instead of
 re-implementing the state machine itself.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>HATEOAS means a response carries not just data but the URLs of legal next
+actions, so a client can navigate without hardcoding paths. Mechanically,
+this requires the server to run <strong>authorization logic at serialization
+time</strong>, not just at request time:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="nt">"_links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="nt">"self"</span><span class="p">:</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/orders/42"</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nt">"cancel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/orders/42/cancel"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>To produce that <code>_links</code> block correctly, the handler must check — for
+<em>this specific order, for this specific caller</em> — whether cancellation is
+currently a valid transition (e.g. <code>status == "pending"</code>) and whether the
+caller is authorized to perform it, then conditionally include or omit the
+<code>cancel</code> link. This is meaningfully different from just serializing model
+fields: the server is embedding a live decision (a permission check plus a
+state-machine check) into every response, computed fresh each time,
+because a link that's present today might not be legal tomorrow once the
+order ships.</p>
+<p>Clients that actually follow HATEOAS treat the <code>href</code> values as opaque —
+they never construct <code>/orders/42/cancel</code> from a template, they read it
+from the <code>_links.cancel.href</code> field returned. This is what makes the
+server free to change URL structure without warning, as long as it keeps
+returning correct links — a promise almost no client-side code actually
+relies on in practice, which is why HATEOAS remains rare outside API
+specs like HAL, JSON:API, and Siren despite being part of Fielding's
+original REST definition.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Model an <code>Article</code> resource that can be <code>draft</code>, <code>published</code>, or

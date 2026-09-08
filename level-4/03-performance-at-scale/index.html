@@ -1979,6 +1979,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2305,6 +2316,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2435,6 +2457,35 @@ users, though <code>p50</code> stays fine.</p>
    directly instead of just widening the pipe.</li>
 <li>Re-run the load test: <code>p99</code> now holds flat past 300 concurrent users.</li>
 </ol>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Performance at scale is fundamentally about what work happens <strong>per
+request</strong> versus what work is shared or avoided — three mechanisms do
+most of the load-bearing work:</p>
+<p><strong>Connection pooling</strong>: opening a TCP connection (plus TLS handshake) is
+expensive relative to actually sending a request — a pool keeps a set of
+already-established connections to a database or downstream service open
+and hands one out per request, returning it to the pool afterward instead
+of tearing it down. This is why a connection pool exhaustion (all
+connections checked out, none available) manifests as requests <em>queuing</em>
+rather than failing outright — new requests wait for a connection to be
+returned, and if that wait exceeds a timeout, they fail with a
+misleadingly generic "timeout" error that's actually a pool-sizing
+problem.</p>
+<p><strong>Read replicas</strong>: a database's write-ahead log (WAL) is streamed to
+replica nodes, which apply the same changes asynchronously — "async"
+means there's a real, measurable <strong>replication lag</strong> (milliseconds to
+seconds) between a write committing on the primary and that data being
+visible on a replica. Routing <code>GET</code> reads to replicas and <code>POST/PUT</code>
+writes to the primary distributes load, but a client that writes then
+immediately reads its own write from a replica can see stale data — a
+mechanical consequence of the lag, not a bug, which is why "read your own
+writes" patterns route that specific read back to the primary explicitly.</p>
+<p><strong>CDN edge caching</strong>: a CDN node geographically close to the client caches
+a response keyed by URL (plus <code>Vary</code> header dimensions like <code>Accept-
+Encoding</code>), so subsequent requests for the same URL from nearby clients
+are served from edge memory/disk without a round trip to your origin
+server at all — the actual latency win comes from physical distance
+(speed of light over a shorter path), not just "caching" in the abstract.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Why does a CDN cache reduce origin load more effectively than an

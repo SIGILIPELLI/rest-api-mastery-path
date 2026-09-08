@@ -1704,6 +1704,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2401,6 +2423,30 @@ includes:</p>
 <li>If this replaces an older <code>POST /v1/refunds</code> endpoint, a deprecation
    entry for the old one, per module 6.</li>
 </ol>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Good API docs aren't just prose — the mechanism that keeps them accurate
+is generating them <em>from</em> the same source that defines the API's actual
+behavior, rather than maintaining a separate hand-written description that
+drifts.</p>
+<p>An OpenAPI-driven doc site (like Swagger UI or Redoc) works like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>1. Your OpenAPI YAML/JSON is the single source of truth.
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>2. A doc-generator tool parses it and renders interactive HTML —
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>   route list, parameter tables, example requests/responses — directly
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>   from the schema's structure.
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>3. Swagger UI's "Try it out" button constructs a REAL HTTP request using
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>   the schema's parameter definitions and sends it to the actual server,
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>   rendering the real response — this only works because the schema
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>   contains enough machine-readable detail (base URL, auth scheme,
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>   parameter types) to build a valid request without a human writing it.
+</code></pre></div>
+<p>This is mechanically why "docs that lie" (a documented parameter that no
+longer exists, an example that 400s) happen almost exclusively in
+hand-written documentation systems disconnected from the code — nothing
+forces prose to stay in sync with a route handler's actual <code>if</code> checks.
+A schema-driven pipeline, by contrast, can be linted in CI: a contract
+test (module 5) or schema-validation step that fails the build if the
+implementation's actual response shape diverges from the documented
+schema, catching drift before it reaches a published doc site at all.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Why should example values in an OpenAPI spec be realistic (<code>"id":

@@ -2162,6 +2162,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2274,6 +2285,17 @@
     <span class="md-ellipsis">
       
         Deliverable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
       
     </span>
   </a>
@@ -2403,6 +2425,37 @@ single customer-facing incident.</p>
    over offset pagination — referencing the specific trade-offs covered
    in the relevant module.</li>
 </ol>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>A production-grade API pulls every mechanism from this course together
+into one request path, and tracing a single <code>POST /orders</code> through a
+hardened, multi-region, event-driven system makes the layering concrete:</p>
+<ol>
+<li><strong>DNS</strong> resolves to the nearest healthy region (module 6).</li>
+<li><strong>Gateway</strong> terminates TLS, checks the rate-limit bucket for this API
+   key (module 6, Level 2 + module 4, Level 4), verifies the JWT's
+   signature and pinned algorithm (module 2), and forwards internally with
+   the verified identity attached.</li>
+<li><strong>Application server</strong> validates the body against its OpenAPI schema
+   (module 4, Level 2), begins a DB transaction on the primary (never a
+   replica, module 3) to avoid replication-lag write conflicts, and
+   generates an idempotency key check (module 5, Level 2) before
+   committing the order row.</li>
+<li><strong>Event emission</strong>: on commit, an <code>order.created</code> event is published to
+   a partitioned topic keyed by <code>order_id</code> (module 7), guaranteeing
+   ordering for that order's subsequent events without blocking the HTTP
+   response on downstream consumers.</li>
+<li><strong>Usage metering</strong>: a separate consumer of that same event increments
+   the customer's billing usage, deduplicated by request ID (module 8).</li>
+<li><strong>Response</strong>: the gateway streams the <code>201 Created</code> back through the
+   same reused TLS connection, with <code>Cache-Control: no-store</code> (orders
+   aren't cacheable) and a <code>Location</code> header pointing at the new resource.</li>
+</ol>
+<p>Every "module" in that list is a real function call or middleware stage
+executing in a specific order on this one request — building the capstone
+means implementing enough of that real pipeline to see how a change at
+one layer (a slow gateway auth check, an unindexed idempotency lookup)
+becomes a measurable regression in the whole chain, not an abstract
+diagram.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Walk through what happens, end to end, when a partner's <code>POST

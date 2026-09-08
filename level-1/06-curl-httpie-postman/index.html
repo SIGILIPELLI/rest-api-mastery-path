@@ -1085,6 +1085,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2605,6 +2616,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2796,6 +2818,40 @@ dropdown:</p>
 </ul>
 <p>All three send exactly the same HTTP over the wire — pick based on your
 workflow, not on any difference in what's possible.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>curl</code>, HTTPie, and Postman are just three different HTTP <em>clients</em> — each
+one performs the same low-level socket work, but you can see this most
+clearly with curl's verbose flag:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>curl<span class="w"> </span>-v<span class="w"> </span>https://api.example.com/books/17
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>* Connected to api.example.com (203.0.113.10) port 443
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>* TLS handshake, Client hello (1)
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>* TLS handshake, Server hello (2)
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>* SSL connection using TLSv1.3
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>&gt; GET /books/17 HTTP/1.1
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>&gt; Host: api.example.com
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>&gt; Accept: */*
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>&gt;
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>&lt; HTTP/1.1 200 OK
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>&lt; Content-Type: application/json
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>&lt; Content-Length: 84
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>&lt;
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>{"id":17,"title":"..."}
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>* Connection #0 to host api.example.com left intact
+</code></pre></div>
+<p>Every line curl prints with <code>&gt;</code> is a header <em>it</em> generated and sent; every
+<code>&lt;</code> line is a header the server sent back. This is the actual raw exchange
+that Postman's GUI and HTTPie's colorized output are also performing
+underneath — they just parse the same bytes into a nicer view. "Connection
+... left intact" is curl telling you it kept the TCP+TLS session open for
+potential reuse (HTTP keep-alive), rather than tearing down and
+renegotiating on your next request.</p>
+<p>Postman's "Collections" and environment variables don't change any of
+this — they're client-side templating that gets resolved into the exact
+same plain-text request line and headers before anything touches the
+socket. If you can't explain a Postman failure, drop to curl -v against
+the same URL — you're removing a rendering layer, not changing the
+protocol.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Using <code>curl</code>, write the command to <code>POST</code> a new resource to

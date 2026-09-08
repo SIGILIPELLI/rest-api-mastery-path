@@ -2013,6 +2013,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2374,6 +2396,33 @@ writing any code.</p>
 <li>Spec approved; implementation begins with the shape already
    validated, no rework needed after the fact.</li>
 </ol>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>API governance enforces its rules the same way a linter enforces code
+style — as an automated check run against the machine-readable OpenAPI
+spec (module 4, Level 2) in CI, not as a human reviewing PRs by memory.</p>
+<p>A governance tool like Spectral walks the parsed spec's AST and evaluates
+rules against it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">rules</span><span class="p">:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">paths-kebab-case</span><span class="p">:</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">given</span><span class="p">:</span><span class="w"> </span><span class="s">"$.paths[*]~"</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">then</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> function</span><span class="p">:</span><span class="w"> </span><span class="nv">pattern</span><span class="p p-Indicator">,</span><span class="nt"> functionOptions</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> match</span><span class="p">:</span><span class="w"> </span><span class="s">"^/[a-z0-9-/{}]+$"</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">must-have-error-schema</span><span class="p">:</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nt">given</span><span class="p">:</span><span class="w"> </span><span class="s">"$.paths[*][*].responses[?(@property</span><span class="nv"> </span><span class="s">&gt;=</span><span class="nv"> </span><span class="s">400)]"</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="nt">then</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> field</span><span class="p">:</span><span class="w"> </span><span class="nv">content</span><span class="p p-Indicator">,</span><span class="nt"> function</span><span class="p">:</span><span class="w"> </span><span class="nv">truthy</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</code></pre></div>
+<p>The first rule's <code>given</code> is a JSONPath expression selecting every path key
+in the spec; the <code>then</code> checks it against a regex — a PR that introduces
+<code>/getUserOrders</code> instead of <code>/user-orders</code> fails this rule automatically,
+the instant the spec is linted, before a human reviewer even looks at it.
+The second rule walks every response definition with a status code ≥ 400
+and fails the build if no error schema is defined for it — enforcing "all
+error responses must be documented" as a structural, not stylistic, check.</p>
+<p>Because this runs against the same OpenAPI document that also drives
+mock servers, SDK generation, and documentation (a running theme across
+Level 2-4), a single governance failure blocks the <em>same</em> CI pipeline
+stage that would otherwise publish an inconsistent doc site or generate a
+badly-shaped SDK — governance and documentation share one source of
+truth by construction, not by policy alone.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Why is design-first review (spec before code) cheaper to act on than
