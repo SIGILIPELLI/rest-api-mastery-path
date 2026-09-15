@@ -205,6 +205,11 @@ of code, with no extra monitoring code required. This is also why
 top — HTTP itself has no schema for error payloads, which is exactly why
 this module recommends picking one and applying it consistently.
 
+## 🔀 Related lessons on other tracks
+
+- [Embedded Python — Error Handling & On-Device Logging](https://sigilipelli.github.io/embedded-python-mastery-path/level-2/09-error-handling-logging/)
+- [Excel — 05 · Advanced VBA (UserForms, Error Handling)](https://sigilipelli.github.io/excel-mastery-path/level-3/05-advanced-vba-userforms-error-handling/)
+
 ## Exercise
 
 1. Design a consistent JSON error shape (your own, or RFC 9457) for an API

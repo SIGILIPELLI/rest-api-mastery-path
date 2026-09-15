@@ -138,6 +138,10 @@ stage that would otherwise publish an inconsistent doc site or generate a
 badly-shaped SDK — governance and documentation share one source of
 truth by construction, not by policy alone.
 
+## 🔀 Related lessons on other tracks
+
+- [AI Manager — 10 · Capstone — Full AI Strategy, Governance & Org Design](https://sigilipelli.github.io/ai-manager-mastery-path/level-4/10-capstone-ai-strategy-governance-org-design/)
+
 ## Exercise
 
 1. Why is design-first review (spec before code) cheaper to act on than

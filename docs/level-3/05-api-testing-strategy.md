@@ -155,6 +155,12 @@ failure anywhere in that chain (network flake, a downstream service being
 briefly unavailable) can fail the test even when your specific endpoint's
 logic is correct.
 
+## 🔀 Related lessons on other tracks
+
+- [Java Testing — 04 · API Testing with RestAssured](https://sigilipelli.github.io/java-testing-mastery-path/level-2/04-api-testing-restassured/)
+- [Playwright — 03 · API Testing with Request Context](https://sigilipelli.github.io/playwright-mastery-path/level-3/03-api-testing/)
+- [Python Testing — 03 · API Testing with requests + pytest](https://sigilipelli.github.io/python-testing-mastery-path/level-2/03-api-testing/)
+
 ## Exercise
 
 1. Where would you catch a bug where the discount calculation is wrong,

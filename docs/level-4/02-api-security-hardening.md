@@ -179,6 +179,12 @@ multiple log files, while the same key in an `Authorization` header
 typically is not, because most default access-log formats capture the
 request line and headers list but not header *values*.
 
+## 🔀 Related lessons on other tracks
+
+- [LLM Dev — 08 · Security — Prompt Injection & Beyond](https://sigilipelli.github.io/llm-dev-mastery-path/level-4/08-security-prompt-injection/)
+- [Cybersecurity — 03 · Linux Security Hardening](https://sigilipelli.github.io/cybersecurity-mastery-path/level-2/03-linux-security-hardening/)
+- [Embedded Linux — 08 · Security Hardening & CVE Management](https://sigilipelli.github.io/embedded-linux-mastery-path/level-4/08-security-hardening/)
+
 ## Exercise
 
 1. Why is reflecting any `Origin` back with `Access-Control-Allow-

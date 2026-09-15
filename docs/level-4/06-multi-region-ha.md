@@ -169,6 +169,12 @@ interval with a 3-failure threshold means roughly 15 seconds of failed
 requests before traffic reroutes), which is a real, calculable number, not
 a marketing claim of "automatic failover."
 
+## 🔀 Related lessons on other tracks
+
+- [Azure — 07 · High Availability & Disaster Recovery](https://sigilipelli.github.io/azure-mastery-path/level-3/07-ha-disaster-recovery/)
+- [Freertos — Fault-Tolerant & High-Availability Design](https://sigilipelli.github.io/freertos-mastery-path/level-4/07-fault-tolerant-design/)
+- [Server Ops — 01 · High Availability Concepts (redundancy, failover, health checks)](https://sigilipelli.github.io/server-ops-mastery-path/level-3/01-ha-concepts/)
+
 ## Exercise
 
 1. Why does an active-active architecture handle a regional outage

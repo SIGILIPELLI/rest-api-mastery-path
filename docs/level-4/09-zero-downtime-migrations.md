@@ -170,6 +170,11 @@ moment. Collapsing steps (skipping dual-write, say) reintroduces exactly
 the failure window this pattern exists to eliminate — a request hitting
 an old-code instance after the schema changed underneath it.
 
+## 🔀 Related lessons on other tracks
+
+- [Docker — 07 · Zero-Downtime Deployments](https://sigilipelli.github.io/docker-mastery-path/level-4/07-zero-downtime-deployments/)
+- [Server Ops — 05 · Zero-Downtime Deploy Patterns](https://sigilipelli.github.io/server-ops-mastery-path/level-2/05-zero-downtime-deploy/)
+
 ## Exercise
 
 1. Why does renaming a column in one step break requests during a

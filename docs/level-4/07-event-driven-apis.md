@@ -134,6 +134,11 @@ which is the actual mechanical tradeoff behind "eventual consistency" in
 these systems: throughput scales with partition count, but ordering
 guarantees only hold within each partition's own sequence.
 
+## 🔀 Related lessons on other tracks
+
+- [Azure — 04 · Event-Driven Architecture (Event Grid, Service Bus)](https://sigilipelli.github.io/azure-mastery-path/level-3/04-event-driven-architecture/)
+- [IBM Cloud — 04 · Event-Driven Architecture (Event Streams / Kafka)](https://sigilipelli.github.io/ibm-cloud-mastery-path/level-3/04-event-driven-architecture/)
+
 ## Exercise
 
 1. Why does at-least-once delivery mean consumers must be written
