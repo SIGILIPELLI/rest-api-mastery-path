@@ -1,3 +1,7 @@
+---
+description: "Content Negotiation — Content negotiation lets a client and server agree on the format of a response (or request) — JSON vs XML vs CSV, English vs…"
+---
+
 # 08 · Content Negotiation
 
 Content negotiation lets a client and server agree on the *format* of a

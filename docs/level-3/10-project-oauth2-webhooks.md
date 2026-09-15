@@ -1,3 +1,7 @@
+---
+description: "Project — OAuth2-Secured API with Webhooks — Bring together every Level 3 module: secure the Bookshelf API with OAuth2, notify subscribers of changes via…"
+---
+
 # 10 · Project — OAuth2-Secured API with Webhooks
 
 Bring together every Level 3 module: secure the Bookshelf API with

@@ -1,3 +1,7 @@
+---
+description: "Monitoring & Observability for APIs — You can't fix what you can't see. This module covers the three pillars of observability — logs, metrics, traces …"
+---
+
 # 09 · Monitoring & Observability for APIs
 
 You can't fix what you can't see. This module covers the three pillars

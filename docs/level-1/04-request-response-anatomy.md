@@ -1,3 +1,7 @@
+---
+description: "Request/Response Anatomy — Every HTTP request and response is made of the same four parts: a start line, headers, a blank line, and (optionally) a body.…"
+---
+
 # 04 · Request/Response Anatomy
 
 Every HTTP request and response is made of the same four parts: a start

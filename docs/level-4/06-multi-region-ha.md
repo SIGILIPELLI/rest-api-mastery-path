@@ -1,3 +1,7 @@
+---
+description: "Multi-Region & High Availability APIs — A single-region API has a hard ceiling: if that region's data center has a bad day, every customer worldwide is…"
+---
+
 # 06 · Multi-Region & High Availability APIs
 
 A single-region API has a hard ceiling: if that region's data center

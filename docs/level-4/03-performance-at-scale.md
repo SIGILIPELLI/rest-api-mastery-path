@@ -1,3 +1,7 @@
+---
+description: "Performance at Scale — An API that's fast at 10 requests/second can fall over at 10,000. This module covers the techniques that keep latency flat as load…"
+---
+
 # 03 · Performance at Scale
 
 An API that's fast at 10 requests/second can fall over at 10,000. This

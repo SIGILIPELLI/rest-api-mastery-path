@@ -1,3 +1,7 @@
+---
+description: "gRPC & Alternative Protocols — REST over HTTP/JSON isn't the only way to build an API. This module covers gRPC and other protocols you'll meet in the…"
+---
+
 # 08 · gRPC & Alternative Protocols
 
 REST over HTTP/JSON isn't the only way to build an API. This module

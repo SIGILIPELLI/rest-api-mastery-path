@@ -1,3 +1,7 @@
+---
+description: "OAuth2 Flows — Level 1's authentication module covered API keys and bearer tokens as opaque credentials. OAuth2 is the standard framework for how a token…"
+---
+
 # 01 · OAuth2 Flows
 
 Level 1's authentication module covered API keys and bearer tokens as

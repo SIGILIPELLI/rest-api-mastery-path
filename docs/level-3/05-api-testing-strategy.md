@@ -1,3 +1,7 @@
+---
+description: "API Testing Strategy — APIs need a layered testing strategy, same as any other software — but the layers map onto HTTP boundaries in a specific way: unit…"
+---
+
 # 05 · API Testing Strategy
 
 APIs need a layered testing strategy, same as any other software — but

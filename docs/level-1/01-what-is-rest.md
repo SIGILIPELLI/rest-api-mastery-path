@@ -1,3 +1,7 @@
+---
+description: "What Is REST? Constraints & Principles — REST (REpresentational State Transfer) is an architectural style for networked applications, described by Roy…"
+---
+
 # 01 · What Is REST? Constraints & Principles
 
 <span class="level-badge">Level 1 · Entry</span>

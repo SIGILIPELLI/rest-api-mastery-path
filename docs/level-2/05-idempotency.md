@@ -1,3 +1,7 @@
+---
+description: "Idempotency — An operation is idempotent if performing it multiple times has the same effect as performing it once. This matters enormously for APIs…"
+---
+
 # 05 · Idempotency
 
 An operation is **idempotent** if performing it multiple times has the same

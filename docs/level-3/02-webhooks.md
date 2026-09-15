@@ -1,3 +1,7 @@
+---
+description: "Webhooks — Every module so far has been about a client pulling data from a server on demand. Webhooks invert that: the server pushes an event to a URL the…"
+---
+
 # 02 · Webhooks
 
 Every module so far has been about a client pulling data from a server on

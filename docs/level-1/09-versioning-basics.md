@@ -1,3 +1,7 @@
+---
+description: "API Versioning Basics — APIs change over time — fields get added, removed, or renamed; behavior shifts. Versioning is how you make those changes without…"
+---
+
 # 09 · API Versioning Basics
 
 APIs change over time — fields get added, removed, or renamed; behavior

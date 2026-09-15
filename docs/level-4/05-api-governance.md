@@ -1,3 +1,7 @@
+---
+description: "API Governance & Design Reviews — Once an organization has dozens of teams each building APIs, without coordination they diverge: different pagination…"
+---
+
 # 05 · API Governance & Design Reviews
 
 Once an organization has dozens of teams each building APIs, without

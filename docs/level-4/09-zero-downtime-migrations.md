@@ -1,3 +1,7 @@
+---
+description: "Zero-Downtime Deployments & Migrations — Shipping a change to a live API without an outage — no dropped requests, no downtime window, no 'maintenance…"
+---
+
 # 09 · Zero-Downtime Deployments & Migrations
 
 Shipping a change to a live API without an outage — no dropped

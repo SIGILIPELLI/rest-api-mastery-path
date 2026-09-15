@@ -1,3 +1,7 @@
+---
+description: "Authentication Basics (API Keys & Bearer Tokens) — Authentication answers 'who is calling?' Authorization (a separate concern, touched on here and…"
+---
+
 # 07 · Authentication Basics (API Keys & Bearer Tokens)
 
 Authentication answers "who is calling?" Authorization (a separate concern,

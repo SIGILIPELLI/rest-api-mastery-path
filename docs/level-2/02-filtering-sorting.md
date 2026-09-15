@@ -1,3 +1,7 @@
+---
+description: "Filtering & Sorting — The most common convention: one query parameter per filterable field."
+---
+
 # 02 · Filtering & Sorting
 
 Pagination controls *how many* items come back; filtering and sorting

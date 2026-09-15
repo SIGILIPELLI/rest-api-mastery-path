@@ -1,3 +1,7 @@
+---
+description: "Event-Driven APIs & Async Patterns — Request/response REST assumes the client wants an answer right now. A lot of real systems are better modeled as…"
+---
+
 # 07 · Event-Driven APIs & Async Patterns
 
 Request/response REST assumes the client wants an answer right now. A

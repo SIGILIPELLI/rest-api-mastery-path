@@ -1,3 +1,7 @@
+---
+description: "Using curl, httpie & Postman — You'll spend a large fraction of your API-development life issuing manual requests to explore, test, and debug. This module…"
+---
+
 # 06 · Using curl, httpie & Postman
 
 You'll spend a large fraction of your API-development life issuing manual

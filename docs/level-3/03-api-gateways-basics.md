@@ -1,3 +1,7 @@
+---
+description: "API Gateways Basics — An API gateway sits in front of your services as the single entry point clients talk to. Instead of every client knowing the address…"
+---
+
 # 03 · API Gateways Basics
 
 An **API gateway** sits in front of your services as the single entry

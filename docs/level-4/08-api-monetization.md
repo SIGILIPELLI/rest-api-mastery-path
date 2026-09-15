@@ -1,3 +1,7 @@
+---
+description: "API Monetization & Developer Portals — Some APIs are the product itself — customers pay directly for access. This module covers metering usage, billing…"
+---
+
 # 08 · API Monetization & Developer Portals
 
 Some APIs are the product itself — customers pay directly for access.

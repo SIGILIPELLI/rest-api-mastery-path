@@ -1,3 +1,7 @@
+---
+description: "HATEOAS Basics — HATEOAS — Hypermedia As The Engine Of Application State — is the most-cited, least-implemented part of Fielding's uniform interface…"
+---
+
 # 03 · HATEOAS Basics
 
 HATEOAS — **H**ypermedia **A**s **T**he **E**ngine **O**f **A**pplication

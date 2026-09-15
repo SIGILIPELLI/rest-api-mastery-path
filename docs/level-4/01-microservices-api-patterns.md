@@ -1,3 +1,7 @@
+---
+description: "Microservices API Design Patterns — Once an API is backed by many independently-deployed services rather than one monolith, new design questions appear…"
+---
+
 # 01 · Microservices API Design Patterns
 
 Once an API is backed by many independently-deployed services rather

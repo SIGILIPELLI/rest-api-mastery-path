@@ -1,3 +1,7 @@
+---
+description: "API Security Hardening (CORS, Injection, OWASP API Top 10) — Getting auth working (module 1, Level 3) is the start, not the finish. This module covers the…"
+---
+
 # 02 · API Security Hardening (CORS, Injection, OWASP API Top 10)
 
 Getting auth working (module 1, Level 3) is the start, not the finish.

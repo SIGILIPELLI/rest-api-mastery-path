@@ -1,3 +1,7 @@
+---
+description: "Capstone Project — Design and describe a production-grade API platform end to end, bringing together every module from all four levels. This is a design…"
+---
+
 # 10 · Capstone Project
 
 Design and describe a production-grade API platform end to end,

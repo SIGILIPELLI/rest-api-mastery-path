@@ -1,3 +1,7 @@
+---
+description: "Backward Compatibility & Deprecation — Once an API has real clients, every change is a promise you might break. This module is about changing an API…"
+---
+
 # 06 · Backward Compatibility & Deprecation
 
 Once an API has real clients, every change is a promise you might break.

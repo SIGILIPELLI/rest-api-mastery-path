@@ -1,3 +1,7 @@
+---
+description: "URL & Resource Design — Good URL design is what makes an API feel intuitive — a developer should be able to guess /orders/482/items works before ever…"
+---
+
 # 03 · URL & Resource Design
 
 Good URL design is what makes an API feel intuitive — a developer should be

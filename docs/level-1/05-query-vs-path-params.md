@@ -1,3 +1,7 @@
+---
+description: "Query Params vs Path Params — REST APIs pass extra data through three places: path parameters, query parameters, and the body. Knowing which one to use…"
+---
+
 # 05 · Query Params vs Path Params
 
 REST APIs pass extra data through three places: path parameters, query

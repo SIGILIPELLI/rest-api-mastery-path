@@ -1,3 +1,7 @@
+---
+description: "Capstone — Bookshelf API Spec — Time to put everything from Level 1 together: design and document a complete, versioned REST API spec for a small…"
+---
+
 # 10 · Capstone — Bookshelf API Spec
 
 Time to put everything from Level 1 together: design and document a

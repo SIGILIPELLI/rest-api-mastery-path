@@ -1,3 +1,7 @@
+---
+description: "OpenAPI/Swagger Spec Basics — OpenAPI (formerly 'Swagger') is a machine-readable specification format for describing a REST API's endpoints…"
+---
+
 # 04 · OpenAPI/Swagger Spec Basics
 
 OpenAPI (formerly "Swagger") is a machine-readable specification format for

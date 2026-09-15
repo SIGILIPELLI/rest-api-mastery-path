@@ -1,3 +1,7 @@
+---
+description: "Pagination — Once a collection resource grows past a handful of items, returning 'all of them' in one response stops being viable — slow queries, huge…"
+---
+
 # 01 · Pagination
 
 Once a collection resource grows past a handful of items, returning "all of

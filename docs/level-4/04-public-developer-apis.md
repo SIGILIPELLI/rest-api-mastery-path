@@ -1,3 +1,7 @@
+---
+description: "Designing Public Developer-Facing APIs — Building an API for your own frontend is one job. Building one that thousands of third-party developers integrate…"
+---
+
 # 04 · Designing Public Developer-Facing APIs
 
 Building an API for your own frontend is one job. Building one that

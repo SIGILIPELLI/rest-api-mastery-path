@@ -1,3 +1,7 @@
+---
+description: "Error Handling Conventions — A good error response tells the client (a human debugging, or code deciding whether to retry) exactly what went wrong and…"
+---
+
 # 08 · Error Handling Conventions
 
 A good error response tells the client (a human debugging, or code deciding

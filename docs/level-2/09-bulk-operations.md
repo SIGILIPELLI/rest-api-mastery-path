@@ -1,3 +1,7 @@
+---
+description: "Bulk Operations & Batch Requests — Sending one HTTP request per item gets expensive fast — a client needing to create 500 records pays 500 round trips…"
+---
+
 # 09 · Bulk Operations & Batch Requests
 
 Sending one HTTP request per item gets expensive fast — a client needing to

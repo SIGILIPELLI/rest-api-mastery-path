@@ -1,3 +1,7 @@
+---
+description: "Project — Paginated, Cacheable API — Bring together every Level 2 module into one coherent design: extend the Level 1 Bookshelf API (/v1/books…"
+---
+
 # 10 · Project — Paginated, Cacheable API
 
 Bring together every Level 2 module into one coherent design: extend the

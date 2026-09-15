@@ -1,3 +1,7 @@
+---
+description: "Caching Headers (ETag, Cache-Control) — Level 1 introduced Cache-Control as one of REST's core constraints (cacheability). This module covers the actual…"
+---
+
 # 07 · Caching Headers (ETag, Cache-Control)
 
 Level 1 introduced `Cache-Control` as one of REST's core constraints

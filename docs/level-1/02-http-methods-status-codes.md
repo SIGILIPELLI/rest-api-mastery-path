@@ -1,3 +1,7 @@
+---
+description: "HTTP Methods & Status Codes — REST APIs run on top of HTTP, so understanding HTTP methods (verbs) and status codes precisely is non-negotiable. Get these…"
+---
+
 # 02 · HTTP Methods & Status Codes
 
 <span class="level-badge">Level 1 · Entry</span>

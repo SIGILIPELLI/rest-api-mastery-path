@@ -1,3 +1,7 @@
+---
+description: "Rate Limiting — Rate limiting caps how many requests a client can make in a given time window, protecting the API from being overwhelmed — whether by a…"
+---
+
 # 06 · Rate Limiting
 
 Rate limiting caps how many requests a client can make in a given time

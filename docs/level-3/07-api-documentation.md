@@ -1,3 +1,7 @@
+---
+description: "API Documentation Best Practices — An API is only as usable as its documentation. This module covers what makes docs actually work for a developer trying…"
+---
+
 # 07 · API Documentation Best Practices
 
 An API is only as usable as its documentation. This module covers what

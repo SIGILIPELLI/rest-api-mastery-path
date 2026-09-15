@@ -1,3 +1,7 @@
+---
+description: "GraphQL vs REST — REST models an API as a set of resources reached by URL. GraphQL models it as a single endpoint with a typed schema the client queries …"
+---
+
 # 04 · GraphQL vs REST
 
 REST models an API as a set of resources reached by URL. GraphQL models
