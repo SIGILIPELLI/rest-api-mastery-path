@@ -140,7 +140,7 @@ truth by construction, not by policy alone.
 
 ## 🔀 Related lessons on other tracks
 
-- [AI Manager — 10 · Capstone — Full AI Strategy, Governance & Org Design](https://sigilipelli.github.io/ai-manager-mastery-path/level-4/10-capstone-ai-strategy-governance-org-design/)
+- [AI Manager — 10 · Capstone — Full AI Strategy, Governance & Org Design](https://learnmasterypath.com/ai-manager-mastery-path/level-4/10-capstone-ai-strategy-governance-org-design/)
 
 ## Exercise
 

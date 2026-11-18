@@ -181,9 +181,9 @@ request line and headers list but not header *values*.
 
 ## 🔀 Related lessons on other tracks
 
-- [LLM Dev — 08 · Security — Prompt Injection & Beyond](https://sigilipelli.github.io/llm-dev-mastery-path/level-4/08-security-prompt-injection/)
-- [Cybersecurity — 03 · Linux Security Hardening](https://sigilipelli.github.io/cybersecurity-mastery-path/level-2/03-linux-security-hardening/)
-- [Embedded Linux — 08 · Security Hardening & CVE Management](https://sigilipelli.github.io/embedded-linux-mastery-path/level-4/08-security-hardening/)
+- [LLM Dev — 08 · Security — Prompt Injection & Beyond](https://learnmasterypath.com/llm-dev-mastery-path/level-4/08-security-prompt-injection/)
+- [Cybersecurity — 03 · Linux Security Hardening](https://learnmasterypath.com/cybersecurity-mastery-path/level-2/03-linux-security-hardening/)
+- [Embedded Linux — 08 · Security Hardening & CVE Management](https://learnmasterypath.com/embedded-linux-mastery-path/level-4/08-security-hardening/)
 
 ## Exercise
 

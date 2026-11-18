@@ -157,9 +157,9 @@ logic is correct.
 
 ## 🔀 Related lessons on other tracks
 
-- [Java Testing — 04 · API Testing with RestAssured](https://sigilipelli.github.io/java-testing-mastery-path/level-2/04-api-testing-restassured/)
-- [Playwright — 03 · API Testing with Request Context](https://sigilipelli.github.io/playwright-mastery-path/level-3/03-api-testing/)
-- [Python Testing — 03 · API Testing with requests + pytest](https://sigilipelli.github.io/python-testing-mastery-path/level-2/03-api-testing/)
+- [Java Testing — 04 · API Testing with RestAssured](https://learnmasterypath.com/java-testing-mastery-path/level-2/04-api-testing-restassured/)
+- [Playwright — 03 · API Testing with Request Context](https://learnmasterypath.com/playwright-mastery-path/level-3/03-api-testing/)
+- [Python Testing — 03 · API Testing with requests + pytest](https://learnmasterypath.com/python-testing-mastery-path/level-2/03-api-testing/)
 
 ## Exercise
 

@@ -136,8 +136,8 @@ guarantees only hold within each partition's own sequence.
 
 ## 🔀 Related lessons on other tracks
 
-- [Azure — 04 · Event-Driven Architecture (Event Grid, Service Bus)](https://sigilipelli.github.io/azure-mastery-path/level-3/04-event-driven-architecture/)
-- [IBM Cloud — 04 · Event-Driven Architecture (Event Streams / Kafka)](https://sigilipelli.github.io/ibm-cloud-mastery-path/level-3/04-event-driven-architecture/)
+- [Azure — 04 · Event-Driven Architecture (Event Grid, Service Bus)](https://learnmasterypath.com/azure-mastery-path/level-3/04-event-driven-architecture/)
+- [IBM Cloud — 04 · Event-Driven Architecture (Event Streams / Kafka)](https://learnmasterypath.com/ibm-cloud-mastery-path/level-3/04-event-driven-architecture/)
 
 ## Exercise
 

@@ -172,8 +172,8 @@ an old-code instance after the schema changed underneath it.
 
 ## 🔀 Related lessons on other tracks
 
-- [Docker — 07 · Zero-Downtime Deployments](https://sigilipelli.github.io/docker-mastery-path/level-4/07-zero-downtime-deployments/)
-- [Server Ops — 05 · Zero-Downtime Deploy Patterns](https://sigilipelli.github.io/server-ops-mastery-path/level-2/05-zero-downtime-deploy/)
+- [Docker — 07 · Zero-Downtime Deployments](https://learnmasterypath.com/docker-mastery-path/level-4/07-zero-downtime-deployments/)
+- [Server Ops — 05 · Zero-Downtime Deploy Patterns](https://learnmasterypath.com/server-ops-mastery-path/level-2/05-zero-downtime-deploy/)
 
 ## Exercise
 

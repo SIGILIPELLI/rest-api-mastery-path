@@ -171,9 +171,9 @@ a marketing claim of "automatic failover."
 
 ## 🔀 Related lessons on other tracks
 
-- [Azure — 07 · High Availability & Disaster Recovery](https://sigilipelli.github.io/azure-mastery-path/level-3/07-ha-disaster-recovery/)
-- [Freertos — Fault-Tolerant & High-Availability Design](https://sigilipelli.github.io/freertos-mastery-path/level-4/07-fault-tolerant-design/)
-- [Server Ops — 01 · High Availability Concepts (redundancy, failover, health checks)](https://sigilipelli.github.io/server-ops-mastery-path/level-3/01-ha-concepts/)
+- [Azure — 07 · High Availability & Disaster Recovery](https://learnmasterypath.com/azure-mastery-path/level-3/07-ha-disaster-recovery/)
+- [Freertos — Fault-Tolerant & High-Availability Design](https://learnmasterypath.com/freertos-mastery-path/level-4/07-fault-tolerant-design/)
+- [Server Ops — 01 · High Availability Concepts (redundancy, failover, health checks)](https://learnmasterypath.com/server-ops-mastery-path/level-3/01-ha-concepts/)
 
 ## Exercise
 
