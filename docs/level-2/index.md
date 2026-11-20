@@ -1,3 +1,7 @@
+---
+description: "Level 2 (Intermediate) of the free REST API Mastery Path. Handle the concerns every production API needs — pagination, filtering, documentation…"
+---
+
 # Level 2 · Intermediate <span class="level-badge">Building Real APIs</span>
 
 Goal: handle the concerns every production API needs — pagination, filtering,

@@ -1,3 +1,7 @@
+---
+description: "Level 4 (Master) of the free REST API Mastery Path. Design, secure, and operate APIs at organization scale — microservices patterns, hardened security…"
+---
+
 # Level 4 · Master <span class="level-badge">Production & Architecture</span>
 
 Goal: design, secure, and operate APIs at organization scale — microservices

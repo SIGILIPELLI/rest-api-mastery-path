@@ -1,3 +1,7 @@
+---
+description: "Level 1 (Entry) of the free REST API Mastery Path. Understand what makes an API \"RESTful,\" get fluent reading and writing HTTP requests, and design/document…"
+---
+
 # Level 1 · Entry <span class="level-badge">Foundations</span>
 
 Goal: understand what makes an API "RESTful," get fluent reading and writing

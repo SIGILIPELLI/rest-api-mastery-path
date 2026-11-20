@@ -1,3 +1,7 @@
+---
+description: "Level 3 (Advanced) of the free REST API Mastery Path. Work with the protocols and patterns that connect APIs to the wider ecosystem — auth flows, webhooks…"
+---
+
 # Level 3 · Advanced <span class="level-badge">Scaling Up</span>
 
 Goal: work with the protocols and patterns that connect APIs to the wider
