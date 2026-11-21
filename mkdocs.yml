@@ -53,9 +53,11 @@ markdown_extensions:
 extra_css:
   - stylesheets/extra.css
   - stylesheets/progress-tracker.css
+  - stylesheets/final-quiz.css
 
 extra_javascript:
   - javascripts/progress-tracker.js
+  - javascripts/final-quiz.js
 
 
 
@@ -122,3 +124,5 @@ nav:
       - "08 · API Monetization & Developer Portals": level-4/08-api-monetization.md
       - "09 · Zero-Downtime Deployments & Migrations": level-4/09-zero-downtime-migrations.md
       - "10 · Capstone Project": level-4/10-capstone-project.md
+  - "🎯 Final Quiz": quiz.md
+
