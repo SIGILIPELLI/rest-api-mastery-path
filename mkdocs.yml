@@ -78,7 +78,7 @@ not_in_nav: |
 
 nav:
   - Home: index.md
-  - "💼 Interview Questions": interview-questions.md
+  - Interview Questions: interview-questions.md
   - "Level 1 · Entry":
       - Overview: level-1/index.md
       - "01 · What Is REST? Constraints & Principles": level-1/01-what-is-rest.md
@@ -127,5 +127,5 @@ nav:
       - "08 · API Monetization & Developer Portals": level-4/08-api-monetization.md
       - "09 · Zero-Downtime Deployments & Migrations": level-4/09-zero-downtime-migrations.md
       - "10 · Capstone Project": level-4/10-capstone-project.md
-  - "🎯 Final Quiz": quiz.md
+  - Final Quiz: quiz.md
 
