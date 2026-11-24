@@ -90,7 +90,7 @@ nav:
       - "07 · Authentication Basics (API Keys & Bearer Tokens)": level-1/07-authentication-basics.md
       - "08 · Error Handling Conventions": level-1/08-error-handling-conventions.md
       - "09 · API Versioning Basics": level-1/09-versioning-basics.md
-      - "10 · Capstone — Bookshelf API Spec": level-1/10-capstone-bookshelf-api.md
+      - "10 · Project — Bookshelf API Spec": level-1/10-capstone-bookshelf-api.md
   - "Level 2 · Intermediate":
       - Overview: level-2/index.md
       - "01 · Pagination": level-2/01-pagination.md
