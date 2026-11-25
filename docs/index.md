@@ -8,7 +8,7 @@ description: "Free REST API course from beginner to advanced -- design, build, a
 A structured, module-wise training program that takes you from your first
 `GET` request to designing, securing, and scaling production-grade REST APIs
 — language-agnostic, with concrete examples in `curl`, raw HTTP, and Python,
-plus a hands-on project at the end of each level.
+plus a hands-on project at the end of Levels 1–3 and a capstone at the end of Level 4.
 
 ## How the program is organized
 
@@ -30,7 +30,7 @@ plus a hands-on project at the end of each level.
   Python and plain HTTP/curl since they read clearly regardless of your stack.
 - Where an example wasn't executed against a live server, the page says so
   explicitly and shows a carefully worked-through, realistic response.
-- Each level ends with a project that combines everything learned in that level.
+- Levels 1–3 each end with a project that combines everything learned in that level, and Level 4 ends with the course capstone.
 - Use the search bar (top of the page) to jump straight to a topic.
 
 Start here → [Level 1 · Entry](level-1/index.md)
